@@ -5,6 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Server Advertisements – Job Alerts Pakistan</title>
   <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* Styles for share buttons and menu */
+    .share-btn {
+      margin-left: 0.5em;
+      padding: 6px 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .share-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .share-menu {
+      margin-top: 0.5em;
+      font-size: 0.9em;
+      display: none;
+    }
+
+    .share-menu a {
+      color: #007bff;
+      text-decoration: none;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .share-menu a:hover {
+      text-decoration: underline;
+    }
+
+    /* Optional spacing for buttons */
+    .apply-btn, .email-apply {
+      margin-right: 0.5em;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -16,21 +55,41 @@
     <section class="jobs">
       <h2>Recent Job Ads</h2>
 
+      <!-- Job 1 -->
       <div class="job">
         <h3>Admin Officer – Ministry of Defence</h3>
         <p>Location: Islamabad</p>
         <p>Deadline: 30 July 2025</p>
         <a href="https://mod.gov.pk/jobs" target="_blank" class="apply-btn">Apply Now</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
       </div>
 
+      <!-- Job 2 -->
       <div class="job">
         <h3>Teaching Staff – Punjab Public Service Commission</h3>
         <p>Location: Lahore</p>
         <p>Deadline: 25 July 2025</p>
         <a href="https://ppsc.gop.pk" target="_blank" class="apply-btn">Apply Now</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
       </div>
 
-      <!-- New PECTAA Job Ad -->
+      <!-- Job 3 - PECTAA -->
       <div class="job">
         <h3>Managing Director (Operations) – PECTAA</h3>
         <p><strong>Organization:</strong> Punjab Education, Curriculum, Training and Assessment Authority (PECTAA)</p>
@@ -42,9 +101,18 @@
 
         <a href="https://pectaa.punjab.gov.pk/careers" target="_blank" class="apply-btn">Apply Now</a>
         <a href="mailto:hr@pectaa.punjab.gov.pk?subject=Job Application - Managing Director (Operations)" target="_blank" class="apply-btn email-apply">Send Resume</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
       </div>
 
-      <!-- Pak Red Crescent Medical College Job Ad -->
+      <!-- Job 4 - Pak Red Crescent Medical College -->
       <div class="job">
         <h3>Multiple Positions – Pak Red Crescent Medical College & Teaching Hospital, Dina Nath, Lahore</h3>
 
@@ -82,6 +150,15 @@
 
         <a href="https://prcmdc.edu.pk/careers" target="_blank" class="apply-btn">Apply Now</a>
         <a href="mailto:hr@prcmdc.edu.pk?subject=Job Application - Pak Red Crescent Medical College" target="_blank" class="apply-btn email-apply">Send Resume</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
       </div>
 
     </section>
@@ -108,5 +185,49 @@
   <footer>
     <p>© 2025 Server Advertisements. All rights reserved.</p>
   </footer>
+
+  <script>
+    function toggleShareMenu(button) {
+      const menu = button.nextElementSibling;
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function getJobTitleAndUrl(element) {
+      const jobDiv = element.closest('.job');
+      const title = jobDiv.querySelector('h3').innerText;
+      const url = window.location.href.split('#')[0];
+      return { title, url };
+    }
+
+    function shareOnFacebook(event, element) {
+      event.preventDefault();
+      const { url } = getJobTitleAndUrl(element);
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      window.open(shareUrl, 'ShareFacebook', 'width=600,height=400');
+    }
+
+    function shareOnTwitter(event, element) {
+      event.preventDefault();
+      const { title, url } = getJobTitleAndUrl(element);
+      const text = `Check out this job: ${title}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+      window.open(shareUrl, 'ShareTwitter', 'width=600,height=400');
+    }
+
+    function shareOnLinkedIn(event, element) {
+      event.preventDefault();
+      const { url } = getJobTitleAndUrl(element);
+      const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+      window.open(shareUrl, 'ShareLinkedIn', 'width=600,height=400');
+    }
+
+    function shareByEmail(event, element) {
+      event.preventDefault();
+      const { title, url } = getJobTitleAndUrl(element);
+      const subject = `Job Opportunity: ${title}`;
+      const body = `I thought you might be interested in this job:\n\n${title}\n\nDetails here: ${url}`;
+      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  </script>
 </body>
 </html>
