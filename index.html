@@ -1,14 +1,50 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
   <title>Server Advertisements – Job Alerts Pakistan</title>
-<meta name="google-adsense-account" content="ca-pub-9084951287340288">
+  <meta name="google-adsense-account" content="ca-pub-9084951287340288">
   <link rel="stylesheet" href="style.css"/>
   <style>
-    /* Styles for share buttons and menu */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    header, footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #e3e3e3;
+      margin-bottom: 20px;
+    }
+    nav a {
+      margin: 0 8px;
+      text-decoration: none;
+      color: #007bff;
+    }
+    .jobs {
+      max-width: 800px;
+      margin: auto;
+    }
+    .job {
+      background: white;
+      padding: 15px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+    .job h3 {
+      margin-top: 0;
+      font-size: 1.2em;
+    }
+    .job a {
+      text-decoration: none;
+      color: #007bff;
+    }
+    .job a:hover {
+      text-decoration: underline;
+    }
     .share-btn {
       margin-left: 0.5em;
       padding: 6px 10px;
@@ -19,37 +55,33 @@
       cursor: pointer;
       font-size: 0.9em;
     }
-
     .share-btn:hover {
       background-color: #0056b3;
     }
-
     .share-menu {
       margin-top: 0.5em;
       font-size: 0.9em;
       display: none;
     }
-
     .share-menu a {
       color: #007bff;
       text-decoration: none;
       margin: 0 5px;
       cursor: pointer;
     }
-
     .share-menu a:hover {
       text-decoration: underline;
     }
-
-    /* Optional spacing for buttons */
-    .apply-btn, .email-apply {
+    .apply-btn {
       margin-right: 0.5em;
     }
   </style>
 </head>
 <body>
+
   <header>
     <nav>
+      <a href="index.html">Home</a> |
       <a href="about.html">About Us</a> |
       <a href="privacy.html">Privacy Policy</a> |
       <a href="disclaimer.html">Disclaimer</a> |
@@ -57,30 +89,33 @@
       <a href="contact.html">Contact Us</a>
     </nav>
     <h1>Job Advertisements</h1>
-<!-- AdSense display ad unit -->
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-client="ca-pub-9084951287340288"
-     data-ad-slot="1234567890"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
     <p>Latest Jobs from Newspapers in Pakistan – Rewritten & Verified</p>
   </header>
 
   <main>
     <section class="jobs">
       <h2>Recent Job Ads</h2>
-<div class="job-listing">
-  <h3><a href="iiui-faculty-jobs.html" target="_blank">
-    IIUI Faculty Positions – Apply by August 15, 2025
-  </a></h3>
-  <p>International Islamic University Islamabad is hiring Assistant Professors and Lecturers in IT, CS, and Software Engineering.</p>
-</div>
 
+      <!-- Job Ad Example 1 -->
+      <div class="job">
+        <h3>
+          <a href="iiui-faculty-jobs.html" target="_blank">
+            Faculty Positions – International Islamic University Islamabad (IIUI) – Apply by 15 August 2025
+          </a>
+        </h3>
+        <p><strong>Location:</strong> Islamabad</p>
+        <p><strong>Deadline:</strong> 15 August 2025</p>
+        <p>Hiring Assistant Professors and Lecturers in IT, CS, and Software Engineering.</p>
+        <a href="iiui-faculty-jobs.html" target="_blank" class="apply-btn">View Details</a>
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+          <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+        </div>
+      </div>
 <!-- Job: NTU Jobs 2025 -->
 <div class="job">
   <h3>Faculty Positions – National Textile University (NTU), Faisalabad</h3>
@@ -242,32 +277,41 @@
     function shareOnFacebook(event, element) {
       event.preventDefault();
       const { url } = getJobTitleAndUrl(element);
-      const shareUrl = https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)};
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
       window.open(shareUrl, 'ShareFacebook', 'width=600,height=400');
     }
 
     function shareOnTwitter(event, element) {
       event.preventDefault();
       const { title, url } = getJobTitleAndUrl(element);
-      const text = Check out this job: ${title};
-      const shareUrl = https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)};
+      const text = `Check out this job: ${title}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
       window.open(shareUrl, 'ShareTwitter', 'width=600,height=400');
     }
 
     function shareOnLinkedIn(event, element) {
       event.preventDefault();
       const { url } = getJobTitleAndUrl(element);
-      const shareUrl = https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)};
+      const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
       window.open(shareUrl, 'ShareLinkedIn', 'width=600,height=400');
     }
 
     function shareByEmail(event, element) {
       event.preventDefault();
       const { title, url } = getJobTitleAndUrl(element);
-      const subject = Job Opportunity: ${title};
-      const body = I thought you might be interested in this job:\n\n${title}\n\nDetails here: ${url};
-      window.location.href = mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)};
+      const subject = `Job Opportunity: ${title}`;
+      const body = `I thought you might be interested in this job:\n\n${title}\n\nDetails here: ${url}`;
+      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function shareOnWhatsApp(event, element) {
+      event.preventDefault();
+      const { title, url } = getJobTitleAndUrl(element);
+      const message = `${title}\n\nCheck it out here:\n${url}`;
+      const shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+      window.open(shareUrl, 'ShareWhatsApp', 'width=600,height=400');
     }
   </script>
+
 </body>
 </html>
