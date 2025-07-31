@@ -1,0 +1,157 @@
+  <!-- Job Ad Example 1 -->
+      <div class="job">
+        <h3>
+          <a href="iiui-faculty-jobs.html" target="_blank">
+            Faculty Positions – International Islamic University Islamabad (IIUI) – Apply by 15 August 2025
+          </a>
+        </h3>
+        <p><strong>Location:</strong> Islamabad</p>
+        <p><strong>Deadline:</strong> 15 August 2025</p>
+        <p>Hiring Assistant Professors and Lecturers in IT, CS, and Software Engineering.</p>
+        <a href="iiui-faculty-jobs.html" target="_blank" class="apply-btn">View Details</a>
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+          <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+        </div>
+      </div>
+<!-- Job: NTU Jobs 2025 -->
+<div class="job">
+  <h3>Faculty Positions – National Textile University (NTU), Faisalabad</h3>
+  <p>Location: Faisalabad</p>
+  <p>Deadline: 5 August 2025</p>
+  <a href="ntu-jobs.html" target="_blank" class="apply-btn">View Details</a>
+
+  <!-- Share button and menu -->
+  <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+  <div class="share-menu">
+    <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+    <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+    <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+    <a href="#" onclick="shareByEmail(event, this)">Email</a>
+  </div>
+</div>
+
+
+      <!-- Job 1 -->
+      <div class="job">
+        <h3>Admin Officer – Ministry of Defence</h3>
+        <p>Location: Islamabad</p>
+        <p>Deadline: 30 July 2025</p>
+        <a href="mod.html" target="_blank" class="apply-btn">View Details</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="job">
+        <h3>Teaching Staff – Punjab Public Service Commission</h3>
+        <p>Location: Lahore</p>
+        <p>Deadline: 25 July 2025</p>
+        <a href="ppsc.html" target="_blank" class="apply-btn">View Details</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
+      </div>
+
+      <!-- Job 3 -->
+      <div class="job">
+        <h3>Managing Director (Operations) – PECTAA</h3>
+        <p><strong>Organization:</strong> Punjab Education, Curriculum, Training and Assessment Authority (PECTAA)</p>
+        <p><strong>Age Limit:</strong> 33-50 Years</p>
+        <p><strong>Salary:</strong> Rs. 985,000/- per month (Lumpsum)</p>
+        <p><strong>Qualification:</strong> PhD/MPhil/MS/Masters/BS (16 years education), relevant fields, recognized by HEC</p>
+        <p><strong>Experience:</strong> Minimum 7 years (after Masters/BS) in relevant field</p>
+        <p><strong>Deadline:</strong> [Add Deadline Here]</p>
+
+        <a href="pectaa.html" target="_blank" class="apply-btn">View Details</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
+      </div>
+
+      <!-- Job 4 -->
+      <div class="job">
+        <h3>Multiple Positions – Pak Red Crescent Medical College & Teaching Hospital, Dina Nath, Lahore</h3>
+        <p><strong>Deadline:</strong> 6 August 2025</p>
+        <a href="prcmc.html" target="_blank" class="apply-btn">View Details</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
+      </div>
+
+      <!-- Job 5 -->
+      <div class="job">
+        <h3>Multiple Positions – National University of Technology (NUTECH), Islamabad</h3>
+        <p><strong>Deadline:</strong> 19 August 2025</p>
+        <a href="nutech.html" target="_blank" class="apply-btn">View Details</a>
+
+        <!-- Share button and menu -->
+        <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+        <div class="share-menu">
+          <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+          <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+          <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+          <a href="#" onclick="shareByEmail(event, this)">Email</a>
+        </div>
+      </div>
+<!-- Job 6 - Pak Red Crescent Medical College & Teaching Hospital Dina Nath Lahore (New Ad) -->
+<div class="job">
+  <h3>Multiple Positions – Pak Red Crescent Medical College & Teaching Hospital, Dina Nath, Lahore</h3>
+  <p><strong>Deadline:</strong> 6 August 2025</p>
+  <a href="prcmc2.html" target="_blank" class="apply-btn">View Details</a>
+
+  <!-- Share button and menu -->
+  <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+  <div class="share-menu">
+    <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+    <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+    <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+    <a href="#" onclick="shareByEmail(event, this)">Email</a>
+  </div>
+</div>
+<!-- job 7 Fellowship - LocalInternational Internship 2025 in Turkey -->
+<div class="job">
+  <h3>LocalInternational Internship 2025 in Turkey (Fully Funded)</h3>
+  <p><strong>Duration:</strong> 8 days (Aug 31 - Sept 7, 2025)</p>
+  <p><strong>Location:</strong> Istanbul, Turkey</p>
+  <p><strong>Deadline:</strong> 30 July 2025</p>
+  <a href="localinternational.html" target="_blank" class="apply-btn">View Details</a>
+
+  <!-- Share button and menu -->
+  <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+  <div class="share-menu">
+    <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+    <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+    <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+    <a href="#" onclick="shareByEmail(event, this)">Email</a>
+  </div>
+</div>
