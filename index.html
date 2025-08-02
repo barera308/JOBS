@@ -3,156 +3,428 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Job Advertisements – Job Alerts Pakistan</title>
+  <title>Server Advertisements – Job Alerts Pakistan</title>
   <meta name="google-adsense-account" content="ca-pub-9084951287340288">
   <meta name="google-site-verification" content="PRRrt7X2_Bozeoj4s2PxyAnvzWzzv97LjlX_u1QBjQY" />
   <link rel="stylesheet" href="style.css"/>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f6f9;
-      color: #333;
-    }
-    header, footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #007bff;
-      color: white;
-    }
-    nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    h1, h2 {
-      margin-top: 0;
-    }
-    .container {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 0 15px;
-    }
-    #sort-select {
-      margin-bottom: 20px;
-      padding: 8px;
-      font-size: 1em;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .job {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .job:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .job.expired {
-      background: #fff2f2;
-      border-color: #f5b5b5;
-    }
-    .job h3 {
-      margin-top: 0;
-      font-size: 1.3em;
-    }
-    .job a {
-      text-decoration: none;
-      color: #007bff;
-    }
-    .job a:hover {
-      text-decoration: underline;
-    }
-    .apply-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 14px;
-      background-color: #28a745;
-      color: white;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 0.9em;
-      margin-right: 10px;
-    }
-    .apply-btn:hover {
-      background-color: #218838;
-    }
-    .share-btn {
-      padding: 8px 12px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background 0.2s;
-    }
-    .share-btn:hover {
-      background-color: #0056b3;
-    }
-    .share-menu {
-      margin-top: 10px;
-      font-size: 0.9em;
-      display: none;
-    }
-    .share-menu a {
-      color: #007bff;
-      text-decoration: none;
-      margin: 0 6px;
-      cursor: pointer;
-    }
-    .share-menu a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fb;
+    color: #333;
+  }
+
+  header, footer {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    color: white;
+  }
+
+  nav a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  nav a:hover {
+    color: #ffda79;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+
+  .jobs h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0056b3;
+  }
+
+  #sort-select {
+    display: block;
+    margin: 0 auto 25px;
+    padding: 8px 12px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .job {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .job:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  }
+
+  .job h3 {
+    margin: 0 0 10px;
+    font-size: 1.3em;
+    color: #007bff;
+  }
+
+  .job a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+  }
+
+  .job a:hover {
+    text-decoration: underline;
+  }
+
+  .apply-btn {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: background 0.2s;
+  }
+
+  .apply-btn:hover {
+    background: #218838;
+  }
+
+  .share-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.2s;
+  }
+
+  .share-btn:hover {
+    background: #0056b3;
+  }
+
+  .share-menu {
+    margin-top: 10px;
+    font-size: 0.85em;
+    display: none;
+  }
+
+  .share-menu a {
+    color: #007bff;
+    margin-right: 8px;
+    text-decoration: none;
+  }
+
+  .share-menu a:hover {
+    text-decoration: underline;
+  }
+
+  footer {
+    margin-top: 40px;
+    font-size: 0.85em;
+  }
+</style>
+
 </head>
 <body>
 
   <header>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="disclaimer.html">Disclaimer</a>
-      <a href="terms.html">Terms & Conditions</a>
+      <a href="index.html">Home</a> |
+      <a href="about.html">About Us</a> |
+      <a href="privacy.html">Privacy Policy</a> |
+      <a href="disclaimer.html">Disclaimer</a> |
+      <a href="terms.html">Terms & Conditions</a> |
       <a href="contact.html">Contact Us</a>
     </nav>
     <h1>Job Advertisements</h1>
     <p>Latest Jobs from Newspapers in Pakistan – Rewritten & Verified</p>
   </header>
 
-  <div class="container">
-    <h2>Job Openings</h2>
+  <main>
+    <section class="jobs">
+      <h2>Recent Job Ads</h2>
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select" onchange="sortJobs()">
+        <option value="soonest">Oldest Deadline</option>
+        <option value="latest">Latest Deadline</option>
+      </select>
+      <div id="job-list">
+<div class="job" data-deadline="2025-08-13">
+  <h3>
+    <a href="https://www.phc.org.pk" target="_blank" rel="noopener">
+      Punjab Healthcare Commission Jobs – Apply by 13 August 2025
+    </a>
+  </h3>
+  <p><strong>Deadline:</strong> 13 August 2025</p>
 
-    <!-- Sorting Dropdown -->
-    <label><strong>Sort by:</strong></label>
-    <select id="sort-select" onchange="sortJobs()">
-      <option value="latest">Latest Deadline</option>
-      <option value="soonest">Soonest Deadline</option>
-    </select>
+ <a href="phc-jobs.html" target="_blank" class="apply-btn">View Details</a>
+  <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
 
-    <div id="job-list">Loading jobs...</div>
+  <div class="share-menu">
+    <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+    <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+    <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+    <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+    <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
   </div>
+</div>
 
-<script>
-async function loadJobsFromSheet() {
+        <!-- Job 1 -->
+        <div class="job" data-deadline="2025-08-15">
+          <h3>
+            <a href="iiui-faculty-jobs.html" target="_blank">
+              Faculty Positions – International Islamic University Islamabad (IIUI) – Apply by 15 August 2025
+            </a>
+          </h3>
+          <p><strong>Location:</strong> Islamabad</p>
+          <p><strong>Deadline:</strong> 15 August 2025</p>
+          <p>Hiring Assistant Professors and Lecturers in IT, CS, and Software Engineering.</p>
+          <a href="iiui-faculty-jobs.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="job" data-deadline="2025-08-05">
+          <h3>Faculty Positions – National Textile University (NTU), Faisalabad</h3>
+          <p>Location: Faisalabad</p>
+          <p>Deadline: 5 August 2025</p>
+          <a href="ntu-jobs.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Job 3 -->
+        <div class="job" data-deadline="2025-07-30">
+          <h3>Admin Officer – Ministry of Defence</h3>
+          <p>Location: Islamabad</p>
+          <p>Deadline: 30 July 2025</p>
+          <a href="mod.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Job 4 -->
+        <div class="job" data-deadline="2025-07-25">
+          <h3>Teaching Staff – Punjab Public Service Commission</h3>
+          <p>Location: Lahore</p>
+          <p>Deadline: 25 July 2025</p>
+          <a href="ppsc.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Job 5 -->
+        <div class="job" data-deadline="2025-08-31"> <!-- Using internship start date as deadline -->
+          <h3>Managing Director (Operations) – PECTAA</h3>
+          <p><strong>Organization:</strong> Punjab Education, Curriculum, Training and Assessment Authority (PECTAA)</p>
+          <p><strong>Age Limit:</strong> 33-50 Years</p>
+          <p><strong>Salary:</strong> Rs. 985,000/- per month (Lumpsum)</p>
+          <p><strong>Qualification:</strong> PhD/MPhil/MS/Masters/BS (16 years education), relevant fields, recognized by HEC</p>
+          <p><strong>Experience:</strong> Minimum 7 years (after Masters/BS) in relevant field</p>
+          <p><strong>Deadline:</strong> August 9, 2025 </p>
+          <a href="pectaa.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Job 6 -->
+        <div class="job" data-deadline="2025-08-06">
+          <h3>Multiple Positions – Pak Red Crescent Medical College & Teaching Hospital, Dina Nath, Lahore</h3>
+          <p><strong>Deadline:</strong> 6 August 2025</p>
+          <a href="prcmc.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Job 7 -->
+        <div class="job" data-deadline="2025-08-19">
+          <h3>Multiple Positions – National University of Technology (NUTECH), Islamabad</h3>
+          <p><strong>Deadline:</strong> 19 August 2025</p>
+          <a href="nutech.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Job 8 -->
+        <div class="job" data-deadline="2025-08-06">
+          <h3>Multiple Positions – Pak Red Crescent Medical College & Teaching Hospital, Dina Nath, Lahore</h3>
+          <p><strong>Deadline:</strong> 6 August 2025</p>
+          <a href="prcmc2.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Job 9 -->
+        <div class="job" data-deadline="2025-9-07">
+          <h3>LocalInternational Internship 2025 in Turkey (Fully Funded)</h3>
+          <p><strong>Duration:</strong>  (Aug 31 - Sept 7, 2025)</p>
+          <p><strong>Location:</strong> Istanbul, Turkey</p>
+          <p><strong>Deadline:</strong> 7 Sept 2025</p>
+          <a href="localinternational.html" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Server Advertisements. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleShareMenu(button) {
+      const menu = button.nextElementSibling;
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function getJobTitleAndUrl(element) {
+      const jobDiv = element.closest('.job');
+      const title = jobDiv.querySelector('h3').innerText;
+      const url = window.location.href.split('#')[0];
+      return { title, url };
+    }
+
+    function shareOnFacebook(event, element) {
+      event.preventDefault();
+      const { url } = getJobTitleAndUrl(element);
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      window.open(shareUrl, 'ShareFacebook', 'width=600,height=400');
+    }
+
+    function shareOnTwitter(event, element) {
+      event.preventDefault();
+      const { title, url } = getJobTitleAndUrl(element);
+      const text = `Check out this job: ${title}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+      window.open(shareUrl, 'ShareTwitter', 'width=600,height=400');
+    }
+
+    function shareOnLinkedIn(event, element) {
+      event.preventDefault();
+      const { url } = getJobTitleAndUrl(element);
+      const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+      window.open(shareUrl, 'ShareLinkedIn', 'width=600,height=400');
+    }
+
+    function shareByEmail(event, element) {
+      event.preventDefault();
+      const { title, url } = getJobTitleAndUrl(element);
+      const subject = `Job Opportunity: ${title}`;
+      const body = `I thought you might be interested in this job:\n\n${title}\n\nDetails here: ${url}`;
+      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function shareOnWhatsApp(event, element) {
+      event.preventDefault();
+      const { title, url } = getJobTitleAndUrl(element);
+      const message = `${title}\n\nCheck it out here:\n${url}`;
+      const shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+      window.open(shareUrl, 'ShareWhatsApp', 'width=600,height=400');
+    }
+
+    function sortJobs() {
+      const sortOption = document.getElementById('sort-select').value;
+      const jobList = document.getElementById('job-list');
+      const jobs = Array.from(document.querySelectorAll('.job'));
+
+      jobs.sort((a, b) => {
+        const dateA = new Date(a.getAttribute('data-deadline'));
+        const dateB = new Date(b.getAttribute('data-deadline'));
+        if (sortOption === 'latest') {
+          return dateB - dateA;  // Latest deadline first (descending)
+        } else {
+          return dateA - dateB;  // Soonest deadline first (ascending)
+        }
+      });
+
+      jobList.innerHTML = '';
+      jobs.forEach(job => jobList.appendChild(job));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      sortJobs();
+    });
+    async function loadJobsFromSheet() {
   const url = "https://docs.google.com/spreadsheets/d/1_n6qYGMfMG2xNVkCzbr71Jjl4NfTSyV0aaas_tXgGIg/gviz/tq?tqx=out:json";
 
   try {
     const res = await fetch(url);
     const text = await res.text();
 
-    // Convert Google Sheets JSON
+    // Clean Google Sheets JSON
     const json = JSON.parse(text.substr(47).slice(0, -2));
     const rows = json.table.rows;
 
@@ -162,27 +434,24 @@ async function loadJobsFromSheet() {
     rows.forEach(row => {
       const title = row.c[0]?.v || '';
       const location = row.c[1]?.v || '';
-      const deadlineRaw = row.c[2]?.v || ''; // Raw value for sorting
-      const deadlineFormatted = row.c[2]?.f || deadlineRaw; // Display value
+      const deadline = row.c[2]?.v || '';
       const link = row.c[3]?.v || '#';
       const description = row.c[4]?.v || '';
 
-      const isExpired = new Date(deadlineRaw) < new Date();
-
       const jobHTML = `
-        <div class="job ${isExpired ? 'expired' : ''}" data-deadline="${deadlineRaw}">
+        <div class="job" data-deadline="${deadline}">
           <h3><a href="${link}" target="_blank">${title}</a></h3>
           <p><strong>Location:</strong> ${location}</p>
-          <p><strong>Deadline:</strong> ${deadlineFormatted}</p>
+          <p><strong>Deadline:</strong> ${deadline}</p>
           <p>${description}</p>
           <a href="${link}" target="_blank" class="apply-btn">View Details</a>
           <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
           <div class="share-menu">
-            <a onclick="shareOnFacebook(event, this)">Facebook</a> |
-            <a onclick="shareOnTwitter(event, this)">Twitter</a> |
-            <a onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
-            <a onclick="shareByEmail(event, this)">Email</a> |
-            <a onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
           </div>
         </div>
       `;
@@ -190,46 +459,15 @@ async function loadJobsFromSheet() {
       jobList.insertAdjacentHTML('beforeend', jobHTML);
     });
 
-    sortJobs(); // Sort immediately after loading
+    sortJobs(); // Re-sort after loading
   } catch (error) {
-    document.getElementById('job-list').innerText = "❌ Failed to load jobs.";
     console.error("Error loading jobs from sheet:", error);
   }
 }
 
-// Parse dates from Google Sheets (can be DD/MM/YYYY or YYYY-MM-DD)
-function parseDate(dateStr) {
-  if (!dateStr) return new Date(0);
-  const parts = dateStr.split(/[-\/]/);
-  return parts[0].length === 4 
-    ? new Date(parts[0], parts[1] - 1, parts[2]) 
-    : new Date(parts[2], parts[1] - 1, parts[0]);
-}
-
-// Sorting function
-function sortJobs() {
-  const sortOption = document.getElementById('sort-select').value;
-  const jobList = document.getElementById('job-list');
-  const jobs = Array.from(document.querySelectorAll('.job'));
-
-  jobs.sort((a, b) => {
-    const dateA = parseDate(a.getAttribute('data-deadline'));
-    const dateB = parseDate(b.getAttribute('data-deadline'));
-    return sortOption === 'latest' ? dateB - dateA : dateA - dateB;
-  });
-
-  jobList.innerHTML = '';
-  jobs.forEach(job => jobList.appendChild(job));
-}
-
-// Toggle Share Menu
-function toggleShareMenu(btn) {
-  const menu = btn.nextElementSibling;
-  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-}
-
 document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
-</script>
+
+  </script>
 
 </body>
 </html>
