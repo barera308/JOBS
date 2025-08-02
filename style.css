@@ -1,120 +1,125 @@
+/* style.css */
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f7f7f7;
+  background-color: #f4f7fb;
   color: #333;
 }
 
-header {
-  background-color: #004080;
-  color: white;
+header, footer {
   text-align: center;
-  padding: 20px 10px;
-}
-
-h1, h2, h3 {
-  margin: 0 0 10px;
-}
-
-main {
   padding: 20px;
-}
-
-nav {
-  text-align: center;
-  padding: 10px;
-  background-color: #f4f4f4;
-  margin-bottom: 20px;
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  color: white;
 }
 
 nav a {
-  margin: 0 10px;
+  margin: 0 12px;
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
+  color: white;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  color: #ffda79;
 }
 
-.jobs .job {
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+main {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.jobs h2 {
+  text-align: center;
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  overflow: hidden;
+  color: #0056b3;
+}
+
+#sort-select {
+  display: block;
+  margin: 0 auto 25px;
+  padding: 8px 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.job {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 }
 
 .job h3 {
-  background-color: #004080; /* Blue */
-  color: white;
-  padding: 12px 20px;
-  font-size: 1.3em;
-  margin: 0;
-  border-radius: 8px 8px 0 0;
-  box-shadow: 0 2px 6px rgba(0, 64, 128, 0.6);
-}
-
-.job p {
-  padding: 10px 20px;
   margin: 0 0 10px;
-  line-height: 1.4;
+  font-size: 1.3em;
+  color: #007bff;
 }
 
-.job a.apply-btn {
-  display: inline-block;
-  margin: 10px 20px 20px 20px;
-  background-color: #004080;
-  color: white;
-  padding: 10px 16px;
+.job a {
   text-decoration: none;
-  border-radius: 5px;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
+  color: #007bff;
+  font-weight: 500;
 }
 
-.job a.apply-btn:hover {
-  background-color: #002850;
+.job a:hover {
+  text-decoration: underline;
 }
 
-button.share-btn {
-  margin-left: 20px;
-  margin-top: 10px;
+.apply-btn {
+  display: inline-block;
+  background: #28a745;
+  color: white;
   padding: 8px 14px;
-  background-color: #28a745; /* Green */
+  border-radius: 5px;
+  margin-top: 10px;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: background 0.2s;
+}
+
+.apply-btn:hover {
+  background: #218838;
+}
+
+.share-btn {
+  background: #007bff;
   color: white;
   border: none;
+  padding: 8px 12px;
+  margin-left: 10px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.9em;
-  font-weight: 600;
-  box-shadow: 0 2px 6px rgba(40, 167, 69, 0.5);
-  transition: background-color 0.3s ease;
+  transition: background 0.2s;
 }
 
-button.share-btn:hover {
-  background-color: #19692c;
+.share-btn:hover {
+  background: #0056b3;
 }
 
 .share-menu {
-  margin: 10px 20px 20px 20px;
-  font-size: 0.9em;
+  margin-top: 10px;
+  font-size: 0.85em;
   display: none;
-  background-color: #f1f1f1;
-  padding: 10px 15px;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
 .share-menu a {
-  color: #004080;
+  color: #007bff;
+  margin-right: 8px;
   text-decoration: none;
-  margin: 0 8px;
-  cursor: pointer;
-  font-weight: 600;
 }
 
 .share-menu a:hover {
@@ -122,40 +127,6 @@ button.share-btn:hover {
 }
 
 footer {
-  background-color: #eee;
-  text-align: center;
-  padding: 15px;
-  margin-top: 20px;
-}
-
-.contact form {
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin: auto;
-}
-
-.contact input, .contact textarea {
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  background-color: #004080;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #002850;
+  margin-top: 40px;
+  font-size: 0.85em;
 }
