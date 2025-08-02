@@ -1,18 +1,37 @@
 /* style.css */
 
+/* General Page Styling */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f7fb;
   color: #333;
+  line-height: 1.6;
 }
 
+/* Header & Footer */
 header, footer {
   text-align: center;
-  padding: 20px;
+  padding: 25px 20px;
   background: linear-gradient(90deg, #007bff, #0056b3);
   color: white;
+}
+
+header h1 {
+  margin-bottom: 5px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+header p {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+nav {
+  margin-bottom: 10px;
 }
 
 nav a {
@@ -27,9 +46,10 @@ nav a:hover {
   color: #ffda79;
 }
 
+/* Main Content */
 main {
   max-width: 1000px;
-  margin: 30px auto;
+  margin: 40px auto;
   padding: 0 20px;
 }
 
@@ -37,35 +57,44 @@ main {
   text-align: center;
   margin-bottom: 20px;
   color: #0056b3;
+  font-size: 1.8rem;
+  font-weight: 600;
 }
 
 #sort-select {
   display: block;
   margin: 0 auto 25px;
-  padding: 8px 12px;
-  font-size: 1em;
+  padding: 10px 14px;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
 }
 
+/* Job Card Styling */
 .job {
   background: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 25px 20px;
+  margin-bottom: 25px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .job:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
 .job h3 {
-  margin: 0 0 10px;
-  font-size: 1.3em;
+  margin: 0 0 12px;
+  font-size: 1.35rem;
   color: #007bff;
+}
+
+.job p {
+  margin: 4px 0;
 }
 
 .job a {
@@ -78,13 +107,14 @@ main {
   text-decoration: underline;
 }
 
+/* Buttons */
 .apply-btn {
   display: inline-block;
   background: #28a745;
   color: white;
-  padding: 8px 14px;
-  border-radius: 5px;
-  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-top: 12px;
   text-decoration: none;
   font-size: 0.9em;
   transition: background 0.2s;
@@ -98,9 +128,9 @@ main {
   background: #007bff;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 14px;
   margin-left: 10px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 0.9em;
   transition: background 0.2s;
@@ -110,15 +140,16 @@ main {
   background: #0056b3;
 }
 
+/* Share Menu */
 .share-menu {
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 0.85em;
   display: none;
 }
 
 .share-menu a {
   color: #007bff;
-  margin-right: 8px;
+  margin-right: 10px;
   text-decoration: none;
 }
 
@@ -126,7 +157,9 @@ main {
   text-decoration: underline;
 }
 
+/* Footer */
 footer {
-  margin-top: 40px;
+  margin-top: 50px;
   font-size: 0.85em;
+  background: linear-gradient(90deg, #0056b3, #003d80);
 }
