@@ -359,7 +359,58 @@
     document.addEventListener('DOMContentLoaded', () => {
       sortJobs();
     });
+    async function loadJobsFromSheet() {
+  const url = "https://docs.google.com/spreadsheets/d/1_n6qYGMfMG2xNVkCzbr71Jjl4NfTSyV0aaas_tXgGIg/gviz/tq?tqx=out:json";
+
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+
+    // Clean Google Sheets JSON
+    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const rows = json.table.rows;
+
+    const jobList = document.getElementById('job-list');
+    jobList.innerHTML = ''; // Clear old jobs
+
+    rows.forEach(row => {
+      const title = row.c[0]?.v || '';
+      const location = row.c[1]?.v || '';
+      const deadline = row.c[2]?.v || '';
+      const link = row.c[3]?.v || '#';
+      const description = row.c[4]?.v || '';
+
+      const jobHTML = `
+        <div class="job" data-deadline="${deadline}">
+          <h3><a href="${link}" target="_blank">${title}</a></h3>
+          <p><strong>Location:</strong> ${location}</p>
+          <p><strong>Deadline:</strong> ${deadline}</p>
+          <p>${description}</p>
+          <a href="${link}" target="_blank" class="apply-btn">View Details</a>
+          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+          <div class="share-menu">
+            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+          </div>
+        </div>
+      `;
+
+      jobList.insertAdjacentHTML('beforeend', jobHTML);
+    });
+
+    sortJobs(); // Re-sort after loading
+  } catch (error) {
+    console.error("Error loading jobs from sheet:", error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
+
   </script>
 
 </body>
 </html>
+
