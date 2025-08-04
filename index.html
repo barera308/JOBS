@@ -76,21 +76,40 @@ let jobsData = [];
 let currentPage = 1;
 const jobsPerPage = 10;
 
-// Convert Google Sheets date string to Date object
+// Improved parseDate: handles Google Sheets date format or ISO yyyy-mm-dd
 function parseDate(dateStr) {
-  if (!dateStr) return new Date(0);
-  const match = dateStr.match(/Date\\((\\d+),(\\d+),(\\d+)\\)/);
-  if (match) {
-    const [_, y, m, d] = match.map(Number);
-    return new Date(y, m, d);
+  if (!dateStr) return null;
+
+  // Handle Google Sheets format: Date(yyyy,mm,dd)
+  const gsMatch = dateStr.match(/Date\((\d+),(\d+),(\d+)\)/);
+  if (gsMatch) {
+    const year = parseInt(gsMatch[1], 10);
+    const month = parseInt(gsMatch[2], 10);
+    const day = parseInt(gsMatch[3], 10);
+    return new Date(year, month, day);
   }
-  const parts = dateStr.split('-').map(Number);
-  return new Date(parts[0], parts[1] - 1, parts[2]);
+
+  // Handle ISO format yyyy-mm-dd or similar
+  const isoMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (isoMatch) {
+    const year = parseInt(isoMatch[1], 10);
+    const month = parseInt(isoMatch[2], 10) - 1; // zero-based month
+    const day = parseInt(isoMatch[3], 10);
+    return new Date(year, month, day);
+  }
+
+  // Try parsing as general date string fallback
+  const fallbackDate = new Date(dateStr);
+  if (!isNaN(fallbackDate)) return fallbackDate;
+
+  // If all fails, return null (no date)
+  return null;
 }
 
+// Format deadline or return fallback text if no valid date
 function formatDeadline(dateStr) {
   const date = parseDate(dateStr);
-  if (!date || isNaN(date.getTime())) return "N/A";
+  if (!date) return "No deadline";
   return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
@@ -127,8 +146,8 @@ function renderJobs() {
   let filteredJobs = jobsData
     .filter(job => job.title.toLowerCase().includes(searchQuery))
     .sort((a, b) => {
-      const dateA = parseDate(a.deadline);
-      const dateB = parseDate(b.deadline);
+      const dateA = parseDate(a.deadline) || new Date(8640000000000000); // far future if no date
+      const dateB = parseDate(b.deadline) || new Date(8640000000000000);
       return sortOption === 'latest' ? dateB - dateA : dateA - dateB;
     });
 
@@ -141,11 +160,11 @@ function renderJobs() {
 
   jobList.innerHTML = currentJobs.map(job => `
     <div class="job" data-deadline="${job.deadline}">
-      <h3><a href="${job.link}" target="_blank">${job.title}</a></h3>
+      <h3><a href="${job.link}" target="_blank" rel="noopener">${job.title}</a></h3>
       <p><strong>Location:</strong> ${job.location}</p>
       <p><strong>Deadline:</strong> ${formatDeadline(job.deadline)}</p>
       <p>${job.description}</p>
-      <a href="${job.link}" target="_blank" class="apply-btn">View Details</a>
+      <a href="${job.link}" target="_blank" rel="noopener" class="apply-btn">View Details</a>
       <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
       <div class="share-menu" style="display:none;">
         <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
@@ -161,7 +180,8 @@ function renderJobs() {
 }
 
 function nextPage() {
-  const totalPages = Math.ceil(jobsData.filter(job => job.title.toLowerCase().includes(document.getElementById('search-input').value.toLowerCase())).length / jobsPerPage);
+  const searchQuery = document.getElementById('search-input').value.toLowerCase();
+  const totalPages = Math.ceil(jobsData.filter(job => job.title.toLowerCase().includes(searchQuery)).length / jobsPerPage);
   if (currentPage < totalPages) {
     currentPage++;
     renderJobs();
