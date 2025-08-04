@@ -1,26 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
   <url>
-    <loc>https://www.jobadvertisments.com.pk/</loc>
+    <loc>https://www.phc.org.pk/</loc>
   </url>
   <url>
-    <loc>https://www.jobadvertisments.com.pk/phc-jobs.html</loc>
+    <loc>https://www.jobadvertisments.com.pk/iiui-faculty-jobs.html</loc>
   </url>
   <url>
-    <loc>https://www.jobadvertisments.com.pk/about.html</loc>
+    <loc>https://www.jobadvertisments.com.pk/ntu-jobs.html</loc>
   </url>
   <url>
-    <loc>https://www.jobadvertisments.com.pk/contact.html</loc>
+    <loc>https://recruitments.com.pk/Advertisement.html</loc>
   </url>
   <url>
-    <loc>https://www.jobadvertisments.com.pk/privacy.html</loc>
+    <loc>https://www.jobadvertisments.com.pk/ppsc.html</loc>
   </url>
   <url>
-    <loc>https://www.jobadvertisments.com.pk/disclaimer.html</loc>
+    <loc>https://www.jobadvertisments.com.pk/pectaa.html</loc>
   </url>
   <url>
-    <loc>https://www.jobadvertisments.com.pk/terms.html</loc>
+    <loc>https://www.jobadvertisments.com.pk/prcmc.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/nutech.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/prcmc2.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/localinternational.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/pod.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/HITEC-Uni.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/UCMD-UOL.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/UOL-NonTeaching.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/tevta-visiting-staff.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/ssgc-positions.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/uof-faculty-civil.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/dha-careers.html</loc>
+  </url>
+  <url>
+    <loc>http://punjabpolice.gov.pk/apply</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/ngc-job-opportunities.html</loc>
+  </url>
+  <url>
+    <loc>https://www.jobadvertisments.com.pk/ppscjobs.html</loc>
   </url>
 
 </urlset>
