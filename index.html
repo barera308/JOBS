@@ -7,65 +7,95 @@
   <meta name="google-adsense-account" content="ca-pub-9084951287340288">
   <meta name="google-site-verification" content="PRRrt7X2_Bozeoj4s2PxyAnvzWzzv97LjlX_u1QBjQY" />
   <link rel="stylesheet" href="style.css"/>
+  <style>
+    .pagination {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .pagination button {
+      padding: 8px 16px;
+      margin: 0 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .search-bar {
+      margin: 10px 0;
+    }
+    .search-bar input {
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <nav>
-      <a href="index.html">Home</a> |
-      <a href="about.html">About Us</a> |
-      <a href="privacy.html">Privacy Policy</a> |
-      <a href="disclaimer.html">Disclaimer</a> |
-      <a href="terms.html">Terms & Conditions</a> |
-      <a href="contact.html">Contact Us</a>
-    </nav>
-    <h1>Job Advertisements</h1>
-    <p>Latest Jobs from Newspapers in Pakistan – Rewritten & Verified</p>
-  </header>
+<header>
+  <nav>
+    <a href="index.html">Home</a> |
+    <a href="about.html">About Us</a> |
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="disclaimer.html">Disclaimer</a> |
+    <a href="terms.html">Terms & Conditions</a> |
+    <a href="contact.html">Contact Us</a>
+  </nav>
+  <h1>Job Advertisements</h1>
+  <p>Latest Jobs from Newspapers in Pakistan – Rewritten & Verified</p>
+</header>
 
-  <main>
-    <section class="jobs">
-      <h2>Recent Job Ads</h2>
-      <label for="sort-select">Sort by:</label>
-      <select id="sort-select" onchange="sortJobs()">
-        <option value="soonest">Oldest Deadline</option>
-        <option value="latest">Latest Deadline</option>
-      </select>
-      <div id="job-list">Loading jobs...</div>
-    </section>
-  </main>
+<main>
+  <section class="jobs">
+    <h2>Recent Job Ads</h2>
 
-  <footer>
-    <p>© 2025 Server Advertisements. All rights reserved.</p>
-  </footer>
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search job titles..." oninput="renderJobs()" />
+    </div>
+
+    <label for="sort-select">Sort by:</label>
+    <select id="sort-select" onchange="renderJobs()">
+      <option value="soonest">Oldest Deadline</option>
+      <option value="latest">Latest Deadline</option>
+    </select>
+
+    <div id="job-list">Loading jobs...</div>
+
+    <div class="pagination">
+      <button onclick="prevPage()">Previous</button>
+      <span id="page-info"></span>
+      <button onclick="nextPage()">Next</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 Server Advertisements. All rights reserved.</p>
+</footer>
 
 <script>
+let jobsData = [];
+let currentPage = 1;
+const jobsPerPage = 10;
+
 // Convert Google Sheets date string to Date object
 function parseDate(dateStr) {
   if (!dateStr) return new Date(0);
-
-  // Handle Google Sheets format: Date(YYYY,MM,DD)
-  const match = dateStr.match(/Date\((\d+),(\d+),(\d+)\)/);
+  const match = dateStr.match(/Date\\((\\d+),(\\d+),(\\d+)\\)/);
   if (match) {
     const [_, y, m, d] = match.map(Number);
-    return new Date(y, m, d); // m is already 0-based
+    return new Date(y, m, d);
   }
-
-  // Handle YYYY-MM-DD fallback
   const parts = dateStr.split('-').map(Number);
   return new Date(parts[0], parts[1] - 1, parts[2]);
 }
 
-// Format deadline for display
 function formatDeadline(dateStr) {
   const date = parseDate(dateStr);
   if (!date || isNaN(date.getTime())) return "N/A";
   return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
-// Load jobs dynamically from Google Sheets
 async function loadJobsFromSheet() {
-  const sheetId = "1_n6qYGMfMG2xNVkCzbr71Jjl4NfTSyV0aaas_tXgGIg"; // Your Sheet ID
+  const sheetId = "1_n6qYGMfMG2xNVkCzbr71Jjl4NfTSyV0aaas_tXgGIg";
   const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
 
   try {
@@ -74,58 +104,75 @@ async function loadJobsFromSheet() {
     const json = JSON.parse(text.substr(47).slice(0, -2));
     const rows = json.table.rows;
 
-    const jobList = document.getElementById('job-list');
-    jobList.innerHTML = ''; // Clear placeholder
+    jobsData = rows.map(row => ({
+      title: row.c[0]?.v || '',
+      location: row.c[1]?.v || '',
+      deadline: row.c[2]?.v || '',
+      link: row.c[3]?.v || '#',
+      description: row.c[4]?.v || ''
+    }));
 
-    rows.forEach(row => {
-      const title = row.c[0]?.v || '';
-      const location = row.c[1]?.v || '';
-      const deadline = row.c[2]?.v || '';
-      const link = row.c[3]?.v || '#';
-      const description = row.c[4]?.v || '';
-
-      const jobHTML = `
-        <div class="job" data-deadline="${deadline}">
-          <h3><a href="${link}" target="_blank">${title}</a></h3>
-          <p><strong>Location:</strong> ${location}</p>
-          <p><strong>Deadline:</strong> ${formatDeadline(deadline)}</p>
-          <p>${description}</p>
-          <a href="${link}" target="_blank" class="apply-btn">View Details</a>
-          <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
-          <div class="share-menu" style="display:none;">
-            <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
-            <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
-            <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
-            <a href="#" onclick="shareByEmail(event, this)">Email</a> |
-            <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
-          </div>
-        </div>
-      `;
-
-      jobList.insertAdjacentHTML('beforeend', jobHTML);
-    });
-
-    sortJobs(); 
+    renderJobs();
   } catch (error) {
     console.error("Error loading jobs from sheet:", error);
     document.getElementById('job-list').innerText = "❌ Failed to load jobs.";
   }
 }
 
-// Sort jobs based on selected option
-function sortJobs() {
+function renderJobs() {
   const sortOption = document.getElementById('sort-select').value;
+  const searchQuery = document.getElementById('search-input').value.toLowerCase();
   const jobList = document.getElementById('job-list');
-  const jobs = Array.from(document.querySelectorAll('.job'));
 
-  jobs.sort((a, b) => {
-    const dateA = parseDate(a.getAttribute('data-deadline'));
-    const dateB = parseDate(b.getAttribute('data-deadline'));
-    return sortOption === 'latest' ? dateB - dateA : dateA - dateB;
-  });
+  let filteredJobs = jobsData
+    .filter(job => job.title.toLowerCase().includes(searchQuery))
+    .sort((a, b) => {
+      const dateA = parseDate(a.deadline);
+      const dateB = parseDate(b.deadline);
+      return sortOption === 'latest' ? dateB - dateA : dateA - dateB;
+    });
 
-  jobList.innerHTML = '';
-  jobs.forEach(job => jobList.appendChild(job));
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+  if (currentPage > totalPages) currentPage = totalPages || 1;
+
+  const start = (currentPage - 1) * jobsPerPage;
+  const end = start + jobsPerPage;
+  const currentJobs = filteredJobs.slice(start, end);
+
+  jobList.innerHTML = currentJobs.map(job => `
+    <div class="job" data-deadline="${job.deadline}">
+      <h3><a href="${job.link}" target="_blank">${job.title}</a></h3>
+      <p><strong>Location:</strong> ${job.location}</p>
+      <p><strong>Deadline:</strong> ${formatDeadline(job.deadline)}</p>
+      <p>${job.description}</p>
+      <a href="${job.link}" target="_blank" class="apply-btn">View Details</a>
+      <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
+      <div class="share-menu" style="display:none;">
+        <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+        <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+        <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+        <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+        <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+}
+
+function nextPage() {
+  const totalPages = Math.ceil(jobsData.filter(job => job.title.toLowerCase().includes(document.getElementById('search-input').value.toLowerCase())).length / jobsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderJobs();
+  }
+}
+
+function prevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    renderJobs();
+  }
 }
 
 // Share menu toggle
@@ -158,7 +205,6 @@ function shareOnWhatsApp(e, el) {
 
 document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
 </script>
-
 
 </body>
 </html>
