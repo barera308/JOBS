@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PPSC Jobs – Advertisement 32/2025</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>PPSC Jobs Advertisement 32/2025</h1>
+    <p>Punjab Public Service Commission – Latest Opportunities</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <main class="jobs">
+    <h2>Available Vacancies</h2>
+
+    <input type="text" id="searchInput" placeholder="Search jobs..." style="width:100%; max-width:500px; display:block; margin:0 auto 20px; padding:10px; font-size:1rem; border-radius:6px; border:1px solid #ccc;"/>
+
+    <select id="sort-select">
+      <option value="">Sort by</option>
+      <option value="title">Job Title (A–Z)</option>
+    </select>
+
+    <div id="jobs-container">
+      <!-- Job 1 -->
+      <div class="job">
+        <h3>Assistant Director (SEA) – BS-17</h3>
+        <p><strong>Case No:</strong> 23-RG/2025</p>
+        <p><strong>Posts:</strong> 01 (Open Merit)</p>
+        <p><strong>Department:</strong> Environment Protection & Climate Change</p>
+        <p><strong>Qualification:</strong> M.A./M.Sc. in Economics or Statistics</p>
+        <p><strong>Age:</strong> Male: 22–33 | Female: 22–36</p>
+        <p><strong>Domicile:</strong> All Punjab</p>
+        <p><strong>Posting:</strong> Lahore</p>
+        <p><strong>Test:</strong> MCQ paper (100 marks, 90 minutes)<br>
+        - 80% Subject Based<br>
+        - 20% General Ability</p>
+        <a href="https://www.ppsc.gop.pk" class="apply-btn" target="_blank">Apply Online</a>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="job">
+        <h3>Assistant – BS-16</h3>
+        <p><strong>Case No:</strong> 24-RG/2025</p>
+        <p><strong>Posts:</strong> 03 (Open Merit: 02, Women Quota: 01)</p>
+        <p><strong>Department:</strong> Environment Protection & Climate Change</p>
+        <p><strong>Qualification:</strong> Graduate or equivalent</p>
+        <p><strong>Age:</strong> Male: 18–30 | Female: 18–33</p>
+        <p><strong>Domicile:</strong> All Punjab</p>
+        <p><strong>Posting:</strong> All over Punjab</p>
+        <p><strong>Test:</strong> General Ability MCQ (100 marks, 90 minutes)</p>
+        <a href="https://www.ppsc.gop.pk" class="apply-btn" target="_blank">Apply Online</a>
+      </div>
+    </div>
+
+    <p style="text-align:center; margin-top:40px;"><strong>Closing Date:</strong> 18 August 2025</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 PPSC Jobs Portal | Visit <a href="https://www.ppsc.gop.pk" style="color:#ffda79;">www.ppsc.gop.pk</a></p>
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const jobsContainer = document.getElementById("jobs-container");
+    const sortSelect = document.getElementById("sort-select");
+
+    searchInput.addEventListener("input", function () {
+      const keyword = searchInput.value.toLowerCase();
+      const jobs = jobsContainer.getElementsByClassName("job");
+      Array.from(jobs).forEach(job => {
+        job.style.display = job.innerText.toLowerCase().includes(keyword) ? "block" : "none";
+      });
+    });
+
+    sortSelect.addEventListener("change", function () {
+      const jobs = Array.from(jobsContainer.getElementsByClassName("job"));
+      if (sortSelect.value === "title") {
+        jobs.sort((a, b) => a.querySelector("h3").innerText.localeCompare(b.querySelector("h3").innerText));
+        jobs.forEach(job => jobsContainer.appendChild(job));
+      }
+    });
+  </script>
+</body>
+</html>
