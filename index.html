@@ -21,17 +21,52 @@
       font-size: 14px;
       cursor: pointer;
     }
+
     .search-bar {
+      position: relative;
+      max-width: 400px;
       margin: 10px 0;
     }
+
     .search-bar input {
-      padding: 8px;
+      padding: 8px 35px 8px 10px;
       width: 100%;
-      max-width: 400px;
+    }
+
+    .search-bar span {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 18px;
+      color: #888;
     }
   </style>
 </head>
 <body>
+
+<!-- Amazon Banner -->
+<div id="amazon-banner" style="
+  background-color: #ff9900;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  position: relative;
+">
+  <a href="https://amzn.to/4lhpOo4" target="_blank" style="color: white; text-decoration: none;">
+    🔥 Limited Deal: Check out this amazing product on Amazon!
+  </a>
+  <span onclick="document.getElementById('amazon-banner').style.display='none';" style="
+    position: absolute;
+    right: 15px;
+    top: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  ">&times;</span>
+</div>
 
 <header>
   <nav>
@@ -52,6 +87,7 @@
 
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search job titles..." oninput="renderJobs()" />
+      <span>🔍</span>
     </div>
 
     <label for="sort-select">Sort by:</label>
@@ -69,7 +105,7 @@
     </div>
   </section>
 </main>
-<!-- Social media links added here -->
+
 <div class="social-links">
   <a href="https://www.facebook.com/computersciencejobsppsc/" target="_blank" rel="noopener" class="facebook">
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">Facebook Page
@@ -78,6 +114,7 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">WhatsApp Channel
   </a>
 </div>
+
 <footer>
   <p>© 2025 Server Advertisements. All rights reserved.</p>
 </footer>
@@ -87,37 +124,20 @@ let jobsData = [];
 let currentPage = 1;
 const jobsPerPage = 10;
 
-// Improved parseDate: handles Google Sheets date format or ISO yyyy-mm-dd
 function parseDate(dateStr) {
   if (!dateStr) return null;
-
-  // Handle Google Sheets format: Date(yyyy,mm,dd)
   const gsMatch = dateStr.match(/Date\((\d+),(\d+),(\d+)\)/);
   if (gsMatch) {
-    const year = parseInt(gsMatch[1], 10);
-    const month = parseInt(gsMatch[2], 10);
-    const day = parseInt(gsMatch[3], 10);
-    return new Date(year, month, day);
+    return new Date(parseInt(gsMatch[1]), parseInt(gsMatch[2]), parseInt(gsMatch[3]));
   }
-
-  // Handle ISO format yyyy-mm-dd or similar
   const isoMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (isoMatch) {
-    const year = parseInt(isoMatch[1], 10);
-    const month = parseInt(isoMatch[2], 10) - 1; // zero-based month
-    const day = parseInt(isoMatch[3], 10);
-    return new Date(year, month, day);
+    return new Date(parseInt(isoMatch[1]), parseInt(isoMatch[2]) - 1, parseInt(isoMatch[3]));
   }
-
-  // Try parsing as general date string fallback
   const fallbackDate = new Date(dateStr);
-  if (!isNaN(fallbackDate)) return fallbackDate;
-
-  // If all fails, return null (no date)
-  return null;
+  return !isNaN(fallbackDate) ? fallbackDate : null;
 }
 
-// Format deadline or return fallback text if no valid date
 function formatDeadline(dateStr) {
   const date = parseDate(dateStr);
   if (!date) return "No deadline";
@@ -127,13 +147,11 @@ function formatDeadline(dateStr) {
 async function loadJobsFromSheet() {
   const sheetId = "1_n6qYGMfMG2xNVkCzbr71Jjl4NfTSyV0aaas_tXgGIg";
   const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-
   try {
     const res = await fetch(url);
     const text = await res.text();
     const json = JSON.parse(text.substr(47).slice(0, -2));
     const rows = json.table.rows;
-
     jobsData = rows.map(row => ({
       title: row.c[0]?.v || '',
       location: row.c[1]?.v || '',
@@ -141,7 +159,6 @@ async function loadJobsFromSheet() {
       link: row.c[3]?.v || '#',
       description: row.c[4]?.v || ''
     }));
-
     renderJobs();
   } catch (error) {
     console.error("Error loading jobs from sheet:", error);
@@ -157,7 +174,7 @@ function renderJobs() {
   let filteredJobs = jobsData
     .filter(job => job.title.toLowerCase().includes(searchQuery))
     .sort((a, b) => {
-      const dateA = parseDate(a.deadline) || new Date(8640000000000000); // far future if no date
+      const dateA = parseDate(a.deadline) || new Date(8640000000000000);
       const dateB = parseDate(b.deadline) || new Date(8640000000000000);
       return sortOption === 'latest' ? dateB - dateA : dateA - dateB;
     });
@@ -206,13 +223,11 @@ function prevPage() {
   }
 }
 
-// Share menu toggle
 function toggleShareMenu(button) {
   const menu = button.nextElementSibling;
   menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 }
 
-// Share functions
 function shareOnFacebook(e, el) {
   e.preventDefault();
   window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(el.closest('.job').querySelector('a').href)}`);
@@ -239,6 +254,3 @@ document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
 
 </body>
 </html>
-
-
-
