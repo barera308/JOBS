@@ -94,7 +94,7 @@
     <label for="sort-select">Sort by:</label>
     <select id="sort-select" onchange="renderJobs()">
       <option value="soonest">Oldest Deadline</option>
-      <option value="latest">Latest Deadline</option>
+  <option value="latest" selected>Latest Deadline</option>
     </select>
 
     <div id="job-list">Loading jobs...</div>
@@ -255,4 +255,5 @@ document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
 
 </body>
 </html>
+
 
