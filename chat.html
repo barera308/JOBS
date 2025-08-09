@@ -1,96 +1,59 @@
-const SHEET_ID = '1_n6qYGMfMG2xNVkCzbr71Jjl4NfTSyV0aaas_tXgGIg';
-const SHEET_NAME = 'Comments';
+<!DOCTYPE html>
+<html>
+<head><title>Test Comment Post</title></head>
+<body>
 
-function doGet(e) {
-  const output = ContentService.createTextOutput(JSON.stringify(getComments()));
-  output.setMimeType(ContentService.MimeType.JSON);
-  return output;
-}
+<form id="commentForm">
+  <input type="text" id="name" placeholder="Your Name" required />
+  <textarea id="text" placeholder="Your Comment" required></textarea>
+  <button type="submit">Send Comment</button>
+</form>
 
-function doPost(e) {
+<div id="status"></div>
+
+<script>
+  const endpoint = 'https://script.google.com/macros/s/AKfycbwRNeoeKfTtrxX1yOzEy_CTAa409RI6IHBzobwud4qUBo3yDWIatiZfkuPlaZp0XoUo/exec'; // Replace this with your Apps Script URL
+
+document.getElementById('commentForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim() || 'Anonymous';
+  const text = document.getElementById('text').value.trim();
+
+  if (!text) {
+    alert('Comment cannot be empty');
+    return;
+  }
+
+  const comment = {
+    id: 'c' + Math.random().toString(36).substring(2, 9),
+    name,
+    text,
+    ts: Date.now(),
+    replies: []
+  };
+
   try {
-    const params = JSON.parse(e.postData.contents);
-    if(params.action === 'addComment') {
-      addComment(params.comment);
-      const output = ContentService.createTextOutput(JSON.stringify({status: 'success'}));
-      output.setMimeType(ContentService.MimeType.JSON);
-      return output;
-    } else if(params.action === 'addReply') {
-      addReply(params.commentId, params.reply);
-      const output = ContentService.createTextOutput(JSON.stringify({status: 'success'}));
-      output.setMimeType(ContentService.MimeType.JSON);
-      return output;
-    }
-  } catch(err) {
-    const output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-  }
-  const output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: 'Invalid action'}));
-  output.setMimeType(ContentService.MimeType.JSON);
-  return output;
-}
-
-function doOptions(e) {
-  return ContentService.createTextOutput('').setMimeType(ContentService.MimeType.TEXT);
-}
-
-function getComments() {
-  const ss = SpreadsheetApp.openById(SHEET_ID);
-  const sheet = ss.getSheetByName(SHEET_NAME);
-  const data = sheet.getDataRange().getValues();
-  const headers = data.shift();
-  return data.map(row => {
-    let obj = {};
-    headers.forEach((h, i) => {
-      if(h === 'replies') {
-        try {
-          obj[h] = JSON.parse(row[i]) || [];
-        } catch {
-          obj[h] = [];
-        }
-      } else if(h === 'ts') {
-        obj[h] = Number(row[i]) || Date.now();
-      } else {
-        obj[h] = row[i];
-      }
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ action: 'addComment', comment })
     });
-    return obj;
-  });
-}
 
-function addComment(comment) {
-  const ss = SpreadsheetApp.openById(SHEET_ID);
-  const sheet = ss.getSheetByName(SHEET_NAME);
-  sheet.insertRowBefore(2);
-  sheet.getRange(2, 1, 1, 5).setValues([[ 
-    comment.id, 
-    comment.name, 
-    comment.text, 
-    comment.ts, 
-    JSON.stringify(comment.replies || []) 
-  ]]);
-}
+    const data = await res.json();
 
-function addReply(commentId, reply) {
-  const ss = SpreadsheetApp.openById(SHEET_ID);
-  const sheet = ss.getSheetByName(SHEET_NAME);
-  const data = sheet.getDataRange().getValues();
-  const headers = data.shift();
-  const idIndex = headers.indexOf('id');
-  const repliesIndex = headers.indexOf('replies');
-
-  for(let i = 0; i < data.length; i++) {
-    if(data[i][idIndex] === commentId) {
-      let replies = [];
-      try {
-        replies = JSON.parse(data[i][repliesIndex]) || [];
-      } catch {
-        replies = [];
-      }
-      replies.push(reply);
-      sheet.getRange(i + 2, repliesIndex + 1).setValue(JSON.stringify(replies));
-      break;
+    if (data.status === 'success') {
+      document.getElementById('status').textContent = 'Comment posted!';
+      e.target.reset();
+    } else {
+      document.getElementById('status').textContent = 'Error: ' + (data.message || 'Unknown error');
     }
+  } catch (error) {
+    document.getElementById('status').textContent = 'Error sending comment.';
+    console.error('Send error:', error);
   }
-}
+});
+</script>
+
+</body>
+</html>
