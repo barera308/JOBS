@@ -1,169 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Job Discussion Board</title>
-<style>
-  body { font-family: Arial, sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; background: #f9f9f9; color: #111; }
-  header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-  a.home-link {
-    text-decoration: none;
-    color: #0b74de;
-    border: 1px solid #0b74de;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-weight: 600;
-  }
-  a.home-link:hover {
-    background: #0b74de; color: white;
-  }
-  h1 { margin: 0; font-size: 1.5rem; }
-  form { background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,0.1); margin-bottom: 2rem; }
-  input[type="text"], textarea {
-    width: 100%; padding: 8px; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-family: inherit;
-    resize: vertical;
-  }
-  button {
-    background: #0b74de; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 1rem;
-  }
-  button:disabled {
-    background: #999; cursor: not-allowed;
-  }
-  .comment {
-    background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-  }
-  .comment .name {
-    font-weight: 700; color: #0b74de;
-  }
-  .comment .time {
-    font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;
-  }
-  .comment .text {
-    white-space: pre-wrap;
-  }
-  #commentsContainer {
-    min-height: 100px;
-  }
-</style>
-</head>
-<body>
+const SHEET_ID = '1_n6qYGMfMG2xNVkCzbr71Jjl4NfTSyV0aaas_tXgGIg';
+const SHEET_NAME = 'Comments';
 
-<header>
-  <h1>Job Discussion Board</h1>
-  <a href="/" class="home-link">Home</a>
-</header>
+function doGet(e) {
+  const output = ContentService.createTextOutput(JSON.stringify(getComments()));
+  output.setMimeType(ContentService.MimeType.JSON);
+  return output;
+}
 
-<form id="commentForm">
-  <input type="text" id="nameInput" placeholder="Your name" maxlength="50" />
-  <textarea id="textInput" placeholder="Write your comment here..." rows="4" maxlength="500" required></textarea>
-  <button type="submit">Post Comment</button>
-</form>
-
-<div id="commentsContainer">Loading comments...</div>
-
-<script>
-  const endpoint = 'https://script.google.com/macros/s/AKfycbwRNeoeKfTtrxX1yOzEy_CTAa409RI6IHBzobwud4qUBo3yDWIatiZfkuPlaZp0XoUo/exec';
-
-  // Sanitize HTML to prevent XSS
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  function formatTimestamp(ts) {
-    let date = new Date(ts);
-    if (isNaN(date)) return '';
-    return date.toLocaleString();
-  }
-
-  async function fetchComments() {
-    try {
-      const res = await fetch(endpoint);
-      if (!res.ok) throw new Error('Network error');
-
-      const data = await res.json();
-
-      const container = document.getElementById('commentsContainer');
-      if (!Array.isArray(data) || data.length === 0) {
-        container.textContent = 'No comments yet. Be the first to comment!';
-        return;
-      }
-
-      container.innerHTML = '';
-      data.forEach(comment => {
-        const div = document.createElement('div');
-        div.className = 'comment';
-        div.innerHTML = `
-          <div class="name">${escapeHtml(comment.name || 'Anonymous')}</div>
-          <div class="time">${formatTimestamp(comment.ts)}</div>
-          <div class="text">${escapeHtml(comment.text)}</div>
-        `;
-        container.appendChild(div);
-      });
-    } catch (error) {
-      document.getElementById('commentsContainer').textContent = 'Failed to load comments.';
-      console.error('Error fetching comments:', error);
+function doPost(e) {
+  try {
+    const params = JSON.parse(e.postData.contents);
+    if(params.action === 'addComment') {
+      addComment(params.comment);
+      const output = ContentService.createTextOutput(JSON.stringify({status: 'success'}));
+      output.setMimeType(ContentService.MimeType.JSON);
+      return output;
+    } else if(params.action === 'addReply') {
+      addReply(params.commentId, params.reply);
+      const output = ContentService.createTextOutput(JSON.stringify({status: 'success'}));
+      output.setMimeType(ContentService.MimeType.JSON);
+      return output;
     }
+  } catch(err) {
+    const output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message}));
+    output.setMimeType(ContentService.MimeType.JSON);
+    return output;
   }
+  const output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: 'Invalid action'}));
+  output.setMimeType(ContentService.MimeType.JSON);
+  return output;
+}
 
-  function generateId() {
-    return 'c' + Math.random().toString(36).substr(2, 9);
-  }
+function doOptions(e) {
+  return ContentService.createTextOutput('').setMimeType(ContentService.MimeType.TEXT);
+}
 
-  document.getElementById('commentForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('nameInput').value.trim() || 'Anonymous';
-    const text = document.getElementById('textInput').value.trim();
-
-    if (!text) {
-      alert('Comment cannot be empty');
-      return;
-    }
-
-    const comment = {
-      id: generateId(),
-      name,
-      text,
-      ts: Date.now(),
-      replies: []
-    };
-
-    try {
-      // Disable button while posting
-      const btn = e.target.querySelector('button[type=submit]');
-      btn.disabled = true;
-      btn.textContent = 'Posting...';
-
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'addComment', comment }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      const result = await res.json();
-      if (result.status === 'success') {
-        document.getElementById('textInput').value = '';
-        document.getElementById('nameInput').value = '';
-        fetchComments();
+function getComments() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  const data = sheet.getDataRange().getValues();
+  const headers = data.shift();
+  return data.map(row => {
+    let obj = {};
+    headers.forEach((h, i) => {
+      if(h === 'replies') {
+        try {
+          obj[h] = JSON.parse(row[i]) || [];
+        } catch {
+          obj[h] = [];
+        }
+      } else if(h === 'ts') {
+        obj[h] = Number(row[i]) || Date.now();
       } else {
-        alert('Failed to post comment: ' + (result.message || 'Unknown error'));
+        obj[h] = row[i];
       }
-    } catch (error) {
-      alert('Failed to send data. Please try again.');
-      console.error('Post comment error:', error);
-    } finally {
-      const btn = e.target.querySelector('button[type=submit]');
-      btn.disabled = false;
-      btn.textContent = 'Post Comment';
-    }
+    });
+    return obj;
   });
+}
 
-  // Load comments on page load
-  fetchComments();
-</script>
+function addComment(comment) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  sheet.insertRowBefore(2);
+  sheet.getRange(2, 1, 1, 5).setValues([[ 
+    comment.id, 
+    comment.name, 
+    comment.text, 
+    comment.ts, 
+    JSON.stringify(comment.replies || []) 
+  ]]);
+}
 
-</body>
-</html>
+function addReply(commentId, reply) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  const data = sheet.getDataRange().getValues();
+  const headers = data.shift();
+  const idIndex = headers.indexOf('id');
+  const repliesIndex = headers.indexOf('replies');
 
+  for(let i = 0; i < data.length; i++) {
+    if(data[i][idIndex] === commentId) {
+      let replies = [];
+      try {
+        replies = JSON.parse(data[i][repliesIndex]) || [];
+      } catch {
+        replies = [];
+      }
+      replies.push(reply);
+      sheet.getRange(i + 2, repliesIndex + 1).setValue(JSON.stringify(replies));
+      break;
+    }
+  }
+}
