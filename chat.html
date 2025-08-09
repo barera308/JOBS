@@ -63,7 +63,7 @@
         <input id="nameInput" type="text" placeholder="Your name" required />
         <textarea id="commentInput" placeholder="Write your comment about job opportunities, interviews, salary, tips..." required></textarea>
         <div style="width:100%;display:flex;justify-content:flex-end">
-          <button id="postBtn">Post Comment</button>
+          <button id="postBtn" type="submit">Post Comment</button>
         </div>
       </form>
     </section>
@@ -88,27 +88,42 @@
     }
 
     function loadComments(){
-      try{
+      try {
         return JSON.parse(localStorage.getItem(KEY)) || [];
-      }catch(e){return []}
+      } catch(e) {
+        return [];
+      }
     }
 
     function saveComments(list){
       localStorage.setItem(KEY, JSON.stringify(list));
     }
 
-    function uid(){return 'c'+Math.random().toString(36).slice(2,9)}
+    function uid(){ return 'c'+Math.random().toString(36).slice(2,9); }
+
+    function escapeHtml(s){
+      if(!s) return '';
+      return s.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
 
     function render(){
       const list = loadComments();
       commentsArea.querySelectorAll('.comment, .reply-form-inline').forEach(el=>el.remove());
-      if(list.length===0){emptyMessage.style.display='block'; return} else {emptyMessage.style.display='none'}
 
-      list.forEach(c=>{
-        const el = document.createElement('div'); el.className='comment'; el.dataset.id=c.id;
+      if(list.length === 0){
+        emptyMessage.style.display = 'block';
+        return;
+      } else {
+        emptyMessage.style.display = 'none';
+      }
+
+      list.forEach(c => {
+        const el = document.createElement('div');
+        el.className = 'comment';
+        el.dataset.id = c.id;
         el.innerHTML = `
           <div class="meta">
-            <div class="who">${escapeHtml(c.name)} <span style="font-weight:400;color:${c.name? 'var(--muted)':''}"></span></div>
+            <div class="who">${escapeHtml(c.name)}</div>
             <div class="time">${nowLabel(c.ts)}</div>
           </div>
           <div class="text">${escapeHtml(c.text)}</div>
@@ -117,19 +132,22 @@
           </div>
         `;
 
-        const replies = document.createElement('div'); replies.className='reply-list';
+        // Replies container
+        const replies = document.createElement('div');
+        replies.className = 'reply-list';
+
         if(Array.isArray(c.replies) && c.replies.length){
-          c.replies.forEach(r=>{
-            const rDiv = document.createElement('div'); rDiv.className='comment'; rDiv.style.marginTop='8px';
+          c.replies.forEach(r => {
+            const rDiv = document.createElement('div');
+            rDiv.className = 'comment';
+            rDiv.style.marginTop = '8px';
             rDiv.innerHTML = `
               <div class="meta">
                 <div class="who">${escapeHtml(r.name)}</div>
                 <div class="time">${nowLabel(r.ts)}</div>
               </div>
               <div class="text">${escapeHtml(r.text)}</div>
-              <div class="comment-actions">
-                <!-- Delete reply button removed -->
-              </div>
+              <div class="comment-actions"></div>
             `;
             replies.appendChild(rDiv);
           });
@@ -137,9 +155,10 @@
 
         el.appendChild(replies);
 
-        const replyForm = document.createElement('div'); 
-        replyForm.className='reply-form-inline'; 
-        replyForm.style.display='none'; 
+        // Reply form (hidden by default)
+        const replyForm = document.createElement('div');
+        replyForm.className = 'reply-form-inline';
+        replyForm.style.display = 'none';
         replyForm.innerHTML = `
           <div class="reply-form" style="margin-top:8px">
             <input placeholder="Your name" class="reply-name" type="text" style="margin-bottom:6px" />
@@ -152,19 +171,28 @@
         `;
         el.appendChild(replyForm);
 
-        el.querySelector('.reply-btn').addEventListener('click', ()=>{
+        // Toggle reply form
+        el.querySelector('.reply-btn').addEventListener('click', () => {
           replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
         });
 
-        replyForm.querySelector('.cancel-reply').addEventListener('click', ()=>{ replyForm.style.display='none'; });
-        replyForm.querySelector('.submit-reply').addEventListener('click', ()=>{
+        // Cancel reply
+        replyForm.querySelector('.cancel-reply').addEventListener('click', () => {
+          replyForm.style.display = 'none';
+        });
+
+        // Submit reply
+        replyForm.querySelector('.submit-reply').addEventListener('click', () => {
           const rname = replyForm.querySelector('.reply-name').value.trim() || 'Anonymous';
           const rtext = replyForm.querySelector('.reply-text').value.trim();
-          if(!rtext){ alert('Reply cannot be empty'); return; }
+          if(!rtext){
+            alert('Reply cannot be empty');
+            return;
+          }
           addReply(c.id, {id: uid(), name: rname, text: rtext, ts: Date.now()});
-          replyForm.querySelector('.reply-name').value=''; 
-          replyForm.querySelector('.reply-text').value=''; 
-          replyForm.style.display='none';
+          replyForm.querySelector('.reply-name').value = '';
+          replyForm.querySelector('.reply-text').value = '';
+          replyForm.style.display = 'none';
         });
 
         commentsArea.appendChild(el);
@@ -180,31 +208,26 @@
 
     function addReply(commentId, reply){
       const list = loadComments();
-      const idx = list.findIndex(x=>x.id===commentId);
-      if(idx===-1) return;
+      const idx = list.findIndex(x => x.id === commentId);
+      if(idx === -1) return;
       list[idx].replies = list[idx].replies || [];
       list[idx].replies.push(reply);
       saveComments(list);
       render();
     }
 
-    // deleteComment and deleteReply functions removed as they are no longer needed
-
-    postForm.addEventListener('submit', (e)=>{
+    postForm.addEventListener('submit', e => {
       e.preventDefault();
       const name = nameInput.value.trim() || 'Anonymous';
       const text = commentInput.value.trim();
-      if(!text){ alert('Comment cannot be empty'); return; }
+      if(!text){
+        alert('Comment cannot be empty');
+        return;
+      }
       addComment({id: uid(), name, text, ts: Date.now(), replies: []});
-      nameInput.value=''; commentInput.value='';
+      nameInput.value = '';
+      commentInput.value = '';
     });
-
-    function escapeHtml(s){
-      if(!s) return '';
-      return s.replace(/[&<>"']/g, function(ch){
-        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]);
-      });
-    }
 
     render();
   </script>
