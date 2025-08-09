@@ -1,88 +1,244 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Website Comments</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background: #f8f8f8;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Job Discussion Board</title>
+  <style>
+    /* Your CSS styles here (same as your previous) */
+    :root{--bg:#f7f7fb;--card:#fff;--accent:#0b74de;--muted:#6b7280}
+    body{font-family:Inter, system-ui, Arial; background:var(--bg); margin:0; padding:24px; color:#0f172a}
+    .wrap{max-width:900px;margin:0 auto}
+    header{display:flex;align-items:center;gap:12px}
+    h1{margin:0;font-size:20px; flex-grow:1;}
+    .home-link {
+      font-size: 14px;
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
     }
-    .comment-box {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        max-width: 500px;
-        margin: auto;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    .home-link:hover {
+      background-color: var(--accent);
+      color: white;
     }
-    h2 {
-        margin-bottom: 15px;
-    }
-    input, textarea {
-        width: 100%;
-        padding: 10px;
-        margin: 8px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 14px;
-    }
-    button {
-        background: #4CAF50;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-    button:hover {
-        background: #45a049;
-    }
-    #message {
-        margin-top: 10px;
-        color: green;
-        font-weight: bold;
-    }
-</style>
+    .intro{color:var(--muted);margin-top:6px}
+
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 2px 8px rgba(15,23,42,0.06);margin-top:18px}
+
+    form.row{display:flex;gap:8px;flex-wrap:wrap}
+    input[type=text], textarea{flex:1;padding:10px;border:1px solid #e6e9ee;border-radius:8px;font-size:14px}
+    textarea{min-height:80px;resize:vertical}
+    button{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+    .comments{margin-top:18px}
+
+    .comment{border-left:3px solid rgba(11,116,222,0.12);padding:12px 12px;margin-bottom:12px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.98));}
+    .meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .meta .who{font-weight:600}
+    .meta .time{color:var(--muted);font-size:12px}
+    .text{margin:10px 0 8px}
+    .comment-actions{display:flex;gap:8px}
+    .reply-list{margin-left:18px;margin-top:10px}
+    .small-btn{background:transparent;border:none;color:var(--accent);cursor:pointer;padding:6px;border-radius:6px}
+    .reply-form{margin-top:8px}
+
+    .empty{color:var(--muted);text-align:center;padding:22px}
+    @media (max-width:520px){header{flex-direction:column;align-items:flex-start}}
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <h1>Job Discussion Board</h1>
+      <a href="/" class="home-link">Home Page</a>
+    </header>
 
-<div class="comment-box">
-    <h2>Leave a Comment</h2>
-    <form id="commentForm">
-        <input type="text" id="name" name="name" placeholder="Your Name" required />
-        <textarea id="comment" name="comment" rows="4" placeholder="Your Comment" required></textarea>
-        <button type="submit">Submit</button>
-    </form>
-    <div id="message"></div>
-</div>
+    <div class="intro">Share questions, tips, and experiences about jobs — people can reply to comments.</div>
 
-<script>
-    document.getElementById('commentForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    <section class="card">
+      <form id="postForm" class="row" onsubmit="return false;">
+        <input id="nameInput" type="text" placeholder="Your name" required />
+        <textarea id="commentInput" placeholder="Write your comment about job opportunities, interviews, salary, tips..." required></textarea>
+        <div style="width:100%;display:flex;justify-content:flex-end">
+          <button id="postBtn" type="submit">Post Comment</button>
+        </div>
+      </form>
+    </section>
 
-        const formData = new FormData();
-        formData.append("name", document.getElementById('name').value);
-        formData.append("comment", document.getElementById('comment').value);
+    <section class="card comments" id="commentsArea">
+      <div id="emptyMessage" class="empty">No comments yet — be the first to share!</div>
+      <!-- comments will be injected here -->
+    </section>
+  </div>
 
-        fetch("https://script.google.com/macros/s/AKfycbwNJEQIYtyJJdLdRYnfjVP4NvJK2DNCvZGr7H6geEjfg48DrinYY44erPxzlEImVkvD/exec", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('message').innerText = "✅ Comment submitted!";
-            document.getElementById('commentForm').reset();
-        })
-        .catch(error => {
-            document.getElementById('message').innerText = "❌ Error submitting comment.";
-            console.error('Error:', error);
+  <script>
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwNJEQIYtyJJdLdRYnfjVP4NvJK2DNCvZGr7H6geEjfg48DrinYY44erPxzlEImVkvD/exec'; // <-- Replace with your Apps Script Web App URL
+    const postForm = document.getElementById('postForm');
+    const nameInput = document.getElementById('nameInput');
+    const commentInput = document.getElementById('commentInput');
+    const commentsArea = document.getElementById('commentsArea');
+    const emptyMessage = document.getElementById('emptyMessage');
+
+    function nowLabel(ts){
+      const d = new Date(ts);
+      return d.toLocaleString();
+    }
+
+    function escapeHtml(s){
+      if(!s) return '';
+      return s.replace(/[&<>"']/g, function(ch){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]);
+      });
+    }
+
+    async function loadComments(){
+      try {
+        const res = await fetch(WEB_APP_URL);
+        if(!res.ok) throw new Error('Network response was not ok');
+        const list = await res.json();
+        renderComments(list);
+      } catch(err) {
+        emptyMessage.textContent = 'Error loading comments: ' + err.message;
+      }
+    }
+
+    function renderComments(list){
+      commentsArea.querySelectorAll('.comment, .reply-form-inline').forEach(el=>el.remove());
+      if(list.length === 0) {
+        emptyMessage.style.display = 'block';
+        return;
+      } else {
+        emptyMessage.style.display = 'none';
+      }
+
+      list.forEach(c=>{
+        const el = document.createElement('div'); 
+        el.className='comment'; 
+        el.dataset.id = c.id;
+        el.innerHTML = `
+          <div class="meta">
+            <div class="who">${escapeHtml(c.name)} <span style="font-weight:400;color:${c.name ? 'var(--muted)' : ''}"></span></div>
+            <div class="time">${nowLabel(c.ts)}</div>
+          </div>
+          <div class="text">${escapeHtml(c.text)}</div>
+          <div class="comment-actions">
+            <button class="small-btn reply-btn">Reply</button>
+          </div>
+        `;
+
+        const replies = document.createElement('div'); 
+        replies.className='reply-list';
+
+        if(Array.isArray(c.replies) && c.replies.length){
+          c.replies.forEach(r=>{
+            const rDiv = document.createElement('div'); 
+            rDiv.className='comment'; 
+            rDiv.style.marginTop='8px';
+            rDiv.innerHTML = `
+              <div class="meta">
+                <div class="who">${escapeHtml(r.name)}</div>
+                <div class="time">${nowLabel(r.ts)}</div>
+              </div>
+              <div class="text">${escapeHtml(r.text)}</div>
+              <div class="comment-actions"></div>
+            `;
+            replies.appendChild(rDiv);
+          });
+        }
+
+        el.appendChild(replies);
+
+        const replyForm = document.createElement('div'); 
+        replyForm.className='reply-form-inline'; 
+        replyForm.style.display='none'; 
+        replyForm.innerHTML = `
+          <div class="reply-form" style="margin-top:8px">
+            <input placeholder="Your name" class="reply-name" type="text" style="margin-bottom:6px" />
+            <textarea placeholder="Write a reply..." class="reply-text" style="margin-bottom:6px"></textarea>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <button type="button" class="small-btn cancel-reply">Cancel</button>
+              <button type="button" class="small-btn submit-reply">Send</button>
+            </div>
+          </div>
+        `;
+        el.appendChild(replyForm);
+
+        el.querySelector('.reply-btn').addEventListener('click', () => {
+          replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
         });
-    });
-</script>
 
+        replyForm.querySelector('.cancel-reply').addEventListener('click', () => { 
+          replyForm.style.display = 'none'; 
+        });
+
+        replyForm.querySelector('.submit-reply').addEventListener('click', async () => {
+          const rname = replyForm.querySelector('.reply-name').value.trim() || 'Anonymous';
+          const rtext = replyForm.querySelector('.reply-text').value.trim();
+          if(!rtext){ 
+            alert('Reply cannot be empty'); 
+            return; 
+          }
+          try {
+            await sendReply(c.id, {id: uid(), name: rname, text: rtext, ts: Date.now()});
+            replyForm.querySelector('.reply-name').value = ''; 
+            replyForm.querySelector('.reply-text').value = ''; 
+            replyForm.style.display = 'none';
+            await loadComments();
+          } catch(e) {
+            alert('Failed to send reply. Please try again.');
+          }
+        });
+
+        commentsArea.appendChild(el);
+      });
+    }
+
+    function uid() {
+      return 'c' + Math.random().toString(36).slice(2,9);
+    }
+
+    async function sendComment(comment){
+      const res = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        body: JSON.stringify({action: 'addComment', comment}),
+        headers: {'Content-Type': 'application/json'}
+      });
+      if(!res.ok) throw new Error('Network response was not ok');
+      return await res.json();
+    }
+
+    async function sendReply(commentId, reply){
+      const res = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        body: JSON.stringify({action: 'addReply', commentId, reply}),
+        headers: {'Content-Type': 'application/json'}
+      });
+      if(!res.ok) throw new Error('Network response was not ok');
+      return await res.json();
+    }
+
+    postForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const name = nameInput.value.trim() || 'Anonymous';
+      const text = commentInput.value.trim();
+      if(!text){
+        alert('Comment cannot be empty');
+        return;
+      }
+      try {
+        await sendComment({id: uid(), name, text, ts: Date.now(), replies: []});
+        nameInput.value = '';
+        commentInput.value = '';
+        await loadComments();
+      } catch(e) {
+        alert('Failed to send data. Please try again.');
+      }
+    });
+
+    // Initial load
+    loadComments();
+  </script>
 </body>
 </html>
