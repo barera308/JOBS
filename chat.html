@@ -114,7 +114,6 @@
           <div class="text">${escapeHtml(c.text)}</div>
           <div class="comment-actions">
             <button class="small-btn reply-btn">Reply</button>
-            <!-- Delete button removed -->
           </div>
         `;
 
@@ -137,11 +136,18 @@
         }
 
         el.appendChild(replies);
-        const replyForm = document.createElement('div'); replyForm.className='reply-form-inline'; replyForm.style.display='none'; replyForm.innerHTML = `
+
+        const replyForm = document.createElement('div'); 
+        replyForm.className='reply-form-inline'; 
+        replyForm.style.display='none'; 
+        replyForm.innerHTML = `
           <div class="reply-form" style="margin-top:8px">
             <input placeholder="Your name" class="reply-name" type="text" style="margin-bottom:6px" />
             <textarea placeholder="Write a reply..." class="reply-text" style="margin-bottom:6px"></textarea>
-            <div style="display:flex;gap:8px;justify-content:flex-end"><button class="small-btn cancel-reply">Cancel</button><button class="small-btn submit-reply">Send</button></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <button type="button" class="small-btn cancel-reply">Cancel</button>
+              <button type="button" class="small-btn submit-reply">Send</button>
+            </div>
           </div>
         `;
         el.appendChild(replyForm);
@@ -149,14 +155,16 @@
         el.querySelector('.reply-btn').addEventListener('click', ()=>{
           replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
         });
-        // Delete button event removed
+
         replyForm.querySelector('.cancel-reply').addEventListener('click', ()=>{ replyForm.style.display='none'; });
         replyForm.querySelector('.submit-reply').addEventListener('click', ()=>{
           const rname = replyForm.querySelector('.reply-name').value.trim() || 'Anonymous';
           const rtext = replyForm.querySelector('.reply-text').value.trim();
           if(!rtext){ alert('Reply cannot be empty'); return; }
           addReply(c.id, {id: uid(), name: rname, text: rtext, ts: Date.now()});
-          replyForm.querySelector('.reply-name').value=''; replyForm.querySelector('.reply-text').value=''; replyForm.style.display='none';
+          replyForm.querySelector('.reply-name').value=''; 
+          replyForm.querySelector('.reply-text').value=''; 
+          replyForm.style.display='none';
         });
 
         commentsArea.appendChild(el);
@@ -170,9 +178,17 @@
       render();
     }
 
-    // deleteComment and deleteReply functions are no longer called but kept if you want to add them back
-    function deleteComment(id){ }
-    function deleteReply(commentId, replyId){ }
+    function addReply(commentId, reply){
+      const list = loadComments();
+      const idx = list.findIndex(x=>x.id===commentId);
+      if(idx===-1) return;
+      list[idx].replies = list[idx].replies || [];
+      list[idx].replies.push(reply);
+      saveComments(list);
+      render();
+    }
+
+    // deleteComment and deleteReply functions removed as they are no longer needed
 
     postForm.addEventListener('submit', (e)=>{
       e.preventDefault();
