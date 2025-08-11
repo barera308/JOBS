@@ -3,168 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Comment System</title>
+  <title>Discussion Board</title>
   <style>
-    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; padding: 1rem; background: #f9f9f9; }
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-    a.home-link {
-      text-decoration: none;
-      color: #0b74de;
-      border: 1px solid #0b74de;
-      padding: 6px 14px;
-      border-radius: 6px;
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    form {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
       font-weight: 600;
-      transition: background 0.3s, color 0.3s;
     }
-    a.home-link:hover {
-      background: #0b74de;
-      color: white;
-    }
-    h1 { margin: 0; font-size: 1.5rem; }
-    form { background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,0.1); margin-bottom: 2rem; }
-    input[type="text"], textarea {
-      width: 100%; padding: 8px; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-family: inherit;
+    input, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: inherit;
       resize: vertical;
     }
     button {
-      background: #0b74de; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 1rem;
+      background-color: #0b74de;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      display: block;
+      margin: 0 auto;
     }
-    button:disabled {
-      background: #999; cursor: not-allowed;
+    button:hover {
+      background-color: #095bb5;
     }
-    .comment {
-      background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    .powered-by {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #666;
     }
-    .comment .name {
-      font-weight: 700; color: #0b74de;
-    }
-    .comment .time {
-      font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;
-    }
-    .comment .text {
-      white-space: pre-wrap;
-    }
-    #commentsContainer {
-      min-height: 100px;
+    .powered-by a {
+      color: #0b74de;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Comment System</h1>
-  <a href="/" class="home-link" title="Go to Home Page">Home</a>
-</header>
+  <h1>Discussion Board</h1>
 
-<form id="commentForm">
-  <input type="text" id="nameInput" placeholder="Your name" maxlength="50" />
-  <textarea id="textInput" placeholder="Write your comment here..." rows="4" maxlength="500" required></textarea>
-  <button type="submit">Post Comment</button>
-</form>
+  <form method="post" action="https://forms.un-static.com/forms/1afee09ae9944d06b1f9302a263148dc76673533">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Your name" required />
 
-<div id="commentsContainer">Loading comments...</div>
+    <label for="comment">Comment:</label>
+    <textarea id="comment" name="comment" rows="5" placeholder="Write your comment here..." required></textarea>
 
-<script>
-  const endpoint = 'https://script.google.com/macros/s/AKfycbwRNeoeKfTtrxX1yOzEy_CTAa409RI6IHBzobwud4qUBo3yDWIatiZfkuPlaZp0XoUo/exec';
+    <button type="submit">Post Comment</button>
+  </form>
 
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  function formatTimestamp(ts) {
-    const date = new Date(ts);
-    if (isNaN(date)) return '';
-    return date.toLocaleString();
-  }
-
-  async function fetchComments() {
-    try {
-      const res = await fetch(endpoint);
-      if (!res.ok) throw new Error('Network error');
-
-      const data = await res.json();
-      const container = document.getElementById('commentsContainer');
-      if (!Array.isArray(data) || data.length === 0) {
-        container.textContent = 'No comments yet. Be the first to comment!';
-        return;
-      }
-
-      container.innerHTML = '';
-      data.forEach(comment => {
-        const div = document.createElement('div');
-        div.className = 'comment';
-        div.innerHTML = `
-          <div class="name">${escapeHtml(comment.name || 'Anonymous')}</div>
-          <div class="time">${formatTimestamp(comment.ts)}</div>
-          <div class="text">${escapeHtml(comment.text)}</div>
-        `;
-        container.appendChild(div);
-      });
-    } catch (error) {
-      document.getElementById('commentsContainer').textContent = 'Failed to load comments.';
-      console.error('Error fetching comments:', error);
-    }
-  }
-
-  function generateId() {
-    return 'c' + Math.random().toString(36).substr(2, 9);
-  }
-
-  document.getElementById('commentForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('nameInput').value.trim() || 'Anonymous';
-    const text = document.getElementById('textInput').value.trim();
-
-    if (!text) {
-      alert('Comment cannot be empty');
-      return;
-    }
-
-    const comment = {
-      id: generateId(),
-      name,
-      text,
-      ts: Date.now(),
-      replies: []
-    };
-
-    try {
-      const btn = e.target.querySelector('button[type=submit]');
-      btn.disabled = true;
-      btn.textContent = 'Posting...';
-
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'addComment', comment }),
-        mode: 'cors'
-      });
-
-      const result = await res.json();
-
-      if (result.status === 'success') {
-        document.getElementById('textInput').value = '';
-        document.getElementById('nameInput').value = '';
-        fetchComments();
-      } else {
-        alert('Failed to post comment: ' + (result.message || 'Unknown error'));
-      }
-    } catch (error) {
-      alert('Failed to send data. Please try again.');
-      console.error('Post comment error:', error);
-    } finally {
-      const btn = e.target.querySelector('button[type=submit]');
-      btn.disabled = false;
-      btn.textContent = 'Post Comment';
-    }
-  });
-
-  // Initial fetch
-  fetchComments();
-</script>
+  <div class="powered-by">
+    <small>(Powered by <a href="https://un-static.com" target="_blank" rel="nofollow noopener">Un-static Forms</a>)</small>
+  </div>
 
 </body>
 </html>
-
