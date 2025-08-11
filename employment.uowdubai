@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
      crossorigin="anonymous"></script>
   <title>UOWD Job Vacancies – Job Alerts Pakistan</title>
@@ -12,9 +12,27 @@
       margin: 20px;
       background: #f4f4f4;
     }
+    header nav {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    header nav a {
+      color: #0073aa;
+      text-decoration: none;
+      margin-right: 8px;
+    }
+    header nav a:hover {
+      text-decoration: underline;
+    }
     h1 {
       text-align: center;
       color: #333;
+    }
+    p {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 30px;
+      color: #555;
     }
     table {
       width: 100%;
@@ -57,62 +75,63 @@
   <h1>Job Advertisements</h1>
   <p>Latest Jobs from Newspapers in Pakistan – Rewritten & Verified</p>
 </header>
-  <h1>University of Wollongong in Dubai – Job Vacancies</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Vacancy Title</th>
-        <th>Business Unit</th>
-        <th>Department</th>
-        <th>Closing Date</th>
-        <th>Apply</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Adjunct Instructors - Computer Science</td>
-        <td>Academic</td>
-        <td>School of Computer Science</td>
-        <td>25-Aug-2025</td>
-        <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank">Apply Now</a></td>
-      </tr>
-      <tr>
-        <td>Adjunct Economics/Statistics Lecturer</td>
-        <td>Academic</td>
-        <td>School of Business</td>
-        <td>15-Aug-2025</td>
-        <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank">Apply Now</a></td>
-      </tr>
-      <tr>
-        <td>Adjunct Economics Tutors</td>
-        <td>Academic</td>
-        <td>School of Business</td>
-        <td>18-Aug-2025</td>
-        <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank">Apply Now</a></td>
-      </tr>
-      <tr>
-        <td>Adjunct Marketing Lecturer</td>
-        <td>Academic</td>
-        <td>School of Business</td>
-        <td>18-Aug-2025</td>
-        <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank">Apply Now</a></td>
-      </tr>
-      <tr>
-        <td>Instructor - Management</td>
-        <td>Academic</td>
-        <td>School of Business</td>
-        <td>18-Aug-2025</td>
-        <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank">Apply Now</a></td>
-      </tr>
-      <tr>
-        <td>Adjunct Finance Tutors</td>
-        <td>Academic</td>
-        <td>School of Business</td>
-        <td>15-Aug-2025</td>
-        <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank">Apply Now</a></td>
-      </tr>
-    </tbody>
-  </table>
 
+<h1>University of Wollongong in Dubai – Job Vacancies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Vacancy Title</th>
+      <th>Business Unit</th>
+      <th>Department</th>
+      <th>Closing Date</th>
+      <th>Apply</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Adjunct Instructors - Computer Science</td>
+      <td>Academic</td>
+      <td>School of Computer Science</td>
+      <td>25-Aug-2025</td>
+      <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank" rel="noopener">Apply Now</a></td>
+    </tr>
+    <tr>
+      <td>Adjunct Economics/Statistics Lecturer</td>
+      <td>Academic</td>
+      <td>School of Business</td>
+      <td>15-Aug-2025</td>
+      <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank" rel="noopener">Apply Now</a></td>
+    </tr>
+    <tr>
+      <td>Adjunct Economics Tutors</td>
+      <td>Academic</td>
+      <td>School of Business</td>
+      <td>18-Aug-2025</td>
+      <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank" rel="noopener">Apply Now</a></td>
+    </tr>
+    <tr>
+      <td>Adjunct Marketing Lecturer</td>
+      <td>Academic</td>
+      <td>School of Business</td>
+      <td>18-Aug-2025</td>
+      <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank" rel="noopener">Apply Now</a></td>
+    </tr>
+    <tr>
+      <td>Instructor - Management</td>
+      <td>Academic</td>
+      <td>School of Business</td>
+      <td>18-Aug-2025</td>
+      <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank" rel="noopener">Apply Now</a></td>
+    </tr>
+    <tr>
+      <td>Adjunct Finance Tutors</td>
+      <td>Academic</td>
+      <td>School of Business</td>
+      <td>15-Aug-2025</td>
+      <td><a href="https://employment.uowdubai.ac.ae/jobs" target="_blank" rel="noopener">Apply Now</a></td>
+    </tr>
+  </tbody>
+</table>
 </body>
 </html>
