@@ -3,175 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Comment System</title>
+  <title>Comment System with PapaParse & Google Forms</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <style>
-    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
-    #comments-container { border: 1px solid #ccc; padding: 10px; margin-top: 20px; }
-    .comment, .reply { border-bottom: 1px solid #eee; padding: 10px; margin: 10px; }
-    .reply { margin-left: 40px; }
-    form { display: flex; flex-direction: column; }
-    textarea { margin-bottom: 10px; padding: 8px; }
-    button { padding: 10px; cursor: pointer; }
-    a.home-link {
-      display: inline-block;
-      margin-bottom: 1rem;
-      color: #0b74de;
-      text-decoration: none;
-      font-weight: 600;
-      border: 1px solid #0b74de;
-      padding: 6px 14px;
-      border-radius: 6px;
-    }
-    a.home-link:hover {
-      background: #0b74de; color: white;
-    }
+    body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 20px; }
+    #comments { margin-top: 20px; }
+    .comment { border-bottom: 1px solid #ccc; padding: 10px 0; }
+    .comment strong { display: block; }
+    form { margin-top: 20px; }
+    textarea, input { width: 100%; padding: 8px; margin-bottom: 10px; }
+    button { padding: 10px 20px; cursor: pointer; }
   </style>
 </head>
 <body>
 
-  <a href="/" class="home-link">Home</a>
+  <h1>Comments</h1>
 
-  <h1>Comment System</h1>
+  <div id="comments">Loading comments...</div>
 
-  <form id="comment-form">
-    <label for="comment-text">Add a New Comment:</label>
-    <textarea id="comment-text" required></textarea>
-    <button type="submit">Post Comment</button>
+  <h2>Add a Comment</h2>
+  <form id="commentForm">
+    <input type="text" id="name" placeholder="Your Name" required />
+    <textarea id="comment" rows="4" placeholder="Your Comment" required></textarea>
+    <button type="submit">Submit</button>
   </form>
 
-  <div id="comments-container">
-    <h2>Existing Comments</h2>
-    <p>Loading comments...</p>
-  </div>
-
   <script>
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwvLVnEkJlPnLXVNfnFUF-F4BUPSxblLU-zpHaTw9Jbf_d-kaRquzbFTIuPHbb-Cz31/exec';
+    // Your published CSV URL from Google Sheets
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTo15M7UxDrr1tLffoEjYm63kouPlN5q9QdbfFHLmD7dbCYQVNFCI_btc4DtUbmovUUFQX223b0kYUU/pub?output=csv';
 
-    function generateId() {
-      return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    // Your Google Form POST URL
+    const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSd1jVyJslDvxeJ1tzSroNRkguJo_TqMclq9gS-VitXreRbLew/formResponse';
+
+    // Entry IDs for your form fields — replace these with your actual entry IDs from Google Form
+    const ENTRY_NAME = 'entry.1705102253';  // replace with your Name field entry ID
+    const ENTRY_COMMENT = 'entry.2053950670';  // replace with your Comment field entry ID
+
+    const commentsContainer = document.getElementById('comments');
+
+    function renderComments(data) {
+      if (!data || data.length === 0) {
+        commentsContainer.innerHTML = '<p>No comments yet.</p>';
+        return;
+      }
+      commentsContainer.innerHTML = '';
+      data.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.innerHTML = `<strong>${item.name || 'Anonymous'}</strong><p>${item.text || item.comment || ''}</p>`;
+        commentsContainer.appendChild(div);
+      });
     }
 
-    async function fetchComments() {
-      try {
-        const response = await fetch(WEB_APP_URL, { method: 'GET', mode: 'cors' });
-        const comments = await response.json();
-
-        const container = document.getElementById('comments-container');
-        container.innerHTML = '<h2>Existing Comments</h2>';
-
-        if (!Array.isArray(comments) || comments.length === 0) {
-          container.innerHTML += '<p>No comments yet. Be the first to post!</p>';
-          return;
+    function loadComments() {
+      Papa.parse(CSV_URL, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          // You may need to adjust field names depending on your sheet headers
+          const comments = results.data.map(row => ({
+            name: row['name'] || row['Name'] || 'Anonymous',
+            text: row['text'] || row['comment'] || row['Comment'] || ''
+          })).filter(c => c.text.trim() !== '');
+          renderComments(comments);
+        },
+        error: function(err) {
+          commentsContainer.innerHTML = '<p style="color:red;">Failed to load comments.</p>';
+          console.error('PapaParse error:', err);
         }
-
-        comments.forEach(comment => {
-          const commentEl = document.createElement('div');
-          commentEl.className = 'comment';
-          commentEl.innerHTML = `
-            <strong>Comment ID: ${comment.id}</strong><br>
-            <strong>${comment.name || 'Anonymous'}</strong>: ${comment.text}
-            <form class="reply-form" data-comment-id="${comment.id}">
-              <textarea class="reply-text" placeholder="Write a reply..." required></textarea>
-              <button type="submit">Reply</button>
-            </form>
-          `;
-          container.appendChild(commentEl);
-
-          if (comment.replies && comment.replies.length > 0) {
-            comment.replies.forEach(reply => {
-              const replyEl = document.createElement('div');
-              replyEl.className = 'reply';
-              replyEl.innerHTML = `<strong>${reply.name || 'Anonymous'}</strong>: ${reply.text}`;
-              commentEl.appendChild(replyEl);
-            });
-          }
-        });
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-        document.getElementById('comments-container').innerHTML = '<p style="color:red;">Error loading comments. Check console.</p>';
-      }
+      });
     }
 
-    document.getElementById('comment-form').addEventListener('submit', async event => {
-      event.preventDefault();
-      const commentText = document.getElementById('comment-text').value.trim();
-      if (!commentText) return;
+    document.getElementById('commentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-      const payload = {
-        action: 'addComment',
-        comment: {
-          id: generateId(),
-          name: 'Client User',
-          text: commentText,
-          ts: Date.now()
-        }
-      };
+      const name = document.getElementById('name').value.trim();
+      const comment = document.getElementById('comment').value.trim();
 
-      try {
-        const response = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          mode: 'cors'
-        });
-        const result = await response.json();
-
-        if (result.status === 'success') {
-          document.getElementById('comment-text').value = '';
-          fetchComments();
-        } else {
-          alert('Error sending comment: ' + result.message);
-          console.error(result.message);
-        }
-      } catch (error) {
-        alert('Error sending comment: ' + error.message);
-        console.error(error);
+      if (!comment) {
+        alert('Please enter a comment.');
+        return;
       }
+
+      // Prepare form data in URLSearchParams format for Google Form POST
+      const formData = new URLSearchParams();
+      formData.append(ENTRY_NAME, name);
+      formData.append(ENTRY_COMMENT, comment);
+
+      fetch(GOOGLE_FORM_ACTION, {
+        method: 'POST',
+        mode: 'no-cors',  // Google Forms does not allow CORS requests
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData.toString()
+      }).then(() => {
+        alert('Thank you for your comment!');
+        document.getElementById('name').value = '';
+        document.getElementById('comment').value = '';
+        loadComments();
+      }).catch(err => {
+        alert('Failed to submit comment.');
+        console.error(err);
+      });
     });
 
-    document.getElementById('comments-container').addEventListener('submit', async event => {
-      event.preventDefault();
-      const form = event.target;
-      if (!form.classList.contains('reply-form')) return;
-
-      const commentId = form.dataset.commentId;
-      const replyText = form.querySelector('.reply-text').value.trim();
-      if (!replyText) return;
-
-      const payload = {
-        action: 'addReply',
-        commentId,
-        reply: {
-          name: 'Replier',
-          text: replyText,
-          ts: Date.now()
-        }
-      };
-
-      try {
-        const response = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          mode: 'cors'
-        });
-        const result = await response.json();
-
-        if (result.status === 'success') {
-          form.querySelector('.reply-text').value = '';
-          fetchComments();
-        } else {
-          alert('Error sending reply: ' + result.message);
-          console.error(result.message);
-        }
-      } catch (error) {
-        alert('Error sending reply: ' + error.message);
-        console.error(error);
-      }
-    });
-
-    // Initial load
-    fetchComments();
+    // Load comments on page load
+    loadComments();
   </script>
 
 </body>
