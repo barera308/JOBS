@@ -3,85 +3,175 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Discussion Board</title>
+  <title>Comment System</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    form {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin-bottom: 0.3rem;
-      font-weight: 600;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 0.6rem;
+    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+    #comments-container { border: 1px solid #ccc; padding: 10px; margin-top: 20px; }
+    .comment, .reply { border-bottom: 1px solid #eee; padding: 10px; margin: 10px; }
+    .reply { margin-left: 40px; }
+    form { display: flex; flex-direction: column; }
+    textarea { margin-bottom: 10px; padding: 8px; }
+    button { padding: 10px; cursor: pointer; }
+    a.home-link {
+      display: inline-block;
       margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-family: inherit;
-      resize: vertical;
-    }
-    button {
-      background-color: #0b74de;
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      display: block;
-      margin: 0 auto;
-    }
-    button:hover {
-      background-color: #095bb5;
-    }
-    .powered-by {
-      text-align: center;
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      color: #666;
-    }
-    .powered-by a {
       color: #0b74de;
       text-decoration: none;
+      font-weight: 600;
+      border: 1px solid #0b74de;
+      padding: 6px 14px;
+      border-radius: 6px;
+    }
+    a.home-link:hover {
+      background: #0b74de; color: white;
     }
   </style>
 </head>
 <body>
 
-  <h1>Discussion Board</h1>
+  <a href="/" class="home-link">Home</a>
 
-  <form method="post" action="https://forms.un-static.com/forms/1afee09ae9944d06b1f9302a263148dc76673533">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" placeholder="Your name" required />
+  <h1>Comment System</h1>
 
-    <label for="comment">Comment:</label>
-    <textarea id="comment" name="comment" rows="5" placeholder="Write your comment here..." required></textarea>
-
+  <form id="comment-form">
+    <label for="comment-text">Add a New Comment:</label>
+    <textarea id="comment-text" required></textarea>
     <button type="submit">Post Comment</button>
   </form>
 
-  <div class="powered-by">
-    <small>(Powered by <a href="https://un-static.com" target="_blank" rel="nofollow noopener">Un-static Forms</a>)</small>
+  <div id="comments-container">
+    <h2>Existing Comments</h2>
+    <p>Loading comments...</p>
   </div>
+
+  <script>
+    // Your deployed Apps Script URL here:
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwNJEQIYtyJJdLdRYnfjVP4NvJK2DNCvZGr7H6geEjfg48DrinYY44erPxzlEImVkvD/exec';
+
+    // Generate a unique ID for comments
+    function generateId() {
+      return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    // Fetch and display comments
+    async function fetchComments() {
+      try {
+        const response = await fetch(WEB_APP_URL, { method: 'GET', mode: 'cors' });
+        const comments = await response.json();
+
+        const container = document.getElementById('comments-container');
+        container.innerHTML = '<h2>Existing Comments</h2>';
+
+        if (comments.length === 0) {
+          container.innerHTML += '<p>No comments yet. Be the first to post!</p>';
+        } else {
+          comments.forEach(comment => {
+            const commentEl = document.createElement('div');
+            commentEl.className = 'comment';
+            commentEl.innerHTML = `
+              <strong>Comment ID: ${comment.id}</strong><br>
+              <strong>${comment.name || 'Anonymous'}</strong>: ${comment.text}
+              <form class="reply-form" data-comment-id="${comment.id}">
+                <textarea class="reply-text" placeholder="Write a reply..." required></textarea>
+                <button type="submit">Reply</button>
+              </form>
+            `;
+            container.appendChild(commentEl);
+
+            // Render replies
+            if (comment.replies && comment.replies.length > 0) {
+              comment.replies.forEach(reply => {
+                const replyEl = document.createElement('div');
+                replyEl.className = 'reply';
+                replyEl.innerHTML = `<strong>${reply.name || 'Anonymous'}</strong>: ${reply.text}`;
+                commentEl.appendChild(replyEl);
+              });
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+        document.getElementById('comments-container').innerHTML = '<p style="color:red;">Error loading comments. Check console.</p>';
+      }
+    }
+
+    // Submit new comment - using URL-encoded form data to avoid preflight
+    document.getElementById('comment-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const commentText = document.getElementById('comment-text').value;
+
+      const data = new URLSearchParams();
+      data.append('action', 'addComment');
+      data.append('comment', JSON.stringify({
+        id: generateId(),
+        name: 'Client User',
+        text: commentText,
+        ts: Date.now()
+      }));
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: data.toString(),
+          mode: 'cors'
+        });
+        const result = await response.json();
+        if(result.status === 'success') {
+          document.getElementById('comment-text').value = '';
+          fetchComments();
+        } else {
+          alert('Error sending comment: ' + result.message);
+          console.error(result.message);
+        }
+      } catch (error) {
+        alert('Error sending comment');
+        console.error(error);
+      }
+    });
+
+    // Submit replies - same URL-encoded method
+    document.getElementById('comments-container').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const form = event.target;
+      if (form.classList.contains('reply-form')) {
+        const commentId = form.dataset.commentId;
+        const replyText = form.querySelector('.reply-text').value;
+
+        const data = new URLSearchParams();
+        data.append('action', 'addReply');
+        data.append('commentId', commentId);
+        data.append('reply', JSON.stringify({
+          name: 'Replier',
+          text: replyText,
+          ts: Date.now()
+        }));
+
+        try {
+          const response = await fetch(WEB_APP_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: data.toString(),
+            mode: 'cors'
+          });
+          const result = await response.json();
+          if(result.status === 'success') {
+            form.querySelector('.reply-text').value = '';
+            fetchComments();
+          } else {
+            alert('Error sending reply: ' + result.message);
+            console.error(result.message);
+          }
+        } catch (error) {
+          alert('Error sending reply');
+          console.error(error);
+        }
+      }
+    });
+
+    // Initial load
+    fetchComments();
+  </script>
 
 </body>
 </html>
