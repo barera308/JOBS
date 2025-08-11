@@ -45,15 +45,12 @@
   </div>
 
   <script>
-    // Your deployed Apps Script URL here:
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwvLVnEkJlPnLXVNfnFUF-F4BUPSxblLU-zpHaTw9Jbf_d-kaRquzbFTIuPHbb-Cz31/exec';
 
-    // Generate a unique ID for comments
     function generateId() {
       return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
 
-    // Fetch and display comments
     async function fetchComments() {
       try {
         const response = await fetch(WEB_APP_URL, { method: 'GET', mode: 'cors' });
@@ -78,7 +75,6 @@
             `;
             container.appendChild(commentEl);
 
-            // Render replies
             if (comment.replies && comment.replies.length > 0) {
               comment.replies.forEach(reply => {
                 const replyEl = document.createElement('div');
@@ -95,25 +91,25 @@
       }
     }
 
-    // Submit new comment - using URL-encoded form data to avoid preflight
     document.getElementById('comment-form').addEventListener('submit', async (event) => {
       event.preventDefault();
       const commentText = document.getElementById('comment-text').value;
 
-      const data = new URLSearchParams();
-      data.append('action', 'addComment');
-      data.append('comment', JSON.stringify({
-        id: generateId(),
-        name: 'Client User',
-        text: commentText,
-        ts: Date.now()
-      }));
+      const data = {
+        action: 'addComment',
+        comment: {
+          id: generateId(),
+          name: 'Client User',
+          text: commentText,
+          ts: Date.now()
+        }
+      };
 
       try {
         const response = await fetch(WEB_APP_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: data.toString(),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
           mode: 'cors'
         });
         const result = await response.json();
@@ -130,7 +126,6 @@
       }
     });
 
-    // Submit replies - same URL-encoded method
     document.getElementById('comments-container').addEventListener('submit', async (event) => {
       event.preventDefault();
       const form = event.target;
@@ -138,20 +133,21 @@
         const commentId = form.dataset.commentId;
         const replyText = form.querySelector('.reply-text').value;
 
-        const data = new URLSearchParams();
-        data.append('action', 'addReply');
-        data.append('commentId', commentId);
-        data.append('reply', JSON.stringify({
-          name: 'Replier',
-          text: replyText,
-          ts: Date.now()
-        }));
+        const data = {
+          action: 'addReply',
+          commentId: commentId,
+          reply: {
+            name: 'Replier',
+            text: replyText,
+            ts: Date.now()
+          }
+        };
 
         try {
           const response = await fetch(WEB_APP_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: data.toString(),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
             mode: 'cors'
           });
           const result = await response.json();
@@ -169,12 +165,8 @@
       }
     });
 
-    // Initial load
     fetchComments();
   </script>
 
 </body>
 </html>
-
-
-
