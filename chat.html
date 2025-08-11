@@ -59,43 +59,45 @@
         const container = document.getElementById('comments-container');
         container.innerHTML = '<h2>Existing Comments</h2>';
 
-        if (comments.length === 0) {
+        if (!Array.isArray(comments) || comments.length === 0) {
           container.innerHTML += '<p>No comments yet. Be the first to post!</p>';
-        } else {
-          comments.forEach(comment => {
-            const commentEl = document.createElement('div');
-            commentEl.className = 'comment';
-            commentEl.innerHTML = `
-              <strong>Comment ID: ${comment.id}</strong><br>
-              <strong>${comment.name || 'Anonymous'}</strong>: ${comment.text}
-              <form class="reply-form" data-comment-id="${comment.id}">
-                <textarea class="reply-text" placeholder="Write a reply..." required></textarea>
-                <button type="submit">Reply</button>
-              </form>
-            `;
-            container.appendChild(commentEl);
-
-            if (comment.replies && comment.replies.length > 0) {
-              comment.replies.forEach(reply => {
-                const replyEl = document.createElement('div');
-                replyEl.className = 'reply';
-                replyEl.innerHTML = `<strong>${reply.name || 'Anonymous'}</strong>: ${reply.text}`;
-                commentEl.appendChild(replyEl);
-              });
-            }
-          });
+          return;
         }
+
+        comments.forEach(comment => {
+          const commentEl = document.createElement('div');
+          commentEl.className = 'comment';
+          commentEl.innerHTML = `
+            <strong>Comment ID: ${comment.id}</strong><br>
+            <strong>${comment.name || 'Anonymous'}</strong>: ${comment.text}
+            <form class="reply-form" data-comment-id="${comment.id}">
+              <textarea class="reply-text" placeholder="Write a reply..." required></textarea>
+              <button type="submit">Reply</button>
+            </form>
+          `;
+          container.appendChild(commentEl);
+
+          if (comment.replies && comment.replies.length > 0) {
+            comment.replies.forEach(reply => {
+              const replyEl = document.createElement('div');
+              replyEl.className = 'reply';
+              replyEl.innerHTML = `<strong>${reply.name || 'Anonymous'}</strong>: ${reply.text}`;
+              commentEl.appendChild(replyEl);
+            });
+          }
+        });
       } catch (error) {
         console.error('Error fetching comments:', error);
         document.getElementById('comments-container').innerHTML = '<p style="color:red;">Error loading comments. Check console.</p>';
       }
     }
 
-    document.getElementById('comment-form').addEventListener('submit', async (event) => {
+    document.getElementById('comment-form').addEventListener('submit', async event => {
       event.preventDefault();
-      const commentText = document.getElementById('comment-text').value;
+      const commentText = document.getElementById('comment-text').value.trim();
+      if (!commentText) return;
 
-      const data = {
+      const payload = {
         action: 'addComment',
         comment: {
           id: generateId(),
@@ -109,11 +111,12 @@
         const response = await fetch(WEB_APP_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
           mode: 'cors'
         });
         const result = await response.json();
-        if(result.status === 'success') {
+
+        if (result.status === 'success') {
           document.getElementById('comment-text').value = '';
           fetchComments();
         } else {
@@ -121,50 +124,53 @@
           console.error(result.message);
         }
       } catch (error) {
-        alert('Error sending comment');
+        alert('Error sending comment: ' + error.message);
         console.error(error);
       }
     });
 
-    document.getElementById('comments-container').addEventListener('submit', async (event) => {
+    document.getElementById('comments-container').addEventListener('submit', async event => {
       event.preventDefault();
       const form = event.target;
-      if (form.classList.contains('reply-form')) {
-        const commentId = form.dataset.commentId;
-        const replyText = form.querySelector('.reply-text').value;
+      if (!form.classList.contains('reply-form')) return;
 
-        const data = {
-          action: 'addReply',
-          commentId: commentId,
-          reply: {
-            name: 'Replier',
-            text: replyText,
-            ts: Date.now()
-          }
-        };
+      const commentId = form.dataset.commentId;
+      const replyText = form.querySelector('.reply-text').value.trim();
+      if (!replyText) return;
 
-        try {
-          const response = await fetch(WEB_APP_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-            mode: 'cors'
-          });
-          const result = await response.json();
-          if(result.status === 'success') {
-            form.querySelector('.reply-text').value = '';
-            fetchComments();
-          } else {
-            alert('Error sending reply: ' + result.message);
-            console.error(result.message);
-          }
-        } catch (error) {
-          alert('Error sending reply');
-          console.error(error);
+      const payload = {
+        action: 'addReply',
+        commentId,
+        reply: {
+          name: 'Replier',
+          text: replyText,
+          ts: Date.now()
         }
+      };
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          mode: 'cors'
+        });
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          form.querySelector('.reply-text').value = '';
+          fetchComments();
+        } else {
+          alert('Error sending reply: ' + result.message);
+          console.error(result.message);
+        }
+      } catch (error) {
+        alert('Error sending reply: ' + error.message);
+        console.error(error);
       }
     });
 
+    // Initial load
     fetchComments();
   </script>
 
