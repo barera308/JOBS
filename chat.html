@@ -1,159 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Comment System</title>
   <style>
-    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
-    #comments-container { border: 1px solid #ccc; padding: 10px; margin-top: 20px; }
-    .comment, .reply { border-bottom: 1px solid #eee; padding: 10px; margin: 10px; }
-    .reply { margin-left: 40px; }
-    form { display: flex; flex-direction: column; }
-    input, textarea { margin-bottom: 10px; padding: 8px; }
-    button { padding: 10px; cursor: pointer; }
+    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; padding: 1rem; background: #f9f9f9; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    a.home-link {
+      text-decoration: none;
+      color: #0b74de;
+      border: 1px solid #0b74de;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.3s, color 0.3s;
+    }
+    a.home-link:hover {
+      background: #0b74de;
+      color: white;
+    }
+    h1 { margin: 0; font-size: 1.5rem; }
+    form { background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+    input[type="text"], textarea {
+      width: 100%; padding: 8px; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-family: inherit;
+      resize: vertical;
+    }
+    button {
+      background: #0b74de; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 1rem;
+    }
+    button:disabled {
+      background: #999; cursor: not-allowed;
+    }
+    .comment {
+      background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .comment .name {
+      font-weight: 700; color: #0b74de;
+    }
+    .comment .time {
+      font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;
+    }
+    .comment .text {
+      white-space: pre-wrap;
+    }
+    #commentsContainer {
+      min-height: 100px;
+    }
   </style>
 </head>
 <body>
 
+<header>
   <h1>Comment System</h1>
+  <a href="/" class="home-link" title="Go to Home Page">Home</a>
+</header>
 
-  <form id="comment-form">
-    <label for="comment-text">Add a New Comment:</label>
-    <textarea id="comment-text" required></textarea>
-    <button type="submit">Post Comment</button>
-  </form>
+<form id="commentForm">
+  <input type="text" id="nameInput" placeholder="Your name" maxlength="50" />
+  <textarea id="textInput" placeholder="Write your comment here..." rows="4" maxlength="500" required></textarea>
+  <button type="submit">Post Comment</button>
+</form>
 
-  <div id="comments-container">
-    <h2>Existing Comments</h2>
-    <p>Loading comments...</p>
-  </div>
+<div id="commentsContainer">Loading comments...</div>
 
-  <script>
-    // IMPORTANT: Replace this with your actual deployed Apps Script URL
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwNJEQIYtyJJdLdRYnfjVP4NvJK2DNCvZGr7H6geEjfg48DrinYY44erPxzlEImVkvD/exec';
+<script>
+  const endpoint = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
 
-    // A helper function to generate a unique ID for each comment
-    function generateId() {
-      return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function formatTimestamp(ts) {
+    const date = new Date(ts);
+    if (isNaN(date)) return '';
+    return date.toLocaleString();
+  }
+
+  async function fetchComments() {
+    try {
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error('Network error');
+
+      const data = await res.json();
+      const container = document.getElementById('commentsContainer');
+      if (!Array.isArray(data) || data.length === 0) {
+        container.textContent = 'No comments yet. Be the first to comment!';
+        return;
+      }
+
+      container.innerHTML = '';
+      data.forEach(comment => {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.innerHTML = `
+          <div class="name">${escapeHtml(comment.name || 'Anonymous')}</div>
+          <div class="time">${formatTimestamp(comment.ts)}</div>
+          <div class="text">${escapeHtml(comment.text)}</div>
+        `;
+        container.appendChild(div);
+      });
+    } catch (error) {
+      document.getElementById('commentsContainer').textContent = 'Failed to load comments.';
+      console.error('Error fetching comments:', error);
+    }
+  }
+
+  function generateId() {
+    return 'c' + Math.random().toString(36).substr(2, 9);
+  }
+
+  document.getElementById('commentForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('nameInput').value.trim() || 'Anonymous';
+    const text = document.getElementById('textInput').value.trim();
+
+    if (!text) {
+      alert('Comment cannot be empty');
+      return;
     }
 
-    // Function to fetch and display comments
-    async function fetchComments() {
-      try {
-        const response = await fetch(WEB_APP_URL, {
-          method: 'GET',
-          mode: 'cors'
-        });
-        const comments = await response.json();
-        
-        const commentsContainer = document.getElementById('comments-container');
-        commentsContainer.innerHTML = '<h2>Existing Comments</h2>'; // Clear existing comments
+    const comment = {
+      id: generateId(),
+      name,
+      text,
+      ts: Date.now(),
+      replies: []
+    };
 
-        if (comments.length === 0) {
-          commentsContainer.innerHTML += '<p>No comments yet. Be the first to post!</p>';
-        } else {
-          comments.forEach(comment => {
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment';
-            commentElement.innerHTML = `
-              <strong>Comment ID: ${comment.id}</strong><br>
-              <strong>${comment.name || 'Anonymous'}</strong>: ${comment.text}
-              <form class="reply-form" data-comment-id="${comment.id}">
-                <textarea class="reply-text" placeholder="Write a reply..." required></textarea>
-                <button type="submit">Reply</button>
-              </form>
-            `;
-            commentsContainer.appendChild(commentElement);
+    try {
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.disabled = true;
+      btn.textContent = 'Posting...';
 
-            // Display replies
-            if (comment.replies && comment.replies.length > 0) {
-              comment.replies.forEach(reply => {
-                const replyElement = document.createElement('div');
-                replyElement.className = 'reply';
-                replyElement.innerHTML = `
-                  <strong>${reply.name || 'Anonymous'}</strong>: ${reply.text}
-                `;
-                commentElement.appendChild(replyElement);
-              });
-            }
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-        document.getElementById('comments-container').innerHTML = '<p style="color:red;">Error loading comments. Please check the console.</p>';
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'addComment', comment }),
+        mode: 'cors'
+      });
+
+      const result = await res.json();
+
+      if (result.status === 'success') {
+        document.getElementById('textInput').value = '';
+        document.getElementById('nameInput').value = '';
+        fetchComments();
+      } else {
+        alert('Failed to post comment: ' + (result.message || 'Unknown error'));
       }
+    } catch (error) {
+      alert('Failed to send data. Please try again.');
+      console.error('Post comment error:', error);
+    } finally {
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.disabled = false;
+      btn.textContent = 'Post Comment';
     }
+  });
 
-    // Event listener for the new comment form
-    document.getElementById('comment-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const commentText = document.getElementById('comment-text').value;
-
-      const data = {
-        action: 'addComment',
-        comment: {
-          id: generateId(),
-          name: 'Client User',
-          text: commentText,
-          ts: Date.now()
-        }
-      };
-      
-      await sendData(data);
-      document.getElementById('comment-text').value = '';
-      fetchComments(); // Refresh comments after posting
-    });
-    
-    // Event listener for all reply forms (using event delegation)
-    document.getElementById('comments-container').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const form = event.target;
-      if (form.classList.contains('reply-form')) {
-        const commentId = form.dataset.commentId;
-        const replyText = form.querySelector('.reply-text').value;
-
-        const data = {
-          action: 'addReply',
-          commentId: commentId,
-          reply: {
-            name: 'Replier',
-            text: replyText,
-            ts: Date.now()
-          }
-        };
-
-        await sendData(data);
-        form.querySelector('.reply-text').value = '';
-        fetchComments(); // Refresh comments after posting
-      }
-    });
-
-    // Function to send data via a POST request
-    async function sendData(data) {
-      try {
-        const response = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-        const result = await response.json();
-        console.log(result);
-        if (result.status === 'error') {
-          console.error('Server error:', result.message);
-        }
-      } catch (error) {
-        console.error('Error sending data:', error);
-      }
-    }
-
-    // Initial fetch of comments when the page loads
-    fetchComments();
-  </script>
+  // Initial fetch
+  fetchComments();
+</script>
 
 </body>
 </html>
-
