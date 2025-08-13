@@ -167,8 +167,8 @@ jobList.innerHTML = currentJobs.map(job => `
     <p>${job.description}</p>
 
     <!-- Unified buttons -->
-    <a href="${job.link}" target="_blank" rel="noopener" class="btn btn-primary">View Details</a>
-    ${job.originalAd ? `<a href="${job.originalAd}" target="_blank" rel="noopener" class="btn btn-primary">View Original Ad</a>` : ''}
+<a href="${job.link}" target="_blank" rel="noopener" class="btn btn-primary">View Details</a>
+${job.originalAd ? `<a href="${job.originalAd}" target="_blank" rel="noopener" class="btn btn-primary">View Original Ad</a>` : ''}
     <button class="btn btn-success" onclick="toggleShareMenu(this)">Share</button>
 
     <div class="share-menu">
@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
 
 </body>
 </html>
+
 
 
 
