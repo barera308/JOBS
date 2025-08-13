@@ -119,14 +119,15 @@ main {
   color: #fff;           /* White text */
   margin: 5px 5px 0 0;   /* spacing between buttons */
 }
-
 /* Blue buttons: View Details & Original Ad */
 .btn-primary {
   background-color: #007BFF;
+  color: #fff !important;  /* ensure white text */
 }
 
 .btn-primary:hover {
   background-color: #0056b3;
+  color: #fff !important;  /* ensure white text on hover */
 }
 
 /* Green button: Share */
