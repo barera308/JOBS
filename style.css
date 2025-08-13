@@ -112,16 +112,20 @@ main {
   border: none;
   transition: background-color 0.3s ease, color 0.3s ease;
   margin: 5px 5px 0 0;
+  color: #fff !important; /* Force white text */
 }
 
 /* Blue buttons: View Details & Original Ad */
 .btn-primary {
   background-color: #007BFF !important;
+  color: #fff !important;          /* Ensure text always visible */
 }
 
 .btn-primary:hover {
   background-color: #0056b3 !important;
+  color: #fff !important;
 }
+
 /* Green button: Share */
 .btn-success {
   background-color: #28a745 !important;
@@ -131,6 +135,14 @@ main {
 .btn-success:hover {
   background-color: #218838 !important;
   color: #fff !important;           /* Always white text on hover */
+}
+
+/* Disabled button (for missing originalAd) */
+.btn.disabled {
+  background-color: #6c757d !important; /* Gray background */
+  cursor: not-allowed;
+  pointer-events: none;
+  color: #fff !important;
 }
 
 /* Share Menu */
