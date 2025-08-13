@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shataplu Web - Sliding Stone</title>
+<style>
+  body { margin: 0; background: #5a3e1b; overflow: hidden; }
+  #hud {
+    position: absolute;
+    top: 10px; left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+  }
+  button {
+    margin-top: 10px;
+    font-size: 18px;
+    padding: 6px 12px;
+  }
+</style>
+</head>
+<body>
+<div id="hud">
+  <div id="lives"></div>
+  <div id="score"></div>
+  <div id="message"></div>
+  <button id="restart" style="display:none">Restart Game</button>
+</div>
+<canvas id="gameCanvas"></canvas>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let w = canvas.width, h = canvas.height;
+
+// --- Game Settings ---
+const boxSize = Math.min(w / 6, 120);
+const boxGap = 10;
+const bottomOffset = 80;
+
+const gridLayout = [[1],[2],[3,4],[5],[6,7],[8]];
+
+let startX = w/2;
+let startY = h - 50;
+let stone = { x:startX, y:startY, vx:0, vy:0, angle:0, visible:false, moving:false };
+let trail = [];
+let particles = [];
+
+let currentTargetBox=1, lives=3, score=0, gameOver=false;
+let gameMessage=`Throw the stone at box ${currentTargetBox}`;
+
+let dragStart=null, dragCurrent=null, isDragging=false, canDrag=false;
+
+const hudLives=document.getElementById('lives');
+const hudScore=document.getElementById('score');
+const hudMessage=document.getElementById('message');
+const restartBtn=document.getElementById('restart');
+function updateHUD(){
+    hudLives.textContent=`Lives: ${lives}`;
+    hudScore.textContent=`Score: ${score}`;
+    hudMessage.textContent=gameMessage;
+    restartBtn.style.display=gameOver?'block':'none';
+}
+restartBtn.onclick=resetGame;
+
+function resetGame(){
+    currentTargetBox=1; lives=3; score=0; gameOver=false;
+    stone.x=startX; stone.y=startY; stone.visible=false; stone.angle=0; stone.moving=false;
+    trail=[]; particles=[];
+    gameMessage=`Throw the stone at box ${currentTargetBox}`;
+    updateHUD();
+}
+
+function getPos(e){
+    if(e.touches && e.touches.length>0) return {x:e.touches[0].clientX,y:e.touches[0].clientY};
+    return {x:e.clientX,y:e.clientY};
+}
+function isOnStone(pos){
+    let dx=pos.x-stone.x, dy=pos.y-stone.y;
+    return Math.sqrt(dx*dx+dy*dy)<=30;
+}
+function startDrag(e){
+    if(gameOver || stone.moving) return;
+    let pos=getPos(e);
+    if(isOnStone(pos)){ canDrag=true; isDragging=true; dragStart=pos; dragCurrent={...pos}; }
+}
+function moveDrag(e){
+    if(isDragging) dragCurrent=getPos(e);
+}
+function endDrag(e){
+    if(!isDragging) return;
+    isDragging=false;
+    if(canDrag){ canDrag=false; throwStone(dragStart,dragCurrent); }
+}
+
+canvas.addEventListener('mousedown', startDrag);
+canvas.addEventListener('mousemove', moveDrag);
+canvas.addEventListener('mouseup', endDrag);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); startDrag(e); }, { passive:false });
+canvas.addEventListener('touchmove', e => { e.preventDefault(); moveDrag(e); }, { passive:false });
+canvas.addEventListener('touchend', e => { e.preventDefault(); endDrag(e); }, { passive:false });
+
+// --- Physics-based Throw ---
+function throwStone(start, end) {
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const distance = Math.hypot(dx, dy);
+
+    if (distance < 30) {
+        loseLife("Too weak!");
+        updateHUD();
+        return;
+    }
+
+    let speed = Math.min(distance / 8, 25); // Cap speed
+    let angle = Math.atan2(dy, dx);
+
+    stone.vx = Math.cos(angle) * speed;
+    stone.vy = Math.sin(angle) * speed;
+    stone.visible = true;
+    stone.moving = true;
+    trail = [];
+}
+
+// --- Landing Check ---
+function checkLanding(x,y){
+    let hitBox=getBoxFromPoint(x,y);
+    if(hitBox===currentTargetBox){
+        score+=10;
+        let [bx,by]=getBoxCenter(hitBox);
+        impactEffect(bx,by);
+        if(currentTargetBox===gridLayout.flat().length){
+            gameMessage=`Congrats! Completed all boxes! Final Score: ${score}`;
+            gameOver=true;
+        } else {
+            gameMessage=`Great! Throw at box ${++currentTargetBox}`;
+        }
+    } else if(hitBox!==null){
+        loseLife(`Missed! Landed in box ${hitBox}`);
+    } else {
+        let nearestBox=getNearestBox(x,y);
+        loseLife(`Missed! Landed outside, nearest box ${nearestBox}`);
+    }
+    updateHUD();
+}
+function loseLife(msg){
+    lives--;
+    gameMessage = lives<=0?`${msg} Game Over. Final Score: ${score}`:`${msg} Lives: ${lives}`;
+    if(lives<=0) gameOver=true;
+}
+
+// --- Box Helpers ---
+function getBoxCenter(boxNumber){
+    let centerX=w/2;
+    let yOffset=h-boxSize-bottomOffset;
+    let num=1;
+    for(let row of gridLayout){
+        let startX=centerX-(row.length*boxSize)/2;
+        for(let i=0;i<row.length;i++){
+            if(num===boxNumber) return [startX+i*boxSize+boxSize/2,yOffset+boxSize/2];
+            num++;
+        }
+        yOffset-=boxSize+boxGap;
+    }
+    return [0,0];
+}
+function getBoxFromPoint(x,y){
+    let centerX=w/2;
+    let yOffset=h-boxSize-bottomOffset;
+    let num=1;
+    for(let row of gridLayout){
+        let startX=centerX-(row.length*boxSize)/2;
+        for(let i=0;i<row.length;i++){
+            let bx=startX+i*boxSize, by=yOffset;
+            if(x>=bx && x<=bx+boxSize && y>=by && y<=by+boxSize) return num;
+            num++;
+        }
+        yOffset-=boxSize+boxGap;
+    }
+    return null;
+}
+function getNearestBox(x,y){
+    let minDist=Infinity, nearest=1;
+    for(let i=1;i<=gridLayout.flat().length;i++){
+        let [bx,by]=getBoxCenter(i);
+        let d=Math.hypot(x-bx,y-by);
+        if(d<minDist){minDist=d; nearest=i;}
+    }
+    return nearest;
+}
+
+// --- Effects ---
+function impactEffect(x,y){
+    for(let i=0;i<12;i++){
+        let angle=i*(Math.PI*2/12) + (Math.random()-0.5)*0.2;
+        let speed=5+Math.random()*5;
+        particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,alpha:1});
+    }
+}
+
+// --- Drawing ---
+function drawBoxes(){
+    let centerX=w/2;
+    let yOffset=h-boxSize-bottomOffset;
+    let num=1;
+    for(let row of gridLayout){
+        let startX=centerX-(row.length*boxSize)/2;
+        for(let i=0;i<row.length;i++){
+            let x=startX+i*boxSize, y=yOffset;
+            ctx.strokeStyle=(num===currentTargetBox&&!gameOver)?"blue":"gray";
+            ctx.lineWidth=3; ctx.strokeRect(x,y,boxSize,boxSize);
+            ctx.fillStyle="black"; ctx.font=`30px Arial`; ctx.textAlign="center";
+            ctx.fillText(num,x+boxSize/2,y+boxSize/2+10);
+            num++;
+        }
+        yOffset-=boxSize+boxGap;
+    }
+}
+
+// --- Main Loop ---
+function loop(){
+    ctx.clearRect(0,0,w,h);
+    drawBoxes();
+
+    // Trail
+    ctx.fillStyle="rgba(255,0,0,0.5)";
+    trail.forEach(t=>{
+        ctx.beginPath(); ctx.arc(t.x,t.y,6,0,Math.PI*2); ctx.fill();
+    });
+
+    // Stone
+    ctx.save();
+    ctx.translate(stone.x,stone.y);
+    ctx.rotate(stone.angle*Math.PI/180);
+    ctx.fillStyle=stone.visible?"red":"green";
+    ctx.beginPath(); ctx.arc(0,0,20,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    // Particles
+    for(let i=particles.length-1;i>=0;i--){
+        let p=particles[i];
+        p.x+=p.vx; p.y+=p.vy; p.alpha-=0.02;
+        if(p.alpha<=0) particles.splice(i,1);
+        else {
+            ctx.fillStyle=`rgba(255,255,0,${p.alpha})`;
+            ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill();
+        }
+    }
+
+    // Drag line
+    if(isDragging){
+        ctx.strokeStyle="yellow"; ctx.lineWidth=4;
+        ctx.beginPath(); ctx.moveTo(dragStart.x,dragStart.y);
+        ctx.lineTo(dragCurrent.x,dragCurrent.y); ctx.stroke();
+    }
+
+    // Physics Update
+    if(stone.moving){
+        stone.x += stone.vx;
+        stone.y += stone.vy;
+        stone.angle += 20;
+        trail.push({ x: stone.x, y: stone.y });
+        if (trail.length > 10) trail.shift();
+
+        // Bounce from walls
+        if(stone.x <= 20 || stone.x >= w-20){
+            stone.vx *= -0.8; // reverse & lose some speed
+            stone.x = Math.max(20, Math.min(stone.x, w-20));
+        }
+        if(stone.y <= 20){
+            stone.vy *= -0.8;
+            stone.y = 20;
+        }
+
+        // Apply friction
+        stone.vx *= 0.98;
+        stone.vy *= 0.98;
+
+        // Stop if very slow
+        if(Math.hypot(stone.vx, stone.vy) < 0.5){
+            stone.moving = false;
+            const nearest = getNearestBox(stone.x, stone.y);
+            const [nx, ny] = getBoxCenter(nearest);
+            stone.x = nx;
+            stone.y = ny;
+            checkLanding(stone.x, stone.y);
+
+            setTimeout(() => {
+                stone.x = startX;
+                stone.y = startY;
+                stone.visible = false;
+                stone.angle = 0;
+                trail = [];
+            }, 600);
+        }
+    }
+
+    requestAnimationFrame(loop);
+}
+
+updateHUD();
+loop();
+</script>
+</body>
+</html>
