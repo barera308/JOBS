@@ -41,7 +41,7 @@ canvas.height = window.innerHeight;
 let w = canvas.width, h = canvas.height;
 
 // --- Game Settings ---
-const boxSize = Math.min(w / 6, 120);
+const boxSize = 120;           // Smaller size for all boxes to fit
 const boxGap = 10;
 const bottomOffset = 80;
 
@@ -49,11 +49,11 @@ const gridLayout = [[1],[2],[3,4],[5],[6,7],[8]];
 
 let startX = w/2;
 let startY = h - 50;
-let stone = { x:startX, y:startY, vx:0, vy:0, angle:0, visible:false, moving:false };
+let stone = { x:startX, y:startY, vx:0, vy:0, angle:0, visible:false };
 let trail = [];
 let particles = [];
 
-let currentTargetBox=1, lives=3, score=0, gameOver=false;
+let currentTargetBox=1, lives=5, score=0, gameOver=false;
 let gameMessage=`Throw the stone at box ${currentTargetBox}`;
 
 let dragStart=null, dragCurrent=null, isDragging=false, canDrag=false;
@@ -71,8 +71,8 @@ function updateHUD(){
 restartBtn.onclick=resetGame;
 
 function resetGame(){
-    currentTargetBox=1; lives=3; score=0; gameOver=false;
-    stone.x=startX; stone.y=startY; stone.visible=false; stone.angle=0; stone.moving=false;
+    currentTargetBox=1; lives=5; score=0; gameOver=false;
+    stone.x=startX; stone.y=startY; stone.visible=false; stone.angle=0;
     trail=[]; particles=[];
     gameMessage=`Throw the stone at box ${currentTargetBox}`;
     updateHUD();
@@ -87,7 +87,7 @@ function isOnStone(pos){
     return Math.sqrt(dx*dx+dy*dy)<=30;
 }
 function startDrag(e){
-    if(gameOver || stone.moving) return;
+    if(gameOver) return;
     let pos=getPos(e);
     if(isOnStone(pos)){ canDrag=true; isDragging=true; dragStart=pos; dragCurrent={...pos}; }
 }
@@ -103,11 +103,11 @@ function endDrag(e){
 canvas.addEventListener('mousedown', startDrag);
 canvas.addEventListener('mousemove', moveDrag);
 canvas.addEventListener('mouseup', endDrag);
-canvas.addEventListener('touchstart', e => { e.preventDefault(); startDrag(e); }, { passive:false });
-canvas.addEventListener('touchmove', e => { e.preventDefault(); moveDrag(e); }, { passive:false });
-canvas.addEventListener('touchend', e => { e.preventDefault(); endDrag(e); }, { passive:false });
+canvas.addEventListener('touchstart', startDrag);
+canvas.addEventListener('touchmove', moveDrag);
+canvas.addEventListener('touchend', endDrag);
 
-// --- Physics-based Throw ---
+// --- Sliding Stone ---
 function throwStone(start, end) {
     const dx = end.x - start.x;
     const dy = end.y - start.y;
@@ -115,18 +115,44 @@ function throwStone(start, end) {
 
     if (distance < 30) {
         loseLife("Too weak!");
-        updateHUD();
         return;
     }
 
-    let speed = Math.min(distance / 8, 25); // Cap speed
-    let angle = Math.atan2(dy, dx);
-
-    stone.vx = Math.cos(angle) * speed;
-    stone.vy = Math.sin(angle) * speed;
     stone.visible = true;
-    stone.moving = true;
     trail = [];
+
+    const duration = 0.6;
+    const steps = 60 * duration;
+    let step = 0;
+
+    const vx = dx / steps;
+    const vy = dy / steps;
+
+    let anim = setInterval(() => {
+        stone.x += vx;
+        stone.y += vy;
+        stone.angle += 20;
+        trail.push({ x: stone.x, y: stone.y });
+        if (trail.length > 10) trail.shift();
+
+        step++;
+        if (step >= steps) {
+            clearInterval(anim);
+            const nearest = getNearestBox(stone.x, stone.y);
+            const [nx, ny] = getBoxCenter(nearest);
+            stone.x = nx;
+            stone.y = ny;
+            checkLanding(stone.x, stone.y);
+
+            setTimeout(() => {
+                stone.x = startX;
+                stone.y = startY;
+                stone.visible = false;
+                stone.angle = 0;
+                trail = [];
+            }, 600);
+        }
+    }, 1000 / 60);
 }
 
 // --- Landing Check ---
@@ -199,9 +225,8 @@ function getNearestBox(x,y){
 // --- Effects ---
 function impactEffect(x,y){
     for(let i=0;i<12;i++){
-        let angle=i*(Math.PI*2/12) + (Math.random()-0.5)*0.2;
-        let speed=5+Math.random()*5;
-        particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,alpha:1});
+        let angle=i*(Math.PI*2/12);
+        particles.push({x,y,vx:Math.cos(angle)*10,vy:Math.sin(angle)*10,alpha:1});
     }
 }
 
@@ -229,13 +254,11 @@ function loop(){
     ctx.clearRect(0,0,w,h);
     drawBoxes();
 
-    // Trail
     ctx.fillStyle="rgba(255,0,0,0.5)";
     trail.forEach(t=>{
         ctx.beginPath(); ctx.arc(t.x,t.y,6,0,Math.PI*2); ctx.fill();
     });
 
-    // Stone
     ctx.save();
     ctx.translate(stone.x,stone.y);
     ctx.rotate(stone.angle*Math.PI/180);
@@ -243,7 +266,6 @@ function loop(){
     ctx.beginPath(); ctx.arc(0,0,20,0,Math.PI*2); ctx.fill();
     ctx.restore();
 
-    // Particles
     for(let i=particles.length-1;i>=0;i--){
         let p=particles[i];
         p.x+=p.vx; p.y+=p.vy; p.alpha-=0.02;
@@ -254,52 +276,10 @@ function loop(){
         }
     }
 
-    // Drag line
     if(isDragging){
         ctx.strokeStyle="yellow"; ctx.lineWidth=4;
         ctx.beginPath(); ctx.moveTo(dragStart.x,dragStart.y);
         ctx.lineTo(dragCurrent.x,dragCurrent.y); ctx.stroke();
-    }
-
-    // Physics Update
-    if(stone.moving){
-        stone.x += stone.vx;
-        stone.y += stone.vy;
-        stone.angle += 20;
-        trail.push({ x: stone.x, y: stone.y });
-        if (trail.length > 10) trail.shift();
-
-        // Bounce from walls
-        if(stone.x <= 20 || stone.x >= w-20){
-            stone.vx *= -0.8; // reverse & lose some speed
-            stone.x = Math.max(20, Math.min(stone.x, w-20));
-        }
-        if(stone.y <= 20){
-            stone.vy *= -0.8;
-            stone.y = 20;
-        }
-
-        // Apply friction
-        stone.vx *= 0.98;
-        stone.vy *= 0.98;
-
-        // Stop if very slow
-        if(Math.hypot(stone.vx, stone.vy) < 0.5){
-            stone.moving = false;
-            const nearest = getNearestBox(stone.x, stone.y);
-            const [nx, ny] = getBoxCenter(nearest);
-            stone.x = nx;
-            stone.y = ny;
-            checkLanding(stone.x, stone.y);
-
-            setTimeout(() => {
-                stone.x = startX;
-                stone.y = startY;
-                stone.visible = false;
-                stone.angle = 0;
-                trail = [];
-            }, 600);
-        }
     }
 
     requestAnimationFrame(loop);
