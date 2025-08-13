@@ -97,12 +97,7 @@ main {
 
 .job a {
   text-decoration: none;
-  color: #007bff;
   font-weight: 500;
-}
-
-.job a:hover {
-  text-decoration: underline;
 }
 
 /* --- Unified Button Styles --- */
@@ -116,27 +111,29 @@ main {
   cursor: pointer;
   border: none;
   transition: background-color 0.3s ease, color 0.3s ease;
-  color: #fff;           /* White text */
-  margin: 5px 5px 0 0;   /* spacing between buttons */
+  margin: 5px 5px 0 0;
 }
+
 /* Blue buttons: View Details & Original Ad */
 .btn-primary {
-  background-color: #007BFF;
-  color: #fff !important;  /* ensure white text */
+  background-color: #007BFF !important;
+  color: #fff !important;           /* Always white text */
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
-  color: #fff !important;  /* ensure white text on hover */
+  background-color: #0056b3 !important;
+  color: #fff !important;           /* Always white text on hover */
 }
 
 /* Green button: Share */
 .btn-success {
-  background-color: #28a745;
+  background-color: #28a745 !important;
+  color: #fff !important;           /* Always white text */
 }
 
 .btn-success:hover {
-  background-color: #218838;
+  background-color: #218838 !important;
+  color: #fff !important;           /* Always white text on hover */
 }
 
 /* Share Menu */
