@@ -255,3 +255,21 @@ footer {
   background-color: #0056b3;
   outline: none;
 }
+.original-ad-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #007BFF;
+  color: #fff !important;          /* Force white text */
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.original-ad-btn:hover {
+  background: #0056b3;
+  color: #fff !important;
+}
