@@ -117,13 +117,11 @@ main {
 /* Blue buttons: View Details & Original Ad */
 .btn-primary {
   background-color: #007BFF !important;
-
 }
 
 .btn-primary:hover {
   background-color: #0056b3 !important;
 }
-
 /* Green button: Share */
 .btn-success {
   background-color: #28a745 !important;
