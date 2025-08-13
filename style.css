@@ -106,7 +106,6 @@ main {
 }
 
 /* --- Unified Button Styles --- */
-/* Unified Button Styles */
 .btn {
   display: inline-block;
   padding: 8px 16px;
@@ -118,36 +117,25 @@ main {
   border: none;
   transition: background-color 0.3s ease, color 0.3s ease;
   color: #fff;           /* White text */
-  background-color: #007BFF;  /* Blue background */
   margin: 5px 5px 0 0;   /* spacing between buttons */
 }
 
-.btn:hover {
-  background-color: #0056b3;  /* Darker blue on hover */
-}
-
+/* Blue buttons: View Details & Original Ad */
 .btn-primary {
-  background-color: #007BFF !important;
+  background-color: #007BFF;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3 !important;
+  background-color: #0056b3;
 }
 
+/* Green button: Share */
 .btn-success {
-  background-color: #28a745 !important;
+  background-color: #28a745;
 }
 
 .btn-success:hover {
-  background-color: #218838 !important;
-}
-
-.btn-secondary {
-  background-color: #007BFF !important;
-}
-
-.btn-secondary:hover {
-  background-color: #0056b3 !important;
+  background-color: #218838;
 }
 
 /* Share Menu */
