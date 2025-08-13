@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
-     crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="style.css"/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
+ crossorigin="anonymous"></script>
+<link rel="stylesheet" href="style.css"/>
 <title>Job Discussion Forum</title>
 <style>
   body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+  header nav a { margin-right: 10px; text-decoration: none; color: #007bff; }
   form { background: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
   input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; }
   button { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; }
@@ -16,10 +17,14 @@
   .discussion-box { background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
   .discussion-box strong { color: #007bff; }
   .timestamp { font-size: 0.8em; color: #555; }
+  .reply-form { margin-top: 10px; margin-left: 20px; }
+  .reply-button { margin-top: 5px; font-size: 0.9em; cursor: pointer; color: #007bff; background: none; border: none; }
+  .reply-button:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
-    <header>
+
+<header>
   <nav>
     <a href="index.html">Home</a> |
     <a href="about.html">About Us</a> |
@@ -31,6 +36,7 @@
   </nav>
   <h1>Job Advertisements</h1>
 </header>
+
 <h2>Job Discussion Forum</h2>
 
 <form id="discussionForm">
@@ -44,41 +50,91 @@
 <div id="discussionList"></div>
 
 <script>
-  const webAppUrl = "https://script.google.com/macros/s/AKfycbyXigj1eROgPerwyJNYG1iYJBLCs0wVrby40ya0zVNi_HMy0Ki5RCN7DlE-LcuIKxC2vg/exec"; // replace with your deployed Apps Script URL
-  const form = document.getElementById("discussionForm");
-  const discussionDiv = document.getElementById("discussionList");
+const webAppUrl = "https://script.google.com/macros/s/AKfycbyXigj1eROgPerwyJNYG1iYJBLCs0wVrby40ya0zVNi_HMy0Ki5RCN7DlE-LcuIKxC2vg/exec";
+const form = document.getElementById("discussionForm");
+const discussionDiv = document.getElementById("discussionList");
+
+// Submit main comment
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  fetch(webAppUrl, { method: "POST", body: new FormData(form) })
+    .then(res => res.text())
+    .then(response => {
+      alert(response);
+      form.reset();
+      loadDiscussions();
+    });
+});
+
+// Load all discussions
+function loadDiscussions() {
+  fetch(webAppUrl)
+    .then(res => res.json())
+    .then(data => {
+      discussionDiv.innerHTML = "";
+      data.reverse().forEach(item => {
+        if (!item.parentRow) {
+          const div = createCommentDiv(item, data);
+          discussionDiv.appendChild(div);
+        }
+      });
+    });
+}
+
+// Create comment div with replies
+function createCommentDiv(item, allData, level=0) {
+  const div = document.createElement("div");
+  div.classList.add("discussion-box");
+  div.style.marginLeft = `${level*20}px`;
+  div.innerHTML = `<strong>${item.name}</strong>` +
+                  (item.job ? ` (Looking for: <em>${item.job}</em>)` : '') +
+                  `: ${item.comment}` +
+                  `<div class="timestamp">${item.timestamp}</div>` +
+                  `<button class="reply-button" onclick="showReplyForm(this, ${item.row})">Reply</button>` +
+                  `<div class="replies"></div>`;
+  
+  // Add child replies
+  const repliesDiv = div.querySelector(".replies");
+  allData.forEach(reply => {
+    if (reply.parentRow == item.row) {
+      const childDiv = createCommentDiv(reply, allData, level+1);
+      repliesDiv.appendChild(childDiv);
+    }
+  });
+
+  return div;
+}
+
+// Show reply form
+function showReplyForm(button, parentRow) {
+  if (button.nextElementSibling && button.nextElementSibling.tagName === "FORM") return;
+
+  const form = document.createElement("form");
+  form.classList.add("reply-form");
+  form.innerHTML = `
+    <input type="text" name="name" placeholder="Your Name" required>
+    <textarea name="comment" placeholder="Your Reply" required></textarea>
+    <button type="submit">Submit Reply</button>
+  `;
+  button.insertAdjacentElement("afterend", form);
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
-    fetch(webAppUrl, { method: "POST", body: new FormData(form) })
+    const formData = new FormData(form);
+    formData.append("parentRow", parentRow);
+    fetch(webAppUrl, { method: "POST", body: formData })
       .then(res => res.text())
       .then(response => {
         alert(response);
-        form.reset();
+        form.remove();
         loadDiscussions();
       });
   });
+}
 
-  function loadDiscussions() {
-    fetch(webAppUrl)
-      .then(res => res.json())
-      .then(data => {
-        discussionDiv.innerHTML = "";
-        data.reverse().forEach(item => { // newest first
-          const div = document.createElement("div");
-          div.classList.add("discussion-box");
-          div.innerHTML = `<strong>${item.name}</strong>` +
-                          (item.job ? ` (Looking for: <em>${item.job}</em>)` : '') +
-                          `: ${item.comment}` +
-                          `<div class="timestamp">${item.timestamp}</div>`;
-          discussionDiv.appendChild(div);
-        });
-      });
-  }
-
-  loadDiscussions(); // initial load
+// Initial load
+loadDiscussions();
 </script>
 
 </body>
 </html>
-
