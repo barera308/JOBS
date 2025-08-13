@@ -159,25 +159,27 @@ function renderJobs() {
   const end = start + jobsPerPage;
   const currentJobs = filteredJobs.slice(start, end);
 
-  jobList.innerHTML = currentJobs.map(job => `
-    <div class="job" data-deadline="${job.deadline}">
-      <h3><a href="${job.link}" target="_blank" rel="noopener">${job.title}</a></h3>
-      <p><strong>Location:</strong> ${job.location}</p>
-      <p><strong>Deadline:</strong> ${formatDeadline(job.deadline)}</p>
-      <p>${job.description}</p>
-      <a href="${job.link}" target="_blank" rel="noopener" class="apply-btn">View Details</a>
-      ${job.originalAd ? `<a href="${job.originalAd}" target="_blank" rel="noopener" class="original-ad-btn">View Original Ad</a>` : ''}
-      <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
-      <div class="share-menu" style="display:none;">
-        <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
-        <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
-        <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
-        <a href="#" onclick="shareByEmail(event, this)">Email</a> |
-        <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
-      </div>
-    </div>
-  `).join('');
+jobList.innerHTML = currentJobs.map(job => `
+  <div class="job" data-deadline="${job.deadline}">
+    <h3><a href="${job.link}" target="_blank" rel="noopener">${job.title}</a></h3>
+    <p><strong>Location:</strong> ${job.location}</p>
+    <p><strong>Deadline:</strong> ${formatDeadline(job.deadline)}</p>
+    <p>${job.description}</p>
 
+    <!-- Unified buttons -->
+    <a href="${job.link}" target="_blank" rel="noopener" class="btn btn-success">View Details</a>
+    ${job.originalAd ? `<a href="${job.originalAd}" target="_blank" rel="noopener" class="btn btn-primary">View Original Ad</a>` : ''}
+    <button class="btn btn-secondary" onclick="toggleShareMenu(this)">Share</button>
+
+    <div class="share-menu">
+      <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
+      <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
+      <a href="#" onclick="shareOnLinkedIn(event, this)">LinkedIn</a> |
+      <a href="#" onclick="shareByEmail(event, this)">Email</a> |
+      <a href="#" onclick="shareOnWhatsApp(event, this)">WhatsApp</a>
+    </div>
+  </div>
+`).join('');
   document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
 }
 
@@ -228,5 +230,6 @@ document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
 
 </body>
 </html>
+
 
 
