@@ -10,6 +10,22 @@
      crossorigin="anonymous"></script>
   <link rel="canonical" href="https://www.jobadvertisments.com.pk/" />
   <link rel="stylesheet" href="style.css"/>
+  <style>
+    .original-ad-btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: #007BFF;
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .original-ad-btn:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 <body>
 
@@ -65,7 +81,7 @@
     <label for="sort-select">Sort by:</label>
     <select id="sort-select" onchange="renderJobs()">
       <option value="soonest">Oldest Deadline</option>
-  <option value="latest" selected>Latest Deadline</option>
+      <option value="latest" selected>Latest Deadline</option>
     </select>
 
     <div id="job-list">Loading jobs...</div>
@@ -129,7 +145,8 @@ async function loadJobsFromSheet() {
       location: row.c[1]?.v || '',
       deadline: row.c[2]?.v || '',
       link: row.c[3]?.v || '#',
-      description: row.c[4]?.v || ''
+      description: row.c[4]?.v || '',
+      originalAd: row.c[5]?.v || '' // URL of original job advertisement
     }));
     renderJobs();
   } catch (error) {
@@ -165,6 +182,7 @@ function renderJobs() {
       <p><strong>Deadline:</strong> ${formatDeadline(job.deadline)}</p>
       <p>${job.description}</p>
       <a href="${job.link}" target="_blank" rel="noopener" class="apply-btn">View Details</a>
+      ${job.originalAd ? `<a href="${job.originalAd}" target="_blank" rel="noopener" class="original-ad-btn">View Original Ad</a>` : ''}
       <button class="share-btn" onclick="toggleShareMenu(this)">Share</button>
       <div class="share-menu" style="display:none;">
         <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
@@ -226,9 +244,3 @@ document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
 
 </body>
 </html>
-
-
-
-
-
-
