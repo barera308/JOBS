@@ -1,126 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css"/>
-  <title>Comment System with PapaParse & Google Forms</title>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <style>
-    body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 20px; }
-    #comments { margin-top: 20px; }
-    .comment { border-bottom: 1px solid #ccc; padding: 10px 0; }
-    .comment strong { display: block; }
-    form { margin-top: 20px; }
-    textarea, input { width: 100%; padding: 8px; margin-bottom: 10px; }
-    button { padding: 10px 20px; cursor: pointer; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Discussion Forum</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+  form { background: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+  input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; }
+  button { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; }
+  button:hover { background: #218838; cursor: pointer; }
+  .discussion-box { background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+  .discussion-box strong { color: #007bff; }
+  .timestamp { font-size: 0.8em; color: #555; }
+</style>
 </head>
 <body>
-  <header>
-    <nav>
-    <a href="index.html">Home</a> |
-    <a href="about.html">About Us</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="disclaimer.html">Disclaimer</a> |
-    <a href="terms.html">Terms & Conditions</a>
-    </nav>
-  <h1>Comments</h1>
 
-  <div id="comments">Loading comments...</div>
+<h2>Job Discussion Forum</h2>
 
-  <h2>Add a Comment</h2>
-  <form id="commentForm">
-    <input type="text" id="name" placeholder="Your Name" required />
-    <textarea id="comment" rows="4" placeholder="Your Comment" required></textarea>
-    <button type="submit">Submit</button>
-  </form>
+<form id="discussionForm">
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="text" name="job" placeholder="Job You Are Looking For (optional)">
+  <textarea name="comment" placeholder="Your Comment" required></textarea>
+  <button type="submit">Submit</button>
+</form>
 
-  <script>
-    // Your published CSV URL from Google Sheets
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTo15M7UxDrr1tLffoEjYm63kouPlN5q9QdbfFHLmD7dbCYQVNFCI_btc4DtUbmovUUFQX223b0kYUU/pub?output=csv';
+<h3>All Discussions</h3>
+<div id="discussionList"></div>
 
-    // Your Google Form POST URL
-    const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSd1jVyJslDvxeJ1tzSroNRkguJo_TqMclq9gS-VitXreRbLew/formResponse';
+<script>
+  const webAppUrl = "https://script.google.com/macros/s/AKfycbyXigj1eROgPerwyJNYG1iYJBLCs0wVrby40ya0zVNi_HMy0Ki5RCN7DlE-LcuIKxC2vg/exec"; // replace with your deployed Apps Script URL
+  const form = document.getElementById("discussionForm");
+  const discussionDiv = document.getElementById("discussionList");
 
-    // Entry IDs for your form fields — replace these with your actual entry IDs from Google Form
-    const ENTRY_NAME = 'entry.1705102253';  // replace with your Name field entry ID
-    const ENTRY_COMMENT = 'entry.2053950670';  // replace with your Comment field entry ID
-
-    const commentsContainer = document.getElementById('comments');
-
-    function renderComments(data) {
-      if (!data || data.length === 0) {
-        commentsContainer.innerHTML = '<p>No comments yet.</p>';
-        return;
-      }
-      commentsContainer.innerHTML = '';
-      data.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'comment';
-        div.innerHTML = `<strong>${item.name || 'Anonymous'}</strong><p>${item.text || item.comment || ''}</p>`;
-        commentsContainer.appendChild(div);
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    fetch(webAppUrl, { method: "POST", body: new FormData(form) })
+      .then(res => res.text())
+      .then(response => {
+        alert(response);
+        form.reset();
+        loadDiscussions();
       });
-    }
+  });
 
-    function loadComments() {
-      Papa.parse(CSV_URL, {
-        download: true,
-        header: true,
-        complete: function(results) {
-          // You may need to adjust field names depending on your sheet headers
-          const comments = results.data.map(row => ({
-            name: row['name'] || row['Name'] || 'Anonymous',
-            text: row['text'] || row['comment'] || row['Comment'] || ''
-          })).filter(c => c.text.trim() !== '');
-          renderComments(comments);
-        },
-        error: function(err) {
-          commentsContainer.innerHTML = '<p style="color:red;">Failed to load comments.</p>';
-          console.error('PapaParse error:', err);
-        }
+  function loadDiscussions() {
+    fetch(webAppUrl)
+      .then(res => res.json())
+      .then(data => {
+        discussionDiv.innerHTML = "";
+        data.reverse().forEach(item => { // newest first
+          const div = document.createElement("div");
+          div.classList.add("discussion-box");
+          div.innerHTML = `<strong>${item.name}</strong>` +
+                          (item.job ? ` (Looking for: <em>${item.job}</em>)` : '') +
+                          `: ${item.comment}` +
+                          `<div class="timestamp">${item.timestamp}</div>`;
+          discussionDiv.appendChild(div);
+        });
       });
-    }
+  }
 
-    document.getElementById('commentForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value.trim();
-      const comment = document.getElementById('comment').value.trim();
-
-      if (!comment) {
-        alert('Please enter a comment.');
-        return;
-      }
-
-      // Prepare form data in URLSearchParams format for Google Form POST
-      const formData = new URLSearchParams();
-      formData.append(ENTRY_NAME, name);
-      formData.append(ENTRY_COMMENT, comment);
-
-      fetch(GOOGLE_FORM_ACTION, {
-        method: 'POST',
-        mode: 'no-cors',  // Google Forms does not allow CORS requests
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: formData.toString()
-      }).then(() => {
-        alert('Thank you for your comment!');
-        document.getElementById('name').value = '';
-        document.getElementById('comment').value = '';
-        loadComments();
-      }).catch(err => {
-        alert('Failed to submit comment.');
-        console.error(err);
-      });
-    });
-
-    // Load comments on page load
-    loadComments();
-  </script>
+  loadDiscussions(); // initial load
+</script>
 
 </body>
 </html>
-
-
