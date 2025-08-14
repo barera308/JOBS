@@ -6,19 +6,37 @@
      crossorigin="anonymous"></script>
 <title>Shataplu Web - Sliding Stone</title>
 <style>
-  body { margin: 0; background: #5a3e1b; overflow: hidden; }
+  body {
+    margin: 0;
+    background: #5a3e1b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* full screen */
+    overflow: hidden;
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
   #hud {
     position: absolute;
-    top: 10px; left: 50%;
+    top: 10px; 
+    left: 50%;
     transform: translateX(-50%);
     color: white;
     font-family: sans-serif;
     text-align: center;
+    z-index: 10;
   }
   button {
     margin-top: 10px;
     font-size: 18px;
     padding: 6px 12px;
+  }
+  #gameCanvas {
+    border: 4px solid white;   /* visible border */
+    background: #3d2a12;       /* darker inside */
+    max-width: 100vw;
+    max-height: 100vh;
   }
 </style>
 </head>
@@ -34,21 +52,33 @@
 <script>
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
-let w = canvas.width, h = canvas.height;
+let w, h;
+
+// --- Responsive Resize ---
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  w = canvas.width;
+  h = canvas.height;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
 // --- Game Settings ---
-const boxSize = Math.min(w / 6, 120);
-const boxGap = 10;
-const bottomOffset = 80;
-
+let boxSize, boxGap = 10, bottomOffset = 80;
 const gridLayout = [[1],[2],[3,4],[5],[6,7],[8]];
 
-let startX = w/2;
-let startY = h - 50;
-let stone = { x:startX, y:startY, vx:0, vy:0, angle:0, visible:false, moving:false };
+function updateBoxSize() {
+  boxSize = Math.min(w / 6, 120);
+}
+updateBoxSize();
+window.addEventListener("resize", updateBoxSize);
+
+let startX = () => w/2;
+let startY = () => h - 50;
+
+let stone = { x:startX(), y:startY(), vx:0, vy:0, angle:0, visible:false, moving:false };
 let trail = [];
 let particles = [];
 
@@ -61,6 +91,7 @@ const hudLives=document.getElementById('lives');
 const hudScore=document.getElementById('score');
 const hudMessage=document.getElementById('message');
 const restartBtn=document.getElementById('restart');
+
 function updateHUD(){
     hudLives.textContent=`Lives: ${lives}`;
     hudScore.textContent=`Score: ${score}`;
@@ -71,7 +102,7 @@ restartBtn.onclick=resetGame;
 
 function resetGame(){
     currentTargetBox=1; lives=3; score=0; gameOver=false;
-    stone.x=startX; stone.y=startY; stone.visible=false; stone.angle=0; stone.moving=false;
+    stone.x=startX(); stone.y=startY(); stone.visible=false; stone.angle=0; stone.moving=false;
     trail=[]; particles=[];
     gameMessage=`Throw the stone at box ${currentTargetBox}`;
     updateHUD();
@@ -83,7 +114,8 @@ function getPos(e){
 }
 function isOnStone(pos){
     let dx=pos.x-stone.x, dy=pos.y-stone.y;
-    return Math.sqrt(dx*dx+dy*dy)<=30;
+    // larger touch radius for mobile
+    return Math.sqrt(dx*dx+dy*dy) <= (w < 800 ? 50 : 30);
 }
 function startDrag(e){
     if(gameOver || stone.moving) return;
@@ -112,9 +144,15 @@ function throwStone(start, end) {
     const dy = end.y - start.y;
     const distance = Math.hypot(dx, dy);
 
+    // Too weak → animate gently into box 1
     if (distance < 30) {
-        loseLife("Too weak!");
-        updateHUD();
+        let [bx, by] = getBoxCenter(1);
+        stone.vx = (bx - stone.x) / 40;
+        stone.vy = (by - stone.y) / 40;
+        stone.visible = true;
+        stone.moving = true;
+        stone.snapTarget = 1;
+        trail = [];
         return;
     }
 
@@ -125,6 +163,7 @@ function throwStone(start, end) {
     stone.vy = Math.sin(angle) * speed;
     stone.visible = true;
     stone.moving = true;
+    stone.snapTarget = null;
     trail = [];
 }
 
@@ -226,6 +265,12 @@ function drawBoxes(){
 // --- Main Loop ---
 function loop(){
     ctx.clearRect(0,0,w,h);
+
+    // Draw border (inside canvas too)
+    ctx.strokeStyle="white";
+    ctx.lineWidth=4;
+    ctx.strokeRect(0,0,w,h);
+
     drawBoxes();
 
     // Trail
@@ -268,36 +313,49 @@ function loop(){
         trail.push({ x: stone.x, y: stone.y });
         if (trail.length > 10) trail.shift();
 
-        // Bounce from walls
-        if(stone.x <= 20 || stone.x >= w-20){
-            stone.vx *= -0.8; // reverse & lose some speed
-            stone.x = Math.max(20, Math.min(stone.x, w-20));
-        }
-        if(stone.y <= 20){
-            stone.vy *= -0.8;
-            stone.y = 20;
-        }
+        if(stone.snapTarget === 1){
+            let [bx, by] = getBoxCenter(1);
+            if(Math.hypot(stone.x-bx, stone.y-by) < 5){
+                stone.x = bx;
+                stone.y = by;
+                stone.moving = false;
+                stone.snapTarget = null;
+                checkLanding(stone.x, stone.y);
+                setTimeout(() => {
+                    stone.x = startX();
+                    stone.y = startY();
+                    stone.visible = false;
+                    stone.angle = 0;
+                    trail = [];
+                }, 600);
+            }
+        } else {
+            if(stone.x <= 20 || stone.x >= w-20){
+                stone.vx *= -0.8; 
+                stone.x = Math.max(20, Math.min(stone.x, w-20));
+            }
+            if(stone.y <= 20){
+                stone.vy *= -0.8;
+                stone.y = 20;
+            }
+            stone.vx *= 0.98;
+            stone.vy *= 0.98;
 
-        // Apply friction
-        stone.vx *= 0.98;
-        stone.vy *= 0.98;
-
-        // Stop if very slow
-        if(Math.hypot(stone.vx, stone.vy) < 0.5){
-            stone.moving = false;
-            const nearest = getNearestBox(stone.x, stone.y);
-            const [nx, ny] = getBoxCenter(nearest);
-            stone.x = nx;
-            stone.y = ny;
-            checkLanding(stone.x, stone.y);
-
-            setTimeout(() => {
-                stone.x = startX;
-                stone.y = startY;
-                stone.visible = false;
-                stone.angle = 0;
-                trail = [];
-            }, 600);
+            if(Math.hypot(stone.vx, stone.vy) < 0.5){
+                stone.moving = false;
+                const nearest = getNearestBox(stone.x, stone.y);
+                const [nx, ny] = getBoxCenter(nearest);
+                stone.x = nx;
+                stone.y = ny;
+                checkLanding(stone.x, stone.y);
+                setTimeout(() => {
+                    stone.x = startX();
+                    stone.y = startY();
+                    stone.visible = false;
+                    stone.angle = 0;
+                    trail = [];
+                }, 600);
+            }
         }
     }
 
