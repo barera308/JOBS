@@ -13,28 +13,6 @@
 </head>
 <body>
 
-<!-- Amazon Banner -->
-<div id="amazon-banner" style="
-  background-color: #ff9900;
-  color: white;
-  text-align: center;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  position: relative;
-">
-  <a href="game.html" target="_blank" style="color: white; text-decoration: none;">
-    🔥 Limited Deal: try this amazing game and win!!!
-  </a>
-  <span onclick="document.getElementById('amazon-banner').style.display='none';" style="
-    position: absolute;
-    right: 15px;
-    top: 5px;
-    font-size: 20px;
-    cursor: pointer;
-  ">&times;</span>
-</div>
-
 <header>
   <nav>
     <a href="index.html">Home</a> |
@@ -43,7 +21,6 @@
     <a href="privacy.html">Privacy Policy</a> |
     <a href="disclaimer.html">Disclaimer</a> |
     <a href="terms.html">Terms & Conditions</a> |
-    <a href="game.html">Game</a> |
     <a href="contact.html">Contact Us</a>
   </nav>
   <h1>Job Advertisements</h1>
@@ -130,8 +107,8 @@ async function loadJobsFromSheet() {
       location: row.c[1]?.v || '',
       deadline: row.c[2]?.v || '',
       link: row.c[3]?.v || '#',
-      description: row.c[4]?.v || '',
-      originalAd: row.c[5]?.v || ''
+      description: row.c[4]?.v || ''
+      // Removed originalAd completely
     }));
     renderJobs();
   } catch (error) {
@@ -178,7 +155,7 @@ function renderJobs() {
       <p>${job.description}</p>
 
       <a href="${job.link}" target="_blank" rel="noopener" class="btn btn-primary">View Details</a>
-      ${job.originalAd ? `<a href="${job.originalAd}" target="_blank" rel="noopener" class="btn btn-primary">View Original Ad</a>` : ''}
+
       <button class="btn btn-success" onclick="toggleShareMenu(this)">Share</button>
 
       <div class="share-menu">
