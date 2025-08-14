@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Shataplu – Dual Layout PC & Mobile</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288" crossorigin="anonymous"></script>
 <style>
 :root { --border-width: 4px; }
 html, body { height:100%; margin:0; font-family: Arial,sans-serif; background:#5a3e1b; overflow:hidden; }
@@ -25,10 +26,17 @@ body { display:flex; justify-content:center; align-items:center; }
     font-size: clamp(28px,3vw,48px); color: yellow; text-shadow:2px 2px 6px black;
     pointer-events:none; display:none;
 }
+.back-home {
+    position:absolute; top:10px; left:20px; z-index:1000;
+    color:white; font-size:16px; text-decoration:underline;
+}
 </style>
 </head>
 <body>
 <div class="game-wrap">
+    <!-- Back to Home Link -->
+    <a href="index.html" class="back-home">&larr; Back to Home</a>
+
     <canvas id="gameCanvas"></canvas>
     <div id="hudWindow">
         <div id="hudRow">
@@ -112,7 +120,7 @@ function computeLayout(){
         bottomOffset = 120;
         startX = w/2;
         const [bx,by] = getBoxCenter(1);
-        startCircleY = by + boxSize + 5; // separate circle below box1
+        startCircleY = by + boxSize; 
         startY = startCircleY;
     }
     boxGap = Math.max(8, Math.min(12, boxSize*0.12));
@@ -133,17 +141,16 @@ function getBoxCenter(boxNum){
 }
 function getBoxFromPoint(x,y){
     let centerX=w/2,yOffset=h-boxSize-bottomOffset,num=1;
-    const margin = boxSize*0.2; // stricter landing margin
     for(let row of gridLayout){
         const startXRow=centerX-(row.length*boxSize)/2;
         for(let i=0;i<row.length;i++){
-            let bx=startXRow+i*boxSize, by=yOffset;
-            if(x>=bx+margin && x<=bx+boxSize-margin && y>=by+margin && y<=by+boxSize-margin) return num;
+            let bx=startXRow+i*boxSize,by=yOffset;
+            if(x>bx && x<bx+boxSize && y>by && y<by+boxSize) return num; // strict inside box
             num++;
         }
         yOffset -= boxSize+boxGap;
     }
-    return null; // outside all boxes
+    return null;
 }
 function getNearestBox(x,y){
     let minDist=Infinity,nearest=1;
@@ -183,16 +190,15 @@ canvas.addEventListener('touchcancel', e=>{e.preventDefault(); endDrag(e);},{pas
 function throwStone(start,end){
     let dx=end.x-start.x, dy=end.y-start.y;
     const distance=Math.hypot(dx,dy);
-    if(distance<20){ // reduce minimum threshold
-        stone.vx=0; stone.vy=0; stone.visible=true; stone.moving=false;
-        stone.x=startX; stone.y=startY; trail=[]; return;
-    }
-    // reduce initial speed for first box
-    let speed = Math.min(distance/8,25);
-    if(currentTargetBox === 1) speed = Math.min(distance/12,12);
+    if(distance<10){ stone.vx=0; stone.vy=0; stone.visible=true; stone.moving=false; stone.x=startX; stone.y=startY; trail=[]; return; }
+    const maxSpeed = 15; // limit force
+    const speed=Math.min(distance/8, maxSpeed);
     const angle=Math.atan2(dy,dx);
-    stone.vx=Math.cos(angle)*speed; stone.vy=Math.sin(angle)*speed;
-    stone.visible=true; stone.moving=true; trail=[];
+    stone.vx=Math.cos(angle)*speed; 
+    stone.vy=Math.sin(angle)*speed;
+    stone.visible=true; 
+    stone.moving=true; 
+    trail=[];
 }
 function constrainStone(){
     const margin=Math.max(20,boxSize*0.16);
@@ -200,25 +206,15 @@ function constrainStone(){
     stone.y=Math.min(Math.max(stone.y,margin),h-margin);
 }
 function checkLanding(x,y){
-    const hitBox = getBoxFromPoint(x,y);
-    if(hitBox === currentTargetBox){
-        score += 10;
-        const [bx,by] = getBoxCenter(hitBox);
-        impactEffect(bx,by);
-        if(currentTargetBox === gridLayout.flat().length){
-            gameMessage = `Congrats! Completed all boxes! Final Score: ${score}`;
-            gameOver = true;
-            showEndMessage(gameMessage);
-        } else {
-            currentTargetBox++;
-            gameMessage = `Great! Throw at box ${currentTargetBox}`;
-        }
-    } else if(hitBox !== null) {
-        loseLife(`Missed! Landed in box ${hitBox}`);
-    } else {
-        const nearest = getNearestBox(x,y);
-        loseLife(`Missed! Landed outside, nearest box ${nearest}`);
-    }
+    const hitBox=getBoxFromPoint(x,y);
+    if(hitBox===currentTargetBox){
+        score+=10; const [bx,by]=getBoxCenter(hitBox); impactEffect(bx,by);
+        if(currentTargetBox===gridLayout.flat().length){
+            gameMessage=`Congrats! Completed all boxes! Final Score: ${score}`;
+            gameOver=true; showEndMessage(gameMessage);
+        }else{ currentTargetBox++; gameMessage=`Great! Throw at box ${currentTargetBox}`; }
+    }else if(hitBox!==null){ loseLife(`Missed! Landed in box ${hitBox}`); }
+    else{ loseLife(`Missed! Landed outside`); }
     updateHUD();
 }
 function loseLife(msg){ lives--; gameMessage=lives<=0?`${msg} Game Over. Final Score: ${score}`:`${msg} Lives: ${lives}`; if(lives<=0){ gameOver=true; showEndMessage(gameMessage); } }
@@ -240,7 +236,6 @@ function drawBoxes(){
         }
         yOffset -= boxSize+boxGap;
     }
-    // Draw start circle for PC
     if(!isMobile){ ctx.beginPath(); ctx.arc(startX,startCircleY,Math.max(16,boxSize*0.18),0,Math.PI*2); ctx.fillStyle="green"; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="white"; ctx.stroke(); }
 }
 
@@ -248,7 +243,6 @@ function drawBoxes(){
 function loop(){
     ctx.clearRect(0,0,w,h);
     ctx.strokeStyle="white"; ctx.lineWidth=2; ctx.strokeRect(2,2,w-4,h-4);
-
     drawBoxes();
 
     ctx.fillStyle="rgba(255,0,0,0.5)";
@@ -272,7 +266,14 @@ function loop(){
         stone.x+=stone.vx; stone.y+=stone.vy; stone.angle+=20; trail.push({x:stone.x,y:stone.y}); if(trail.length>10) trail.shift();
         constrainStone();
         stone.vx*=0.98; stone.vy*=0.98;
-        if(Math.hypot(stone.vx,stone.vy)<0.5){ stone.moving=false; const nearest=getNearestBox(stone.x,stone.y); const [nx,ny]=getBoxCenter(nearest); stone.x=nx; stone.y=ny; checkLanding(stone.x,stone.y); setTimeout(()=>{stone.x=startX; stone.y=startY; stone.visible=false; stone.angle=0; trail=[];},600); }
+        if(Math.hypot(stone.vx,stone.vy)<0.5){ 
+            stone.moving=false; 
+            const nearest=getNearestBox(stone.x,stone.y); 
+            const [nx,ny]=getBoxCenter(nearest); 
+            stone.x=nx; stone.y=ny; 
+            checkLanding(stone.x,stone.y); 
+            setTimeout(()=>{stone.x=startX; stone.y=startY; stone.visible=false; stone.angle=0; trail=[];},600); 
+        }
     }
 
     requestAnimationFrame(loop);
