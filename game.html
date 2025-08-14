@@ -1,369 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
-     crossorigin="anonymous"></script>
-<title>Shataplu Web - Sliding Stone</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Shataplu – Dual Layout PC & Mobile</title>
 <style>
-  body {
-    margin: 0;
-    background: #5a3e1b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;  /* full screen */
-    overflow: hidden;
-    touch-action: none;
-    overscroll-behavior: contain;
-  }
-  #hud {
-    position: absolute;
-    top: 10px; 
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-family: sans-serif;
-    text-align: center;
-    z-index: 10;
-  }
-  button {
-    margin-top: 10px;
-    font-size: 18px;
-    padding: 6px 12px;
-  }
-  #gameCanvas {
-    border: 4px solid white;   /* visible border */
-    background: #3d2a12;       /* darker inside */
-    max-width: 100vw;
-    max-height: 100vh;
-  }
+:root { --border-width: 4px; }
+html, body { height:100%; margin:0; font-family: Arial,sans-serif; background:#5a3e1b; overflow:hidden; }
+body { display:flex; justify-content:center; align-items:center; }
+.game-wrap { position:relative; display:flex; justify-content:center; align-items:center; }
+#gameCanvas { display:block; background:#3d2a12; border:var(--border-width) solid white; }
+#hudWindow {
+    position:absolute; top:20px; right:20px; background:rgba(0,0,0,0.75);
+    padding:15px 20px; border-radius:12px; color:white; text-align:center;
+    font-size: clamp(16px,2vw,28px); z-index:1000; pointer-events:auto;
+}
+#hudRow { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; margin-bottom:10px; }
+#restart {
+    font-size: clamp(16px,1.8vw,24px); padding:6px 12px;
+    border-radius:8px; border:none; background:#1e90ff; color:#fff; cursor:pointer;
+}
+#endMessage {
+    position:absolute; left:50%; transform:translateX(-50%);
+    font-size: clamp(28px,3vw,48px); color: yellow; text-shadow:2px 2px 6px black;
+    pointer-events:none; display:none;
+}
 </style>
 </head>
 <body>
-<div id="hud">
-  <div id="lives"></div>
-  <div id="score"></div>
-  <div id="message"></div>
-  <button id="restart" style="display:none">Restart Game</button>
+<div class="game-wrap">
+    <canvas id="gameCanvas"></canvas>
+    <div id="hudWindow">
+        <div id="hudRow">
+            <span id="lives">Lives: 3</span>
+            <span id="score">Score: 0</span>
+            <span id="message">Throw the stone at box 1</span>
+        </div>
+        <button id="restart" style="display:none">Restart</button>
+    </div>
+    <div id="endMessage"></div>
 </div>
-<canvas id="gameCanvas"></canvas>
 
 <script>
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+(() => {
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const hudLives = document.getElementById('lives');
+const hudScore = document.getElementById('score');
+const hudMessage = document.getElementById('message');
+const restartBtn = document.getElementById('restart');
+const endMsg = document.getElementById('endMessage');
+restartBtn.onclick = resetGame;
 
-let w, h;
-
-// --- Responsive Resize ---
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  w = canvas.width;
-  h = canvas.height;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-// --- Game Settings ---
-let boxSize, boxGap = 10, bottomOffset = 80;
+let w=0,h=0,boxSize=100,boxGap=10,bottomOffset=80;
+let startX=0,startY=0,startCircleY=0;
 const gridLayout = [[1],[2],[3,4],[5],[6,7],[8]];
-
-function updateBoxSize() {
-  boxSize = Math.min(w / 6, 120);
-}
-updateBoxSize();
-window.addEventListener("resize", updateBoxSize);
-
-let startX = () => w/2;
-let startY = () => h - 50;
-
-let stone = { x:startX(), y:startY(), vx:0, vy:0, angle:0, visible:false, moving:false };
-let trail = [];
-let particles = [];
-
-let currentTargetBox=1, lives=3, score=0, gameOver=false;
+const stone={x:0,y:0,vx:0,vy:0,angle:0,visible:false,moving:false};
+let trail=[],particles=[];
+let currentTargetBox=1,lives=3,score=0,gameOver=false;
 let gameMessage=`Throw the stone at box ${currentTargetBox}`;
+const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
-let dragStart=null, dragCurrent=null, isDragging=false, canDrag=false;
-
-const hudLives=document.getElementById('lives');
-const hudScore=document.getElementById('score');
-const hudMessage=document.getElementById('message');
-const restartBtn=document.getElementById('restart');
+function resetGame() {
+    currentTargetBox = 1;
+    lives = 3;
+    score = 0;
+    gameOver = false;
+    stone.x = startX;
+    stone.y = startY;
+    stone.visible = false;
+    stone.moving = false;
+    stone.angle = 0;
+    trail = [];
+    particles = [];
+    endMsg.style.display = 'none';
+    gameMessage = `Throw the stone at box ${currentTargetBox}`;
+    updateHUD();
+}
 
 function updateHUD(){
     hudLives.textContent=`Lives: ${lives}`;
     hudScore.textContent=`Score: ${score}`;
     hudMessage.textContent=gameMessage;
-    restartBtn.style.display=gameOver?'block':'none';
-}
-restartBtn.onclick=resetGame;
-
-function resetGame(){
-    currentTargetBox=1; lives=3; score=0; gameOver=false;
-    stone.x=startX(); stone.y=startY(); stone.visible=false; stone.angle=0; stone.moving=false;
-    trail=[]; particles=[];
-    gameMessage=`Throw the stone at box ${currentTargetBox}`;
-    updateHUD();
+    restartBtn.style.display=gameOver?'inline-block':'none';
 }
 
-function getPos(e){
-    if(e.touches && e.touches.length>0) return {x:e.touches[0].clientX,y:e.touches[0].clientY};
-    return {x:e.clientX,y:e.clientY};
+// ---------- Canvas ----------
+function fitToScreen(){
+    const maxW=window.innerWidth,maxH=window.innerHeight;
+    let aspect=(maxW>maxH)?16/9:3/4;
+    let cssW=maxW,cssH=cssW/aspect;
+    if(cssH>maxH){ cssH=maxH; cssW=cssH*aspect; }
+    canvas.style.width=cssW+'px'; canvas.style.height=cssH+'px';
+    const dpr=window.devicePixelRatio||1;
+    canvas.width=Math.round(cssW*dpr); canvas.height=Math.round(cssH*dpr);
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr,dpr);
+    w=cssW; h=cssH;
+    computeLayout();
+    if(!stone.moving){ stone.x=startX; stone.y=startY; }
 }
-function isOnStone(pos){
-    let dx=pos.x-stone.x, dy=pos.y-stone.y;
-    // larger touch radius for mobile
-    return Math.sqrt(dx*dx+dy*dy) <= (w < 800 ? 50 : 30);
-}
-function startDrag(e){
-    if(gameOver || stone.moving) return;
-    let pos=getPos(e);
-    if(isOnStone(pos)){ canDrag=true; isDragging=true; dragStart=pos; dragCurrent={...pos}; }
-}
-function moveDrag(e){
-    if(isDragging) dragCurrent=getPos(e);
-}
-function endDrag(e){
-    if(!isDragging) return;
-    isDragging=false;
-    if(canDrag){ canDrag=false; throwStone(dragStart,dragCurrent); }
-}
+window.addEventListener('resize',fitToScreen);
 
-canvas.addEventListener('mousedown', startDrag);
-canvas.addEventListener('mousemove', moveDrag);
-canvas.addEventListener('mouseup', endDrag);
-canvas.addEventListener('touchstart', e => { e.preventDefault(); startDrag(e); }, { passive:false });
-canvas.addEventListener('touchmove', e => { e.preventDefault(); moveDrag(e); }, { passive:false });
-canvas.addEventListener('touchend', e => { e.preventDefault(); endDrag(e); }, { passive:false });
-
-// --- Physics-based Throw ---
-function throwStone(start, end) {
-    const dx = end.x - start.x;
-    const dy = end.y - start.y;
-    const distance = Math.hypot(dx, dy);
-
-    // Too weak → animate gently into box 1
-    if (distance < 30) {
-        let [bx, by] = getBoxCenter(1);
-        stone.vx = (bx - stone.x) / 40;
-        stone.vy = (by - stone.y) / 40;
-        stone.visible = true;
-        stone.moving = true;
-        stone.snapTarget = 1;
-        trail = [];
-        return;
+function computeLayout(){
+    if(isMobile){
+        boxSize = Math.min(w/6, h/8);
+        bottomOffset = 80;
+        startX = w/2;
+        startY = h - 50;
+    }else{
+        boxSize = Math.min(w/8, h/10);
+        bottomOffset = 120;
+        startX = w/2;
+        const [bx,by] = getBoxCenter(1);
+        startCircleY = by + boxSize + 5; // separate circle below box1
+        startY = startCircleY;
     }
-
-    let speed = Math.min(distance / 8, 25); // Cap speed
-    let angle = Math.atan2(dy, dx);
-
-    stone.vx = Math.cos(angle) * speed;
-    stone.vy = Math.sin(angle) * speed;
-    stone.visible = true;
-    stone.moving = true;
-    stone.snapTarget = null;
-    trail = [];
+    boxGap = Math.max(8, Math.min(12, boxSize*0.12));
 }
 
-// --- Landing Check ---
-function checkLanding(x,y){
-    let hitBox=getBoxFromPoint(x,y);
-    if(hitBox===currentTargetBox){
-        score+=10;
-        let [bx,by]=getBoxCenter(hitBox);
-        impactEffect(bx,by);
-        if(currentTargetBox===gridLayout.flat().length){
-            gameMessage=`Congrats! Completed all boxes! Final Score: ${score}`;
-            gameOver=true;
-        } else {
-            gameMessage=`Great! Throw at box ${++currentTargetBox}`;
-        }
-    } else if(hitBox!==null){
-        loseLife(`Missed! Landed in box ${hitBox}`);
-    } else {
-        let nearestBox=getNearestBox(x,y);
-        loseLife(`Missed! Landed outside, nearest box ${nearestBox}`);
-    }
-    updateHUD();
-}
-function loseLife(msg){
-    lives--;
-    gameMessage = lives<=0?`${msg} Game Over. Final Score: ${score}`:`${msg} Lives: ${lives}`;
-    if(lives<=0) gameOver=true;
-}
-
-// --- Box Helpers ---
-function getBoxCenter(boxNumber){
-    let centerX=w/2;
-    let yOffset=h-boxSize-bottomOffset;
-    let num=1;
+// ---------- Boxes ----------
+function getBoxCenter(boxNum){
+    let centerX=w/2,yOffset=h-boxSize-bottomOffset,num=1;
     for(let row of gridLayout){
-        let startX=centerX-(row.length*boxSize)/2;
+        const startXRow=centerX-(row.length*boxSize)/2;
         for(let i=0;i<row.length;i++){
-            if(num===boxNumber) return [startX+i*boxSize+boxSize/2,yOffset+boxSize/2];
+            if(num===boxNum) return [startXRow+i*boxSize+boxSize/2,yOffset+boxSize/2];
             num++;
         }
-        yOffset-=boxSize+boxGap;
+        yOffset -= boxSize+boxGap;
     }
     return [0,0];
 }
 function getBoxFromPoint(x,y){
-    let centerX=w/2;
-    let yOffset=h-boxSize-bottomOffset;
-    let num=1;
+    let centerX=w/2,yOffset=h-boxSize-bottomOffset,num=1;
+    const margin = boxSize*0.2; // stricter landing margin
     for(let row of gridLayout){
-        let startX=centerX-(row.length*boxSize)/2;
+        const startXRow=centerX-(row.length*boxSize)/2;
         for(let i=0;i<row.length;i++){
-            let bx=startX+i*boxSize, by=yOffset;
-            if(x>=bx && x<=bx+boxSize && y>=by && y<=by+boxSize) return num;
+            let bx=startXRow+i*boxSize, by=yOffset;
+            if(x>=bx+margin && x<=bx+boxSize-margin && y>=by+margin && y<=by+boxSize-margin) return num;
             num++;
         }
-        yOffset-=boxSize+boxGap;
+        yOffset -= boxSize+boxGap;
     }
-    return null;
+    return null; // outside all boxes
 }
 function getNearestBox(x,y){
-    let minDist=Infinity, nearest=1;
+    let minDist=Infinity,nearest=1;
     for(let i=1;i<=gridLayout.flat().length;i++){
-        let [bx,by]=getBoxCenter(i);
-        let d=Math.hypot(x-bx,y-by);
-        if(d<minDist){minDist=d; nearest=i;}
+        const [bx,by]=getBoxCenter(i);
+        const d=Math.hypot(x-bx,y-by);
+        if(d<minDist){ minDist=d; nearest=i; }
     }
     return nearest;
 }
 
-// --- Effects ---
-function impactEffect(x,y){
-    for(let i=0;i<12;i++){
-        let angle=i*(Math.PI*2/12) + (Math.random()-0.5)*0.2;
-        let speed=5+Math.random()*5;
-        particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,alpha:1});
-    }
+// ---------- Input ----------
+let isDragging=false,canDrag=false,dragStart=null,dragCurrent=null;
+function eventToPos(e){
+    const rect=canvas.getBoundingClientRect();
+    let cx,cy;
+    if(e.touches && e.touches.length){ cx=e.touches[0].clientX; cy=e.touches[0].clientY; }
+    else if(e.changedTouches && e.changedTouches.length){ cx=e.changedTouches[0].clientX; cy=e.changedTouches[0].clientY; }
+    else { cx=e.clientX; cy=e.clientY; }
+    return {x:cx-rect.left,y:cy-rect.top};
 }
+function isOnStone(pos){
+    const dx=pos.x-stone.x,dy=pos.y-stone.y;
+    const radius=Math.max(30,boxSize*0.2);
+    return Math.hypot(dx,dy)<=radius;
+}
+function startDrag(e){ if(gameOver || stone.moving) return; const pos=eventToPos(e); if(isOnStone(pos)){ canDrag=true; isDragging=true; dragStart=pos; dragCurrent={...pos}; } }
+function moveDrag(e){ if(!isDragging) return; e.preventDefault(); dragCurrent=eventToPos(e); }
+function endDrag(e){ if(!isDragging) return; isDragging=false; if(canDrag){ canDrag=false; throwStone(dragStart,dragCurrent||dragStart); } }
+canvas.addEventListener('mousedown', startDrag); canvas.addEventListener('mousemove', moveDrag); canvas.addEventListener('mouseup', endDrag); canvas.addEventListener('mouseleave', endDrag);
+canvas.addEventListener('touchstart', e=>{e.preventDefault(); startDrag(e);},{passive:false});
+canvas.addEventListener('touchmove', e=>{e.preventDefault(); moveDrag(e);},{passive:false});
+canvas.addEventListener('touchend', e=>{e.preventDefault(); endDrag(e);},{passive:false});
+canvas.addEventListener('touchcancel', e=>{e.preventDefault(); endDrag(e);},{passive:false});
 
-// --- Drawing ---
+// ---------- Throw & Landing ----------
+function throwStone(start,end){
+    let dx=end.x-start.x, dy=end.y-start.y;
+    const distance=Math.hypot(dx,dy);
+    if(distance<20){ // reduce minimum threshold
+        stone.vx=0; stone.vy=0; stone.visible=true; stone.moving=false;
+        stone.x=startX; stone.y=startY; trail=[]; return;
+    }
+    // reduce initial speed for first box
+    let speed = Math.min(distance/8,25);
+    if(currentTargetBox === 1) speed = Math.min(distance/12,12);
+    const angle=Math.atan2(dy,dx);
+    stone.vx=Math.cos(angle)*speed; stone.vy=Math.sin(angle)*speed;
+    stone.visible=true; stone.moving=true; trail=[];
+}
+function constrainStone(){
+    const margin=Math.max(20,boxSize*0.16);
+    stone.x=Math.min(Math.max(stone.x,margin),w-margin);
+    stone.y=Math.min(Math.max(stone.y,margin),h-margin);
+}
+function checkLanding(x,y){
+    const hitBox = getBoxFromPoint(x,y);
+    if(hitBox === currentTargetBox){
+        score += 10;
+        const [bx,by] = getBoxCenter(hitBox);
+        impactEffect(bx,by);
+        if(currentTargetBox === gridLayout.flat().length){
+            gameMessage = `Congrats! Completed all boxes! Final Score: ${score}`;
+            gameOver = true;
+            showEndMessage(gameMessage);
+        } else {
+            currentTargetBox++;
+            gameMessage = `Great! Throw at box ${currentTargetBox}`;
+        }
+    } else if(hitBox !== null) {
+        loseLife(`Missed! Landed in box ${hitBox}`);
+    } else {
+        const nearest = getNearestBox(x,y);
+        loseLife(`Missed! Landed outside, nearest box ${nearest}`);
+    }
+    updateHUD();
+}
+function loseLife(msg){ lives--; gameMessage=lives<=0?`${msg} Game Over. Final Score: ${score}`:`${msg} Lives: ${lives}`; if(lives<=0){ gameOver=true; showEndMessage(gameMessage); } }
+function impactEffect(x,y){ for(let i=0;i<12;i++){ const ang=i*(Math.PI*2/12)+(Math.random()-0.5)*0.2; const spd=5+Math.random()*5; particles.push({x,y,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,alpha:1}); } }
+function showEndMessage(msg){ endMsg.style.display='block'; endMsg.style.top='20%'; endMsg.textContent=msg; }
+
+// ---------- Draw ----------
 function drawBoxes(){
-    let centerX=w/2;
-    let yOffset=h-boxSize-bottomOffset;
-    let num=1;
-    for(let row of gridLayout){
-        let startX=centerX-(row.length*boxSize)/2;
+    const centerX=w/2; let yOffset=h-boxSize-bottomOffset,num=1;
+    for(const row of gridLayout){
+        const startXRow=centerX-(row.length*boxSize)/2;
         for(let i=0;i<row.length;i++){
-            let x=startX+i*boxSize, y=yOffset;
-            ctx.strokeStyle=(num===currentTargetBox&&!gameOver)?"blue":"gray";
+            const x=startXRow+i*boxSize, y=yOffset;
+            ctx.strokeStyle=(num===currentTargetBox&&!gameOver)?"dodgerblue":"gray";
             ctx.lineWidth=3; ctx.strokeRect(x,y,boxSize,boxSize);
-            ctx.fillStyle="black"; ctx.font=`30px Arial`; ctx.textAlign="center";
-            ctx.fillText(num,x+boxSize/2,y+boxSize/2+10);
+            ctx.fillStyle="black"; ctx.font=`${Math.max(18,Math.floor(boxSize*0.28))}px Arial`;
+            ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(num,x+boxSize/2,y+boxSize/2);
             num++;
         }
-        yOffset-=boxSize+boxGap;
+        yOffset -= boxSize+boxGap;
     }
+    // Draw start circle for PC
+    if(!isMobile){ ctx.beginPath(); ctx.arc(startX,startCircleY,Math.max(16,boxSize*0.18),0,Math.PI*2); ctx.fillStyle="green"; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="white"; ctx.stroke(); }
 }
 
-// --- Main Loop ---
+// ---------- Main loop ----------
 function loop(){
     ctx.clearRect(0,0,w,h);
-
-    // Draw border (inside canvas too)
-    ctx.strokeStyle="white";
-    ctx.lineWidth=4;
-    ctx.strokeRect(0,0,w,h);
+    ctx.strokeStyle="white"; ctx.lineWidth=2; ctx.strokeRect(2,2,w-4,h-4);
 
     drawBoxes();
 
-    // Trail
     ctx.fillStyle="rgba(255,0,0,0.5)";
-    trail.forEach(t=>{
-        ctx.beginPath(); ctx.arc(t.x,t.y,6,0,Math.PI*2); ctx.fill();
-    });
+    for(const t of trail){ ctx.beginPath(); ctx.arc(t.x,t.y,Math.max(3,boxSize*0.05),0,Math.PI*2); ctx.fill(); }
 
-    // Stone
-    ctx.save();
-    ctx.translate(stone.x,stone.y);
-    ctx.rotate(stone.angle*Math.PI/180);
-    ctx.fillStyle=stone.visible?"red":"green";
-    ctx.beginPath(); ctx.arc(0,0,20,0,Math.PI*2); ctx.fill();
+    ctx.save(); ctx.translate(stone.x,stone.y); ctx.rotate(stone.angle*Math.PI/180);
+    ctx.fillStyle = stone.visible?"red":"green";
+    ctx.beginPath(); ctx.arc(0,0,Math.max(16,boxSize*0.18),0,Math.PI*2); ctx.fill();
     ctx.restore();
 
-    // Particles
-    for(let i=particles.length-1;i>=0;i--){
-        let p=particles[i];
-        p.x+=p.vx; p.y+=p.vy; p.alpha-=0.02;
-        if(p.alpha<=0) particles.splice(i,1);
-        else {
-            ctx.fillStyle=`rgba(255,255,0,${p.alpha})`;
-            ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill();
-        }
+    for(let i=particles.length-1;i>=0;i--){ const p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.alpha-=0.02;
+        if(p.alpha<=0){particles.splice(i,1);} else { ctx.fillStyle=`rgba(255,255,0,${p.alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,Math.max(2,boxSize*0.04),0,Math.PI*2); ctx.fill(); }
     }
 
-    // Drag line
-    if(isDragging){
-        ctx.strokeStyle="yellow"; ctx.lineWidth=4;
-        ctx.beginPath(); ctx.moveTo(dragStart.x,dragStart.y);
-        ctx.lineTo(dragCurrent.x,dragCurrent.y); ctx.stroke();
+    if(isDragging && dragStart && dragCurrent){
+        ctx.strokeStyle="yellow"; ctx.lineWidth=3;
+        ctx.beginPath(); ctx.moveTo(dragStart.x,dragStart.y); ctx.lineTo(dragCurrent.x,dragCurrent.y); ctx.stroke();
     }
 
-    // Physics Update
     if(stone.moving){
-        stone.x += stone.vx;
-        stone.y += stone.vy;
-        stone.angle += 20;
-        trail.push({ x: stone.x, y: stone.y });
-        if (trail.length > 10) trail.shift();
-
-        if(stone.snapTarget === 1){
-            let [bx, by] = getBoxCenter(1);
-            if(Math.hypot(stone.x-bx, stone.y-by) < 5){
-                stone.x = bx;
-                stone.y = by;
-                stone.moving = false;
-                stone.snapTarget = null;
-                checkLanding(stone.x, stone.y);
-                setTimeout(() => {
-                    stone.x = startX();
-                    stone.y = startY();
-                    stone.visible = false;
-                    stone.angle = 0;
-                    trail = [];
-                }, 600);
-            }
-        } else {
-            if(stone.x <= 20 || stone.x >= w-20){
-                stone.vx *= -0.8; 
-                stone.x = Math.max(20, Math.min(stone.x, w-20));
-            }
-            if(stone.y <= 20){
-                stone.vy *= -0.8;
-                stone.y = 20;
-            }
-            stone.vx *= 0.98;
-            stone.vy *= 0.98;
-
-            if(Math.hypot(stone.vx, stone.vy) < 0.5){
-                stone.moving = false;
-                const nearest = getNearestBox(stone.x, stone.y);
-                const [nx, ny] = getBoxCenter(nearest);
-                stone.x = nx;
-                stone.y = ny;
-                checkLanding(stone.x, stone.y);
-                setTimeout(() => {
-                    stone.x = startX();
-                    stone.y = startY();
-                    stone.visible = false;
-                    stone.angle = 0;
-                    trail = [];
-                }, 600);
-            }
-        }
+        stone.x+=stone.vx; stone.y+=stone.vy; stone.angle+=20; trail.push({x:stone.x,y:stone.y}); if(trail.length>10) trail.shift();
+        constrainStone();
+        stone.vx*=0.98; stone.vy*=0.98;
+        if(Math.hypot(stone.vx,stone.vy)<0.5){ stone.moving=false; const nearest=getNearestBox(stone.x,stone.y); const [nx,ny]=getBoxCenter(nearest); stone.x=nx; stone.y=ny; checkLanding(stone.x,stone.y); setTimeout(()=>{stone.x=startX; stone.y=startY; stone.visible=false; stone.angle=0; trail=[];},600); }
     }
 
     requestAnimationFrame(loop);
 }
 
+// ---------- Init ----------
+fitToScreen();
 updateHUD();
+stone.x=startX; stone.y=startY; stone.visible=false;
 loop();
+})();
 </script>
 </body>
 </html>
