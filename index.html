@@ -107,8 +107,8 @@ async function loadJobsFromSheet() {
       location: row.c[1]?.v || '',
       deadline: row.c[2]?.v || '',
       link: row.c[3]?.v || '#',
-      description: row.c[4]?.v || ''
-      // Removed originalAd completely
+      description: row.c[4]?.v || '',
+      originalAd: row.c[5]?.v || ''
     }));
     renderJobs();
   } catch (error) {
@@ -155,6 +155,11 @@ function renderJobs() {
       <p>${job.description}</p>
 
       <a href="${job.link}" target="_blank" rel="noopener" class="btn btn-primary">View Details</a>
+      
+      <!-- Show "View Original Ad" only if it's not dealcheck -->
+      ${job.originalAd && !job.originalAd.includes('dealcheck') ? 
+        `<a href="${job.originalAd}" target="_blank" rel="noopener" class="btn btn-primary">View Original Ad</a>` 
+        : ''}
 
       <button class="btn btn-success" onclick="toggleShareMenu(this)">Share</button>
 
@@ -215,7 +220,6 @@ function shareOnWhatsApp(e, el) {
 
 document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
 
-// Trigger search on Enter key
 document.getElementById('search-input').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     renderJobs();
