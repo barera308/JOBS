@@ -25,12 +25,14 @@
 <header>
   <nav>
     <a href="index.html">Home</a> |
+    <a href="jobposting.html">User Jobs</a> |
     <a href="about.html">About Us</a> |
     <a href="chat.html">Discussion</a> |
     <a href="privacy.html">Privacy Policy</a> |
     <a href="disclaimer.html">Disclaimer</a> |
     <a href="terms.html">Terms & Conditions</a> |
-    <a href="contact.html">Contact Us</a>
+    <a href="contact.html">Contact Us</a> |
+    <a href="https://forms.gle/ivBbcnFWXPNTNwyg9" target="_blank">➕ Post a Job</a>
   </nav>
   <h1>Job Advertisements</h1>
   <p>Latest Jobs from Newspapers in Pakistan – Rewritten & Verified</p>
@@ -39,6 +41,14 @@
 <main>
   <section class="jobs">
     <h2>Recent Job Ads</h2>
+
+    <!-- Highlighted Post Job Button -->
+    <div style="margin: 15px 0; text-align: center;">
+      <a href="https://forms.gle/ivBbcnFWXPNTNwyg9" target="_blank" 
+         style="background:#007BFF; color:white; padding:10px 20px; border-radius:5px; text-decoration:none; font-weight:bold;">
+        ➕ Post a Job
+      </a>
+    </div>
 
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search job titles..." />
@@ -165,7 +175,6 @@ function renderJobs() {
 
       <a href="${job.link}" target="_blank" rel="noopener" class="btn btn-primary">View Details</a>
       
-      <!-- Show "View Original Ad" only if it's not dealcheck -->
       ${job.originalAd && !job.originalAd.includes('dealcheck') ? 
         `<a href="${job.originalAd}" target="_blank" rel="noopener" class="btn btn-primary">View Original Ad</a>` 
         : ''}
@@ -238,4 +247,3 @@ document.getElementById('search-input').addEventListener('keypress', function(e)
 
 </body>
 </html>
-

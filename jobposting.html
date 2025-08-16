@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>User Submitted Jobs – Job Alerts Pakistan</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+  body { font-family: sans-serif; margin:0; padding:0; background:#f8f8f8; }
+  header {
+    background:#222; color:white; padding:15px 20px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  header h1 { margin:0; font-size:20px; }
+  nav a {
+    color:white; text-decoration:none; margin-left:15px; font-weight:bold;
+  }
+  nav a:hover { text-decoration:underline; }
+  
+  main { padding:20px; }
+  h2 { text-align:center; }
+  .job { background:white; padding:15px; margin-bottom:15px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+  .job img { max-width:100%; margin-top:10px; border-radius:5px; }
+  .btn { display:inline-block; padding:10px 18px; background-color:#28a745; color:white; text-decoration:none; border-radius:5px; margin-top:10px; }
+  .btn:hover { background-color:#218838; }
+  .search-bar { text-align:center; margin-bottom:20px; }
+  .search-bar input { padding:8px; width:60%; max-width:300px; }
+  .pagination { text-align:center; margin-top:20px; }
+  .pagination button { padding:8px 12px; margin:0 5px; }
+  .post-job { text-align:center; margin:20px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Job Alerts Pakistan</h1>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="user-jobs.html">👥 User Jobs</a>
+    <a href="https://forms.gle/ivBbcnFWXPNTNwyg9" target="_blank">📢 Post a Job</a>
+  </nav>
+</header>
+
+<main>
+  <h2>User Submitted Jobs</h2>
+
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search user-submitted jobs..." />
+    <button onclick="renderUserJobs()">🔍</button>
+  </div>
+
+  <div id="user-job-list">Loading user-submitted jobs...</div>
+
+  <div class="pagination">
+    <button onclick="prevPage()">Previous</button>
+    <span id="page-info"></span>
+    <button onclick="nextPage()">Next</button>
+  </div>
+</main>
+
+<script>
+let userJobs = [];
+let currentPage = 1;
+const jobsPerPage = 10;
+
+function parseDate(dateStr) {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  return !isNaN(date) ? date : null;
+}
+function formatDeadline(dateStr) {
+  const date = parseDate(dateStr);
+  if (!date) return "No deadline";
+  return date.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+async function loadUserJobsFromSheet() {
+  const sheetId = "1ySAiaip6_80lNkTEAMiAZ_U2j9w0T4hcglMIsGa4h5c";
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+  
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const rows = json.table.rows;
+    
+    userJobs = rows.map(row => ({
+      title: row.c[0]?.v || '',
+      company: row.c[1]?.v || '',
+      location: row.c[2]?.v || '',
+      deadline: row.c[3]?.v || '',
+      type: row.c[4]?.v || '',
+      description: row.c[5]?.v || '',
+      applyLink: row.c[6]?.v || '#',
+      originalAd: row.c[7]?.v || ''
+    }));
+    renderUserJobs();
+  } catch (err) {
+    console.error("Error loading user jobs:", err);
+    document.getElementById('user-job-list').innerText = "❌ Failed to load user-submitted jobs.";
+  }
+}
+
+function renderUserJobs() {
+  const searchQuery = document.getElementById('search-input').value.toLowerCase();
+  const filteredJobs = userJobs.filter(job => job.title.toLowerCase().includes(searchQuery));
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+  if (currentPage > totalPages) currentPage = totalPages || 1;
+  const start = (currentPage-1) * jobsPerPage;
+  const end = start + jobsPerPage;
+  const currentJobs = filteredJobs.slice(start, end);
+
+  const container = document.getElementById('user-job-list');
+  container.innerHTML = currentJobs.map(job => `
+    <div class="job">
+      <h3>${job.title}</h3>
+      <p><strong>Company:</strong> ${job.company}</p>
+      <p><strong>Location:</strong> ${job.location}</p>
+      <p><strong>Deadline:</strong> ${formatDeadline(job.deadline)}</p>
+      <p>${job.description}</p>
+      ${job.originalAd ? `<img src="${job.originalAd}" alt="Job Advertisement">` : ""}
+      <br><a href="${job.applyLink}" target="_blank" class="btn">Apply Now</a>
+    </div>
+  `).join('');
+
+  document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+}
+
+function nextPage() {
+  const totalPages = Math.ceil(userJobs.length / jobsPerPage);
+  if(currentPage < totalPages){ currentPage++; renderUserJobs(); }
+}
+function prevPage() {
+  if(currentPage > 1){ currentPage--; renderUserJobs(); }
+}
+
+document.getElementById('search-input').addEventListener('keypress', function(e){
+  if(e.key === 'Enter') renderUserJobs();
+});
+
+document.addEventListener('DOMContentLoaded', loadUserJobsFromSheet);
+</script>
+
+</body>
+</html>
