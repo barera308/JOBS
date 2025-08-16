@@ -21,36 +21,36 @@
   <div id="jobs" class="job-list">Loading jobs...</div>
 
   <script>
-    const sheetId = "1ySAiaip6_80lNkTEAMiAZ_U2j9w0T4hcglMIsGa4h5c";
-    const sheetName = "Sheet1";
-    const apiUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+    const csvUrl = "https://docs.google.com/spreadsheets/d/1ySAiaip6_80lNkTEAMiAZ_U2j9w0T4hcglMIsGa4h5c/export?format=csv&sheet=Sheet1";
 
-    fetch(apiUrl)
+    fetch(csvUrl)
       .then(res => res.text())
       .then(data => {
-        const json = JSON.parse(data.substring(47).slice(0, -2));
-        const rows = json.table.rows;
-
-        const userJobs = rows.map(row => ({
-          title: row.c[1]?.v || '',          // Job Title
-          company: row.c[2]?.v || '',        // Company Name
-          location: row.c[3]?.v || '',       // Location
-          deadline: row.c[4]?.v || '',       // Deadline
-          type: row.c[5]?.v || '',           // Employment Type
-          description: row.c[6]?.v || '',    // Job Description
-          applyLink: row.c[7]?.v || '#',     // Apply Link
-          originalAd: row.c[8]?.v || ''      // Upload job advertisement here
-        }));
+        const rows = data.split("\n").map(r => r.split(","));
+        const headers = rows[0]; // first row = column names
+        const jobs = rows.slice(1).filter(r => r.length > 1);
 
         const jobsContainer = document.getElementById("jobs");
         jobsContainer.innerHTML = "";
 
-        if (userJobs.length === 0) {
+        if (jobs.length === 0) {
           jobsContainer.innerHTML = "<p>No user-submitted jobs yet.</p>";
           return;
         }
 
-        userJobs.forEach(job => {
+        jobs.forEach(r => {
+          const job = {
+            timestamp: r[0] || "",
+            title: r[1] || "",
+            company: r[2] || "",
+            location: r[3] || "",
+            deadline: r[4] || "",
+            type: r[5] || "",
+            description: r[6] || "",
+            applyLink: r[7] || "#",
+            originalAd: r[8] || ""
+          };
+
           const jobCard = document.createElement("div");
           jobCard.className = "job-card";
           jobCard.innerHTML = `
