@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SIEHS Careers</title>
+<meta name="description" content="Health Department, Government of Sindh — SIEHS hiring across Karachi, Hyderabad, Sukkur, Bhambore." />
+<style>
+:root{
+  --bg:#0f172a; --card:#0b1227; --muted:#94a3b8; --text:#e5e7eb; 
+  --accent:#22c55e; --accent-2:#10b981; --chip:#1f2937; --shadow:0 10px 25px rgba(0,0,0,.35);
+  --radius:1.25rem; --danger:#ef4444;
+}
+*{box-sizing:border-box}
+body{margin:0; font-family:system-ui, sans-serif; color:var(--text); background:var(--bg);}
+.container{max-width:1100px;margin:auto;padding:24px;}
+.banner{display:grid;gap:20px;align-items:center;text-align:center;padding:32px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(34,197,94,.12),rgba(16,185,129,.08));border:1px solid rgba(255,255,255,.06);box-shadow:var(--shadow);}
+@media(min-width:900px){.banner{grid-template-columns:1.3fr .7fr;text-align:left}}
+.title{font-size:clamp(1.6rem,3.2vw,2.4rem);margin:10px 0 6px}
+.subtitle{color:var(--muted);margin:0 0 8px}
+.locations{color:#cbd5e1;font-size:.95rem}
+.cta-bar{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+.btn{appearance:none;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:.85rem 1.1rem;border-radius:999px;font-weight:700;letter-spacing:.3px;transition:transform .06s ease,box-shadow .2s ease,background .2s ease;text-decoration:none;color:#01160d}
+.btn-hope{background:linear-gradient(90deg,var(--accent),var(--accent-2));}
+.btn-hope:active{transform:translateY(1px)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.16)}
+.filters{display:grid;grid-template-columns:1fr;gap:12px;margin:26px 0}
+@media(min-width:700px){.filters{grid-template-columns:2fr 1.2fr 1.2fr .8fr}}
+.input,.select{width:100%;padding:.8rem .9rem;border-radius:.8rem;border:1px solid rgba(255,255,255,.14);background:rgba(3,7,18,.45);color:var(--text)}
+.cards{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:900px){.cards{grid-template-columns:1fr 1fr}}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.card h3{margin:.2rem 0 .4rem;font-size:1.06rem}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:.35rem 0 .6rem}
+.chip{background:var(--chip);border:1px solid rgba(255,255,255,.08);padding:.25rem .5rem;border-radius:999px;font-size:.78rem;color:#cbd5e1}
+.table-wrap{display:none}
+table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:var(--radius)}
+thead th{position:sticky;top:0;background:#0b1227;color:#cbd5e1;text-align:left;font-size:.9rem;padding:12px;border-bottom:1px solid rgba(255,255,255,.12)}
+tbody td{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+@media(min-width:1100px){.cards{display:none}.table-wrap{display:block}}
+footer{margin:36px 0 14px;color:var(--muted);font-size:.9rem;text-align:center}
+a{color:#7dd3fc}
+</style>
+</head>
+<body>
+<header class="container">
+<section class="banner" aria-labelledby="hero-title">
+<div>
+  <h1 id="hero-title" class="title">SIEHS — Sindh Integrated Emergency & Health Services</h1>
+  <p class="subtitle">JOIN OUR TEAM • Ambulatory & Health Services Expansion</p>
+  <p class="locations">Karachi, Hyderabad, Sukkur, Bhambore</p>
+  <div class="cta-bar">
+    <a class="btn btn-hope" href="index.html">Home</a>
+  </div>
+</div>
+</section>
+</header>
+
+<main class="container" id="jobs">
+<section class="filters">
+  <input id="titleFilter" class="input" type="search" placeholder="Search title…" />
+  <select id="departmentFilter" class="select">
+    <option value="">All Departments</option>
+  </select>
+  <select id="locationFilter" class="select">
+    <option value="">All Locations</option>
+    <option>Karachi</option>
+    <option>Hyderabad</option>
+    <option>Sukkur</option>
+    <option>Bhambore</option>
+  </select>
+  <button id="clearBtn" class="btn btn-outline">Clear</button>
+</section>
+
+<section class="cards" id="card-list"></section>
+
+<section class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Position</th>
+        <th>Department</th>
+        <th>Location(s)</th>
+        <th>Apply</th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+</section>
+</main>
+
+<footer>
+© <span id="year"></span> SIEHS • Health Department, Government of Sindh
+</footer>
+
+<script>
+const jobs = [
+  { title:"WAM - Facility & Projects", department:"Facility & Projects", location:"Karachi, Bhambore, Sukkur, Hyderabad" },
+  { title:"Vigilance Officer", department:"Administration & Logistics", location:"Bhambore, Sukkur, Hyderabad" },
+  { title:"Incident Coverage Squad Member", department:"Operations", location:"Bhambore, Sukkur" },
+  { title:"Area Surveillance Member", department:"Operations", location:"Karachi" },
+  { title:"Analyst - Biomedical", department:"Biomedical", location:"Karachi, Bhambore, Sukkur" },
+  { title:"Analyst - Commercial", department:"Commercial", location:"Karachi" },
+  { title:"AM - Commercial (Procurement & Supply Chain)", department:"Commercial", location:"Bhambore, Sukkur" },
+  { title:"Warehouse Assistant", department:"Warehouse / Supply Chain", location:"Karachi, Hyderabad, Bhambore, Sukkur" },
+  { title:"AM - Editing & Animation", department:"Communications", location:"Karachi" },
+  { title:"Assistant Manager Finance", department:"Finance", location:"Karachi" },
+  { title:"Analyst - Finance", department:"Finance", location:"Karachi" },
+  { title:"Analyst - React Native Developer", department:"Information & Digital Services", location:"Karachi" },
+  { title:"Analyst - .NET Developer", department:"Information & Digital Services", location:"Karachi" },
+  { title:"Analyst - Help Desk", department:"Information & Digital Services", location:"Hyderabad, Bhambore, Sukkur" },
+  { title:"AM - Information Security", department:"Information & Digital Services", location:"Karachi" },
+  { title:"AI Engineer", department:"Information & Digital Services", location:"Karachi" },
+  { title:"AM - Internal Audit", department:"Internal Audit", location:"Karachi" },
+  { title:"Analyst - Internal Audit", department:"Internal Audit", location:"Karachi" },
+  { title:"AM - Legal & Compliance", department:"Legal & Compliance", location:"Karachi" },
+  { title:"Analyst - Clinical", department:"Clinical", location:"Hyderabad, Bhambore" }
+];
+
+const departmentFilter = document.getElementById("departmentFilter");
+const cardsContainer = document.getElementById("card-list");
+const tableBody = document.getElementById("table-body");
+
+// Populate department filter
+[...new Set(jobs.map(j=>j.department))].forEach(dep=>{
+  const option=document.createElement("option");
+  option.value=dep;
+  option.textContent=dep;
+  departmentFilter.appendChild(option);
+});
+
+function renderJobs(list){
+  cardsContainer.innerHTML="";
+  tableBody.innerHTML="";
+  list.forEach(job=>{
+    // Card view
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`<h3>${job.title}</h3>
+    <p><strong>Department:</strong> ${job.department}</p>
+    <p><strong>Location:</strong> ${job.location}</p>
+    <a class="btn btn-hope" href="https://www.siehs.org/jobs/" target="_blank">Apply</a>`;
+    cardsContainer.appendChild(card);
+
+    // Table view
+    const row=document.createElement("tr");
+    row.innerHTML=`<td>${job.title}</td>
+    <td>${job.department}</td>
+    <td>${job.location}</td>
+    <td><a class="btn btn-hope" href="https://www.siehs.org/jobs/" target="_blank">Apply</a></td>`;
+    tableBody.appendChild(row);
+  });
+}
+
+// Filter function
+function filterJobs(){
+  const titleValue=document.getElementById("titleFilter").value.toLowerCase();
+  const deptValue=departmentFilter.value;
+  const locValue=document.getElementById("locationFilter").value.toLowerCase();
+  const filtered=jobs.filter(job=>{
+    return job.title.toLowerCase().includes(titleValue)
+      && (deptValue==="" || job.department===deptValue)
+      && (locValue==="" || job.location.toLowerCase().includes(locValue));
+  });
+  renderJobs(filtered);
+}
+
+document.getElementById("titleFilter").addEventListener("input",filterJobs);
+departmentFilter.addEventListener("change",filterJobs);
+document.getElementById("locationFilter").addEventListener("change",filterJobs);
+document.getElementById("clearBtn").addEventListener("click",()=>{
+  document.getElementById("titleFilter").value="";
+  departmentFilter.value="";
+  document.getElementById("locationFilter").value="";
+  renderJobs(jobs);
+});
+
+// Initial render
+renderJobs(jobs);
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
