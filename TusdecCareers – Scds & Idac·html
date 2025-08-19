@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
+     crossorigin="anonymous"></script>
+  <title>TUSDEC – Career Opportunities (SCDS & IDAC)</title>
+  <style>
+    :root {
+      --primary: #0d6efd;
+      --accent: #198754;
+      --dark: #12263a;
+      --muted: #6c757d;
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --danger: #dc3545;
+      --gold: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color: #1f2937; background: var(--bg);
+    }
+    a { color: var(--primary); text-decoration: none; }
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%);
+      color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+    nav { display: flex; align-items: center; gap: 1rem; justify-content: space-between; }
+    .brand { font-weight: 800; letter-spacing: .3px; }
+    .nav-links a { color: #fff; margin-left: 1rem; font-weight: 600; opacity: .95; }
+    .hero {
+      background: radial-gradient(1000px 400px at 10% -50%, #60a5fa2b, transparent),
+                  radial-gradient(800px 300px at 90% -50%, #34d3992b, transparent);
+      padding: 3rem 1rem 2rem; text-align: center;
+    }
+    .hero h1 { margin: 0 0 .5rem; font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--dark); }
+    .hero p { margin: 0 auto 1.2rem; max-width: 900px; color: #374151; line-height: 1.6; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: 1rem; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1rem; border-radius: 999px; font-weight: 700; border: 1px solid transparent; cursor: pointer; }
+    .btn-primary { background: #0d6efd; color: #fff; }
+    .btn-accent  { background: var(--accent); color: #fff; }
+    .btn-outline { background: #fff; color: #0d6efd; border-color: #0d6efd; }
+    .section { padding: 1.5rem 1rem; }
+
+    .card { background: var(--card); border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.06); padding: 1rem; }
+
+    .meta { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .75rem; margin: 1rem 0; }
+    .chip { background: #eef2ff; color: #1e3a8a; border: 1px solid #dbeafe; padding: .3rem .6rem; border-radius: 999px; font-size: .875rem; display: inline-flex; gap: .4rem; align-items: center; }
+
+    .toolbar { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: space-between; align-items: center; margin-bottom: .75rem; }
+    .search {
+      position: relative; flex: 1 1 320px; max-width: 520px;
+    }
+    .search input {
+      width: 100%; padding: .8rem 1rem; border-radius: 12px; border: 1px solid #e5e7eb; background: #fff;
+      box-shadow: 0 1px 0 #e5e7eb inset; outline: none;
+    }
+    .search small { color: var(--muted); display: block; margin-top: .25rem; }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th { text-align: left; font-size: .9rem; color: #334155; background: #f3f4f6; padding: .8rem; position: sticky; top: 56px; z-index: 5; }
+    tbody td { padding: .8rem; border-bottom: 1px solid #eef2f7; vertical-align: top; }
+    tbody tr:hover { background: #fafafa; }
+    .nowrap { white-space: nowrap; }
+    .muted { color: var(--muted); }
+
+    .notice { background: #fff7ed; border: 1px solid #ffedd5; color: #9a3412; padding: .75rem 1rem; border-radius: 12px; }
+
+    footer { margin-top: 2rem; padding: 2rem 1rem; background: #0f172a; color: #cbd5e1; }
+    footer a { color: #93c5fd; }
+
+    @media (max-width: 720px) {
+      .meta { grid-template-columns: 1fr; }
+      thead { display: none; }
+      table, tbody, tr, td { display: block; width: 100%; }
+      tbody tr { border: 1px solid #eef2f7; border-radius: 12px; margin-bottom: .75rem; background: #fff; }
+      tbody td { border: 0; padding: .6rem .8rem; }
+      tbody td::before { content: attr(data-label); font-weight: 700; display: block; color: #374151; margin-bottom: .2rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Nav -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">TUSDEC Careers</div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#positions">Positions</a>
+          <a href="#apply">Apply</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero / Intro -->
+  <section id="home" class="hero">
+    <div class="container">
+      <h1>Career Opportunities – Support Centre for Dental & Surgical Implants (SCDS), Sialkot</h1>
+      <p>
+        <strong>TUSDEC (Technology Upgradation and Skill Development Company)</strong> was established by the Ministry of Industries & Production, Government of Pakistan to upgrade technology and skills of strategic industrial clusters. TUSDEC is implementing a project titled <strong>“Support Centre for Dental and Surgical Implants (SCDS), Sialkot”</strong> to address challenges in the surgical sector for designing & manufacturing high-precision products, and to support export promotion and localization.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" target="_blank" rel="noopener" href="https://tusdec.org.pk/online-job-application-for-scds-project-posts/">Apply for SCDS</a>
+        <a class="btn btn-accent" target="_blank" rel="noopener" href="https://tusdec.org.pk/online-job-application-for-idac-project-posts/">Apply for IDAC</a>
+        <a class="btn btn-outline" href="#positions">View Positions</a>
+      </div>
+      <div class="meta">
+        <span class="chip">📍 Location: <strong>Sialkot</strong> (Project-based)</span>
+        <span class="chip">🕒 Apply within <strong>15 days</strong> of advertisement publication</span>
+      </div>
+      <div class="notice">
+        We invite applications from highly motivated professionals with excellent interpersonal, management, and facilitation skills. Only shortlisted candidates will be contacted. No TA/DA will be admissible. Recruitment may be cancelled/withheld at any stage without assigning any reason. TUSDEC is an equal opportunity employer; female applicants are encouraged to apply.
+      </div>
+    </div>
+  </section>
+
+  <!-- Positions Table -->
+  <section id="positions" class="section">
+    <div class="container">
+      <div class="card">
+        <div class="toolbar">
+          <h2 style="margin:0">Open Positions</h2>
+          <div class="search">
+            <input id="searchInput" type="search" placeholder="Search by designation, scale, or keywords (e.g., Electrical, Finance, DAE)…" oninput="filterTable()" />
+            <small>Tip: Try typing <em>DAE</em>, <em>Electrical</em>, <em>Finance</em>, or <em>Project</em>.</small>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table id="jobsTable">
+            <thead>
+              <tr>
+                <th class="nowrap">Sr. #</th>
+                <th>Designation</th>
+                <th class="nowrap">Total Positions</th>
+                <th class="nowrap">Project Pay Scale</th>
+                <th>Qualification & Experience</th>
+                <th class="nowrap">Age Limit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Sr. #" class="nowrap">1</td>
+                <td data-label="Designation"><strong>Manager</strong></td>
+                <td data-label="Total Positions" class="nowrap">1</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-8</td>
+                <td data-label="Qualification & Experience">Bachelors/Masters in Engineering/Business Administration/Project Management with <strong>7+ years</strong> experience; or BS/B-Tech/DAE with <strong>12+ years</strong> relevant project management experience.</td>
+                <td data-label="Age Limit" class="nowrap">29–40</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">2</td>
+                <td data-label="Designation"><strong>Deputy Manager</strong></td>
+                <td data-label="Total Positions" class="nowrap">2</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-7</td>
+                <td data-label="Qualification & Experience">Bachelors/Masters in Engineering with <strong>5+ years</strong> experience; or BS/B-Tech/DAE with <strong>10+ years</strong> relevant project management experience.</td>
+                <td data-label="Age Limit" class="nowrap">27–36</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">3</td>
+                <td data-label="Designation"><strong>Assistant Manager / Trainer</strong></td>
+                <td data-label="Total Positions" class="nowrap">4</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-6</td>
+                <td data-label="Qualification & Experience">Bachelors in Electrical/Mechanical/Mechatronics/Electronics/Industrial Engineering with <strong>3+ years</strong> experience; or DAE in same with <strong>7+ years</strong> relevant experience.</td>
+                <td data-label="Age Limit" class="nowrap">25–32</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">4</td>
+                <td data-label="Designation"><strong>Accounts Officer</strong></td>
+                <td data-label="Total Positions" class="nowrap">1</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-6</td>
+                <td data-label="Qualification & Experience">Bachelors/Masters (16 years) in Finance/Accounts/Commerce or CA Inter with <strong>3+ years</strong> relevant experience.</td>
+                <td data-label="Age Limit" class="nowrap">25–32</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">5</td>
+                <td data-label="Designation"><strong>Admin Officer</strong></td>
+                <td data-label="Total Positions" class="nowrap">1</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-6</td>
+                <td data-label="Qualification & Experience">Bachelors/Masters (16 years) in Public/Business Administration or relevant with <strong>3+ years</strong> experience.</td>
+                <td data-label="Age Limit" class="nowrap">25–32</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">6</td>
+                <td data-label="Designation"><strong>Designer</strong></td>
+                <td data-label="Total Positions" class="nowrap">1</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-6</td>
+                <td data-label="Qualification & Experience">DAE Electrical/Electronics/Mechanical/Mechatronics with <strong>5+ years</strong> experience. Hands-on 3D prototyping machine handling preferred.</td>
+                <td data-label="Age Limit" class="nowrap">23–30</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">7</td>
+                <td data-label="Designation"><strong>Network Coordinator</strong></td>
+                <td data-label="Total Positions" class="nowrap">1</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-6</td>
+                <td data-label="Qualification & Experience">Bachelors/Masters (16 years) in CS/IT/MCS/MS(IT)/Computer Engineering or related with <strong>3+ years</strong> experience.</td>
+                <td data-label="Age Limit" class="nowrap">25–32</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">8</td>
+                <td data-label="Designation"><strong>Marketing Executive</strong></td>
+                <td data-label="Total Positions" class="nowrap">2</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-5</td>
+                <td data-label="Qualification & Experience">Bachelors/Masters in Business Administration, Marketing, Business Economics or related with <strong>3+ years</strong> relevant marketing experience.</td>
+                <td data-label="Age Limit" class="nowrap">25–32</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">9</td>
+                <td data-label="Designation"><strong>Supervisor</strong></td>
+                <td data-label="Total Positions" class="nowrap">4</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-5</td>
+                <td data-label="Qualification & Experience">DAE with <strong>5+ years</strong> relevant experience managing technical activities.</td>
+                <td data-label="Age Limit" class="nowrap">25–32</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">10</td>
+                <td data-label="Designation"><strong>Machinist</strong></td>
+                <td data-label="Total Positions" class="nowrap">8</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-3</td>
+                <td data-label="Qualification & Experience">DAE with <strong>1+ year</strong> experience or Matric with <strong>3+ years</strong> experience.</td>
+                <td data-label="Age Limit" class="nowrap">23–30</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">11</td>
+                <td data-label="Designation"><strong>Die Fitter</strong></td>
+                <td data-label="Total Positions" class="nowrap">2</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-3</td>
+                <td data-label="Qualification & Experience">DAE with <strong>1+ year</strong> experience or Matric with <strong>3+ years</strong> experience.</td>
+                <td data-label="Age Limit" class="nowrap">23–30</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">12</td>
+                <td data-label="Designation"><strong>Electrician</strong></td>
+                <td data-label="Total Positions" class="nowrap">2</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-3</td>
+                <td data-label="Qualification & Experience">DAE Electrical with <strong>3+ years</strong> experience; hands-on office electrical systems troubleshooting required.</td>
+                <td data-label="Age Limit" class="nowrap">21–35</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">13</td>
+                <td data-label="Designation"><strong>Office Assistant</strong></td>
+                <td data-label="Total Positions" class="nowrap">2</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-3</td>
+                <td data-label="Qualification & Experience">Intermediate with <strong>3+ years</strong> experience in office management.</td>
+                <td data-label="Age Limit" class="nowrap">23–30</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">14</td>
+                <td data-label="Designation"><strong>Receptionist</strong></td>
+                <td data-label="Total Positions" class="nowrap">1</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-3</td>
+                <td data-label="Qualification & Experience">Graduation with <strong>1+ year</strong> relevant experience.</td>
+                <td data-label="Age Limit" class="nowrap">23–30</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">15</td>
+                <td data-label="Designation"><strong>Store Keeper</strong></td>
+                <td data-label="Total Positions" class="nowrap">1</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-3</td>
+                <td data-label="Qualification & Experience">Intermediate with <strong>2+ years</strong> relevant experience.</td>
+                <td data-label="Age Limit" class="nowrap">23–30</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">16</td>
+                <td data-label="Designation"><strong>Driver</strong></td>
+                <td data-label="Total Positions" class="nowrap">2</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-3</td>
+                <td data-label="Qualification & Experience">Minimum <strong>2+ years</strong> of relevant experience.</td>
+                <td data-label="Age Limit" class="nowrap">20–40</td>
+              </tr>
+              <tr>
+                <td class="nowrap" data-label="Sr. #">17</td>
+                <td data-label="Designation"><strong>Office Boy</strong></td>
+                <td data-label="Total Positions" class="nowrap">4</td>
+                <td data-label="Pay Scale" class="nowrap">PPS-1</td>
+                <td data-label="Qualification & Experience">Literate with <strong>1+ year</strong> relevant experience.</td>
+                <td data-label="Age Limit" class="nowrap">19–30</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Apply Section -->
+  <section id="apply" class="section">
+    <div class="container">
+      <div class="card">
+        <h2 style="margin-top:0">How to Apply</h2>
+        <p>Interested candidates are required to submit the <strong>online application form</strong> within <strong>15 days</strong> of publication of this advertisement. Job Descriptions are available at the TUSDEC website.</p>
+        <p class="muted" style="margin:.6rem 0 1rem">Note: Incomplete applications or those received after due date will not be considered and no intimation will be given.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" target="_blank" rel="noopener" href="https://tusdec.org.pk/online-job-application-for-scds-project-posts/">Apply Online – SCDS</a>
+          <a class="btn btn-accent" target="_blank" rel="noopener" href="https://tusdec.org.pk/online-job-application-for-idac-project-posts/">Apply Online – IDAC</a>
+          <a class="btn btn-outline" target="_blank" rel="noopener" href="http://www.tusdec.org.pk">Visit TUSDEC Website</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Footer -->
+  <footer id="contact">
+    <div class="container">
+      <h3 style="margin-top:0; color:#e2e8f0">Contact</h3>
+      <p><strong>Human Resource Department, TUSDEC</strong><br />State Cement Corporation Building, Kot Lakhpat, Lahore</p>
+      <p>Tel: 042-35145793-4 Ext. 262</p>
+      <p><strong>Say No To Corruption</strong></p>
+      <p class="muted">TUSDEC is an equal opportunity employer; female applicants are encouraged to apply.</p>
+    </div>
+  </footer>
+
+  <script>
+    function filterTable() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#jobsTable tbody tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
