@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="PRRrt7X2_Bozeoj4s2PxyAnvzWzzv97LjlX_u1QBjQ" />
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"></script>
-<link rel="stylesheet" href="style.css"/>
+  <meta name="google-site-verification" content="PRRrt7X2_Bozeoj4s2PxyAnvzWzzv97LjlX_u1QBjQ" />
+  
+  <!-- Google AdSense script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"></script>
+  
+  <link rel="stylesheet" href="style.css"/>
+  
   <title>User Submitted Jobs</title>
+  
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; }
     h1 { text-align: center; color: #333; }
@@ -17,33 +22,71 @@
     .job-card a { display: inline-block; margin-top: 10px; color: #fff; background: #0073e6; padding: 8px 12px; border-radius: 4px; text-decoration: none; }
     .job-card a:hover { background: #005bb5; }
     .ad-link { display: block; margin-top: 8px; color: #0073e6; text-decoration: underline; }
+    nav { text-align: center; margin-bottom: 20px; }
+    nav a { margin: 0 8px; color: #0073e6; text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
   <header>
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="jobposting.html">User Jobs</a> |
-    <a href="about.html">About Us</a> |
-    <a href="chat.html">Discussion</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="disclaimer.html">Disclaimer</a> |
-    <a href="terms.html">Terms & Conditions</a> |
-    <a href="contact.html">Contact Us</a> |
-    <a href="https://forms.gle/ivBbcnFWXPNTNwyg9" target="_blank">➕ Post a Job</a>
-  </nav>
-  <h1>Job Advertisements</h1>
-</header>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="jobposting.html">User Jobs</a> |
+      <a href="about.html">About Us</a> |
+      <a href="chat.html">Discussion</a> |
+      <a href="privacy.html">Privacy Policy</a> |
+      <a href="disclaimer.html">Disclaimer</a> |
+      <a href="terms.html">Terms & Conditions</a> |
+      <a href="contact.html">Contact Us</a> |
+      <a href="https://forms.gle/ivBbcnFWXPNTNwyg9" target="_blank">➕ Post a Job</a>
+    </nav>
+    <h1>Job Advertisements</h1>
+  </header>
+
   <h1>📌 User Submitted Jobs</h1>
   <div id="jobs" class="job-list">Loading jobs...</div>
 
   <script>
     const csvUrl = "https://docs.google.com/spreadsheets/d/1ySAiaip6_80lNkTEAMiAZ_U2j9w0T4hcglMIsGa4h5c/export?format=csv&sheet=Sheet1";
 
+    // Simple CSV parser that handles quoted commas
+    function parseCSV(str) {
+      const rows = [];
+      let current = [];
+      let inQuotes = false;
+      let value = "";
+
+      for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        const nextChar = str[i+1];
+
+        if (char === '"' && inQuotes && nextChar === '"') {
+          value += '"';
+          i++; // skip next quote
+        } else if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          current.push(value);
+          value = "";
+        } else if ((char === '\n' || char === '\r') && !inQuotes) {
+          if (value || value === "") current.push(value);
+          if (current.length > 1 || current[0] !== "") rows.push(current);
+          current = [];
+          value = "";
+          if (char === '\r' && nextChar === '\n') i++; // handle \r\n
+        } else {
+          value += char;
+        }
+      }
+      if (value || value === "") current.push(value);
+      if (current.length > 0) rows.push(current);
+      return rows;
+    }
+
     fetch(csvUrl)
       .then(res => res.text())
       .then(data => {
-        const rows = data.split("\n").map(r => r.split(","));
+        const rows = parseCSV(data);
         const headers = rows[0]; // first row = column names
         const jobs = rows.slice(1).filter(r => r.length > 1);
 
@@ -90,7 +133,3 @@
   </script>
 </body>
 </html>
-
-
-
-
