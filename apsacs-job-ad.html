@@ -47,7 +47,9 @@
       background: #004080;
       color: #fff;
       text-decoration: none;
+      border: none;
       border-radius: 6px;
+      cursor: pointer;
     }
     .apply-btn:hover {
       background: #0066cc;
@@ -56,6 +58,22 @@
       margin-top: 25px;
       font-size: 14px;
       color: #555;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, button {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -107,16 +125,31 @@
       <li><strong>Experience:</strong> Minimum 3 years teaching experience in reputed English medium school</li>
     </ul>
 
-    <h3>Terms & Conditions</h3>
-    <ol>
-      <li>Interested candidates can apply online or drop their resume at "Army Public School & College Defence Complex E-10 Islamabad".</li>
-      <li>Only shortlisted candidates will be called for test/demo/interview. No TA/DA will be admissible.</li>
-      <li>Please submit your CV/Resume via the provided email address.</li>
-      <li>Candidate must mention the post and subject clearly in the subject of the email.</li>
-    </ol>
+    <h3>Submit Your CV</h3>
+    <form action="https://formsubmit.co/principalapsdci@gmail.com" method="POST" enctype="multipart/form-data">
+      <!-- Hidden setup -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html">
 
-<a href="mailto:principalapsdci@gmail.com?subject=Job Application - APSACS DCI&body=Dear Principal,%0D%0A%0D%0APlease find my CV attached for your consideration.%0D%0A%0D%0ARegards," class="apply-btn">Apply Now</a>
-        <div class="view-ad">
+      <label for="name">Full Name:</label>
+      <input type="text" name="name" id="name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="phone">Phone:</label>
+      <input type="text" name="phone" id="phone" required>
+
+      <label for="position">Position Applying For:</label>
+      <input type="text" name="position" id="position" required>
+
+      <label for="cv">Upload CV:</label>
+      <input type="file" name="attachment" id="cv" accept=".pdf,.doc,.docx" required>
+
+      <button type="submit" class="apply-btn">Submit CV</button>
+    </form>
+
+    <div class="view-ad">
       <a href="https://apsdci.edu.pk/2025/02/19/job-opportunity/" target="_blank">📄 View Original Advertisement</a>
     </div>
 
