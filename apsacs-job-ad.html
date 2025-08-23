@@ -23,7 +23,7 @@
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    h1, h2 {
+    h1, h2, h3 {
       color: #004080;
       margin-bottom: 10px;
     }
@@ -62,18 +62,24 @@
     form {
       margin-top: 20px;
     }
-    label {
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .form-row label {
+      flex: 0 0 150px; /* fixed width for labels */
       font-weight: bold;
     }
-    input, button {
-      width: 100%;
-      max-width: 400px;
+    .form-row input {
+      flex: 1;
       padding: 10px;
-      margin-top: 6px;
-      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
+    }
+    .form-row input[type="file"] {
+      padding: 5px;
     }
   </style>
 </head>
@@ -127,24 +133,33 @@
 
     <h3>Submit Your CV</h3>
     <form action="https://formsubmit.co/principalapsdci@gmail.com" method="POST" enctype="multipart/form-data">
-      <!-- Hidden setup -->
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html">
 
-      <label for="name">Full Name:</label>
-      <input type="text" name="name" id="name" required>
+      <div class="form-row">
+        <label for="name">Full Name:</label>
+        <input type="text" name="name" id="name" required>
+      </div>
 
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="email" required>
+      <div class="form-row">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+      </div>
 
-      <label for="phone">Phone:</label>
-      <input type="text" name="phone" id="phone" required>
+      <div class="form-row">
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" id="phone" required>
+      </div>
 
-      <label for="position">Position Applying For:</label>
-      <input type="text" name="position" id="position" required>
+      <div class="form-row">
+        <label for="position">Position Applying For:</label>
+        <input type="text" name="position" id="position" required>
+      </div>
 
-      <label for="cv">Upload CV:</label>
-      <input type="file" name="attachment" id="cv" accept=".pdf,.doc,.docx" required>
+      <div class="form-row">
+        <label for="cv">Upload CV:</label>
+        <input type="file" name="attachment" id="cv" accept=".pdf,.doc,.docx" required>
+      </div>
 
       <button type="submit" class="apply-btn">Submit CV</button>
     </form>
