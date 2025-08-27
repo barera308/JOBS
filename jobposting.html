@@ -8,10 +8,94 @@
   <!-- Google AdSense script -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"></script>
   
+  <!-- External CSS (header styles only) -->
   <link rel="stylesheet" href="style.css"/>
   
   <title>User Submitted Jobs</title>
-  
+
+  <!-- Inline CSS (everything except header) -->
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Section Title */
+    h1 {
+      text-align: center;
+      margin: 25px 0 15px;
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+
+    /* Job List */
+    .job-list {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 15px 40px;
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    /* Job Cards */
+    .job-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+    .job-card h3 {
+      margin-top: 0;
+      color: #007BFF;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    .job-card p {
+      margin: 6px 0;
+    }
+    .job-card b {
+      color: #2c3e50;
+    }
+
+    /* Links / Buttons */
+    .job-card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .job-card a[href*="http"]:first-of-type {
+      background: #28a745;
+      color: #fff;
+    }
+    .job-card a[href*="http"]:first-of-type:hover {
+      background: #218838;
+    }
+    .job-card .ad-link {
+      background: #007BFF;
+      color: #fff;
+      margin-left: 8px;
+    }
+    .job-card .ad-link:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -35,7 +119,6 @@
   <script>
     const csvUrl = "https://docs.google.com/spreadsheets/d/1ySAiaip6_80lNkTEAMiAZ_U2j9w0T4hcglMIsGa4h5c/export?format=csv&sheet=Sheet1";
 
-    // Simple CSV parser that handles quoted commas
     function parseCSV(str) {
       const rows = [];
       let current = [];
@@ -48,7 +131,7 @@
 
         if (char === '"' && inQuotes && nextChar === '"') {
           value += '"';
-          i++; // skip next quote
+          i++;
         } else if (char === '"') {
           inQuotes = !inQuotes;
         } else if (char === ',' && !inQuotes) {
@@ -59,7 +142,7 @@
           if (current.length > 1 || current[0] !== "") rows.push(current);
           current = [];
           value = "";
-          if (char === '\r' && nextChar === '\n') i++; // handle \r\n
+          if (char === '\r' && nextChar === '\n') i++;
         } else {
           value += char;
         }
@@ -73,7 +156,6 @@
       .then(res => res.text())
       .then(data => {
         const rows = parseCSV(data);
-        const headers = rows[0]; // first row = column names
         const jobs = rows.slice(1).filter(r => r.length > 1);
 
         const jobsContainer = document.getElementById("jobs");
@@ -119,4 +201,3 @@
   </script>
 </body>
 </html>
-
