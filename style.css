@@ -5,24 +5,26 @@
   box-sizing: border-box;
 }
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f9f9f9;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  background: #f4f6f9;
   color: #333;
-  line-height: 1.6;
+  line-height: 1.7;
   padding-top: 10px;
 }
 
 /* Header */
 header {
   text-align: center;
-  background: #007BFF;
+  background: linear-gradient(135deg, #007BFF, #0056b3);
   color: white;
-  padding: 20px;
-  border-bottom: 4px solid #0056b3;
+  padding: 25px 15px;
+  border-bottom: 5px solid #00408d;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 header h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 5px;
+  font-weight: 700;
 }
 header p {
   font-size: 1rem;
@@ -35,45 +37,51 @@ nav {
 }
 nav a {
   color: white;
-  margin: 0 10px;
+  margin: 0 12px;
   text-decoration: none;
   font-weight: 600;
+  transition: opacity 0.3s;
 }
 nav a:hover {
+  opacity: 0.8;
   text-decoration: underline;
 }
 
 /* Jobs Section */
 .jobs {
   max-width: 1000px;
-  margin: 20px auto;
+  margin: 25px auto;
   background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
 }
 .jobs h2 {
-  margin-bottom: 15px;
-  font-size: 1.5rem;
+  margin-bottom: 18px;
+  font-size: 1.7rem;
   color: #007BFF;
+  border-left: 4px solid #007BFF;
+  padding-left: 10px;
 }
 
 /* Post Job Button */
 .post-job {
   text-align: center;
-  margin: 20px 0;
+  margin: 25px 0;
 }
 .post-job a {
   background: #007BFF;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 8px;
   font-weight: bold;
   text-decoration: none;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0,123,255,0.2);
 }
 .post-job a:hover {
   background: #0056b3;
+  transform: translateY(-2px);
 }
 
 /* Controls (Search + Sort) */
@@ -83,41 +91,49 @@ nav a:hover {
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  gap: 10px;
 }
 .search-bar {
   display: flex;
-  gap: 5px;
+  gap: 8px;
 }
 .search-bar input {
-  padding: 8px;
-  border: 1px solid #ddd;
+  padding: 9px 12px;
+  border: 1px solid #ccc;
   border-radius: 6px;
-  width: 200px;
+  width: 230px;
+  transition: border 0.3s;
+}
+.search-bar input:focus {
+  border: 1px solid #007BFF;
+  outline: none;
 }
 .search-bar button {
-  padding: 8px 12px;
+  padding: 9px 14px;
   border: none;
   background: #007BFF;
   color: white;
   border-radius: 6px;
   cursor: pointer;
+  transition: 0.3s;
 }
 .search-bar button:hover {
   background: #0056b3;
 }
-.sort {
-  margin-top: 10px;
-}
 .sort select {
-  padding: 5px;
+  padding: 7px 12px;
   border-radius: 6px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
 }
 
 /* Job Cards */
 .job {
   border-bottom: 1px solid #eee;
-  padding: 15px 0;
+  padding: 18px 0;
+  transition: background 0.2s;
+}
+.job:hover {
+  background: #f8faff;
 }
 .job:last-child {
   border-bottom: none;
@@ -125,20 +141,25 @@ nav a:hover {
 .job h3 a {
   color: #007BFF;
   text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 .job h3 a:hover {
   text-decoration: underline;
 }
 .job p {
-  margin: 5px 0;
+  margin: 6px 0;
+  color: #555;
 }
 .job .btn {
   display: inline-block;
-  margin: 8px 5px 0 0;
-  padding: 7px 12px;
+  margin: 10px 6px 0 0;
+  padding: 8px 14px;
   border-radius: 6px;
   text-decoration: none;
   font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 .btn-primary {
   background: #007BFF;
@@ -149,7 +170,8 @@ nav a:hover {
   color: white;
 }
 .btn:hover {
-  opacity: 0.9;
+  transform: translateY(-1px);
+  opacity: 0.95;
 }
 
 /* Share Menu */
@@ -162,52 +184,62 @@ nav a:hover {
   color: #007BFF;
   font-size: 0.9rem;
   text-decoration: none;
+  transition: 0.3s;
 }
 .share-menu a:hover {
+  color: #0056b3;
   text-decoration: underline;
 }
 
 /* Pagination */
 .pagination {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 .pagination button {
-  padding: 8px 12px;
+  padding: 9px 14px;
   margin: 0 5px;
   border: none;
   border-radius: 6px;
   background: #007BFF;
   color: white;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 .pagination button:hover {
   background: #0056b3;
+  transform: translateY(-2px);
 }
 
 /* Social Links */
 .social-links {
   text-align: center;
-  margin: 20px 0;
+  margin: 25px 0;
 }
 .social-links a {
   display: inline-flex;
   align-items: center;
-  margin: 5px 10px;
+  margin: 6px 12px;
   text-decoration: none;
   color: #333;
-  font-weight: bold;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.social-links a:hover {
+  color: #007BFF;
 }
 .social-links img {
-  height: 20px;
-  margin-right: 5px;
+  height: 22px;
+  margin-right: 6px;
 }
 
 /* Footer */
 footer {
   text-align: center;
-  padding: 15px;
+  padding: 18px;
   background: #f1f1f1;
   border-top: 1px solid #ddd;
-  margin-top: 20px;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: #666;
 }
