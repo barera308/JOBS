@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Are Hiring - Al Nuaimi Group</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 min-h-screen flex flex-col items-center justify-center">
+
+    <!-- Navigation Header -->
+    <header class="w-full max-w-4xl p-4 bg-white rounded-xl shadow-lg mb-6 flex justify-center space-x-4">
+        <button id="home-btn" class="px-4 py-2 rounded-lg font-bold text-lg text-green-700 hover:bg-green-100 transition duration-300">Home</button>
+        <button id="hiring-btn" class="px-4 py-2 rounded-lg font-bold text-lg text-green-700 hover:bg-green-100 transition duration-300">Job Openings</button>
+    </header>
+
+    <!-- Main Content Container -->
+    <div id="content-container" class="bg-white rounded-2xl shadow-xl max-w-4xl w-full p-8 md:p-12 space-y-8">
+
+        <!-- Home Page Section -->
+        <section id="homepage" class="text-center space-y-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-green-700 tracking-tight">Welcome to Al Nuaimi Group</h1>
+            <p class="text-xl sm:text-2xl font-semibold text-gray-600">Explore our career opportunities and join our team for a new construction project in the UAE.</p>
+            <button id="view-jobs-btn" class="px-8 py-4 bg-green-700 text-white font-bold text-lg rounded-xl shadow-md hover:bg-green-800 transition duration-300">View Job Openings</button>
+        </section>
+
+        <!-- Hiring Page Section -->
+        <section id="hiring-page" class="hidden">
+            <div class="text-center space-y-4">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-green-700 tracking-tight">WE ARE HIRING</h1>
+                <p class="text-xl sm:text-2xl font-semibold text-green-600">FOR A CONSTRUCTION PROJECT</p>
+            </div>
+
+            <!-- Job Positions Table -->
+            <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm mt-8">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">No.</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Positions</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">UAE Experience Required</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">1.</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Civil Project Engineer</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Minimum ten years</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">2.</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Civil Works Foreman</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Minimum ten years</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">3.</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Health & Safety Officer</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Minimum five years</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">4.</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Quantity Surveyor</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Minimum three years</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">5.</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Quality Control</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Minimum five years</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">6.</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Document Controller</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Minimum three years</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">7.</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Storekeeper</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Minimum three years</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">8.</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Surveyor</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Minimum three years</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Experience & Contact Information -->
+            <div class="text-center space-y-4 pt-4 text-gray-700">
+                <h2 class="text-2xl font-bold">Experience:</h2>
+                <p class="text-lg leading-relaxed">All candidates must have relevant experience in general construction projects, in addition to the years of experience specified above for each position.</p>
+
+                <h2 class="text-2xl font-bold">Location: UAE</h2>
+
+                <!-- Apply Now Form -->
+                <div class="mt-8 pt-4 border-t-2 border-gray-200">
+                    <h3 class="text-xl font-semibold mb-4">Apply Now</h3>
+                    <form id="application-form" class="space-y-4">
+                        <div>
+                            <label for="applicant-email" class="sr-only">Your Email</label>
+                            <input type="email" id="applicant-email" name="applicant-email" placeholder="Your Email Address" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        </div>
+                        <div>
+                            <label for="cv-file" class="sr-only">Upload CV</label>
+                            <input type="file" id="cv-file" name="cv-file" accept=".pdf,.doc,.docx" required class="w-full px-4 py-2 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                        </div>
+                        <button type="submit" class="w-full px-4 py-2 bg-green-700 text-white font-bold rounded-lg hover:bg-green-800 transition duration-300">Submit Application</button>
+                    </form>
+                    <p class="text-sm text-gray-500 italic mt-4">Note: Your email client will open. You will need to manually attach your CV before sending.</p>
+                </div>
+
+                <p class="text-xs text-gray-500 italic pt-4">NB : CVs from outside UAE will not be considered</p>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer Section with Brand Details -->
+    <footer class="w-full max-w-4xl mt-6 bg-green-700 text-white py-4 px-8 flex flex-col md:flex-row items-center justify-between rounded-xl shadow-lg">
+        <div class="flex items-center space-x-4 mb-4 md:mb-0">
+            <!-- Placeholder for Al Nuaimi Group Logo -->
+            <div class="flex items-center">
+                <p class="text-lg font-bold">مجموعة النعيمي</p>
+            </div>
+            <p class="text-sm">AL NUAIMI GROUP</p>
+        </div>
+        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-8">
+            <p class="text-sm">www.alnuaimi-group.com</p>
+            <p class="text-sm">Publishing date: 27/08/2025</p>
+        </div>
+    </footer>
+
+    <script>
+        const homepage = document.getElementById('homepage');
+        const hiringPage = document.getElementById('hiring-page');
+        const homeBtn = document.getElementById('home-btn');
+        const hiringBtn = document.getElementById('hiring-btn');
+        const viewJobsBtn = document.getElementById('view-jobs-btn');
+        const applicationForm = document.getElementById('application-form');
+
+        // Function to show a specific page
+        function showPage(pageId) {
+            homepage.classList.add('hidden');
+            hiringPage.classList.add('hidden');
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        // Event listeners for navigation
+        homeBtn.addEventListener('click', () => showPage('homepage'));
+        hiringBtn.addEventListener('click', () => showPage('hiring-page'));
+        viewJobsBtn.addEventListener('click', () => showPage('hiring-page'));
+
+        // Handle form submission
+        applicationForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent the default form submission
+            const applicantEmail = document.getElementById('applicant-email').value;
+            const cvFile = document.getElementById('cv-file').files[0];
+
+            if (applicantEmail && cvFile) {
+                const subject = encodeURIComponent('CV Application from Website');
+                const body = encodeURIComponent(`I am writing to apply for a position. My email is ${applicantEmail}.\n\n(Please remember to attach your CV before sending this email.)`);
+                const mailtoLink = `mailto:cv@alnuaimi-group.com?subject=${subject}&body=${body}`;
+                window.location.href = mailtoLink;
+            } else {
+                alert('Please fill out your email and upload a CV.');
+            }
+        });
+
+        // Set initial page view
+        showPage('homepage');
+
+        // Note: `alert()` is used here as a simple example.
+        // For a production app, you would use a custom modal or message box.
+    </script>
+
+</body>
+</html>
+
