@@ -13,6 +13,24 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
+        /* Custom message box styling */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .message-box.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="p-4 sm:p-8 md:p-12">
@@ -77,8 +95,118 @@
                 </div>
             </div>
 
-            <!-- Other job cards omitted for brevity -->
-            <!-- (Keep the rest of your job cards here unchanged) -->
+            <!-- Job Card: Database Administrator -->
+            <div class="bg-white border border-gray-200 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-4 gap-4 shadow-sm">
+                <div class="sm:col-span-1 flex flex-col items-center sm:items-start space-y-2">
+                    <div class="font-bold text-lg text-gray-900">Database Administrator</div>
+                </div>
+                <div class="sm:col-span-2 space-y-2">
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">i.</span> MCS or BCS (2nd Division) in Software Engineering or equivalent from a recognized institution with four years' experience.</p>
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">ii.</span> Substantial experience with Oracle, MySQL, SQL Server, etc.</p>
+                </div>
+                <div class="sm:col-span-1 grid grid-cols-3 sm:text-center text-gray-700 font-medium">
+                    <div>01</div>
+                    <div>30</div>
+                    <div>40</div>
+                </div>
+            </div>
+
+            <!-- Job Card: System Administrator -->
+            <div class="bg-white border border-gray-200 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-4 gap-4 shadow-sm">
+                <div class="sm:col-span-1 flex flex-col items-center sm:items-start space-y-2">
+                    <div class="font-bold text-lg text-gray-900">System Administrator</div>
+                </div>
+                <div class="sm:col-span-2 space-y-2">
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">i.</span> MCS or MIT or BCS (2nd Division) in Telecom System or Software Engineering with four years' experience.</p>
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">ii.</span> Seven years' post-qualification experience of troubleshooting of LAN or WAN.</p>
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">iii.</span> Expert Level Certificate in System Administration or Network Administration or Cyber Security.</p>
+                </div>
+                <div class="sm:col-span-1 grid grid-cols-3 sm:text-center text-gray-700 font-medium">
+                    <div>01</div>
+                    <div>30</div>
+                    <div>40</div>
+                </div>
+            </div>
+
+            <!-- Job Card: Software Developer -->
+            <div class="bg-white border border-gray-200 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-4 gap-4 shadow-sm">
+                <div class="sm:col-span-1 flex flex-col items-center sm:items-start space-y-2">
+                    <div class="font-bold text-lg text-gray-900">Software Developer</div>
+                </div>
+                <div class="sm:col-span-2 space-y-2">
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">i.</span> MCS or MIT or BCS (2nd Division) in Computer Science or equivalent with three years' experience.</p>
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">ii.</span> Expertise in ASP, .NET, C++, SQL, HTML, etc.</p>
+                </div>
+                <div class="sm:col-span-1 grid grid-cols-3 sm:text-center text-gray-700 font-medium">
+                    <div>01</div>
+                    <div>30</div>
+                    <div>40</div>
+                </div>
+            </div>
+
+            <!-- Job Card: Network Engineer -->
+            <div class="bg-white border border-gray-200 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-4 gap-4 shadow-sm">
+                <div class="sm:col-span-1 flex flex-col items-center sm:items-start space-y-2">
+                    <div class="font-bold text-lg text-gray-900">Network Engineer</div>
+                </div>
+                <div class="sm:col-span-2 space-y-2">
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">i.</span> BCS (2nd Division) in Telecom System or Telecom Engineering or Computer Science with three years' experience.</p>
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">ii.</span> Five years' post-qualification experience of troubleshooting LAN or WAN.</p>
+                </div>
+                <div class="sm:col-span-1 grid grid-cols-3 sm:text-center text-gray-700 font-medium">
+                    <div>02</div>
+                    <div>30</div>
+                    <div>40</div>
+                </div>
+            </div>
+
+            <!-- Job Card: Hardware Technician -->
+            <div class="bg-white border border-gray-200 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-4 gap-4 shadow-sm">
+                <div class="sm:col-span-1 flex flex-col items-center sm:items-start space-y-2">
+                    <div class="font-bold text-lg text-gray-900">Hardware Technician</div>
+                </div>
+                <div class="sm:col-span-2 space-y-2">
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">i.</span> BCS (2nd Division) in Engineering or Computer Science with two years' experience.</p>
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">ii.</span> Electronics (second division) from a recognized Board.</p>
+                </div>
+                <div class="sm:col-span-1 grid grid-cols-3 sm:text-center text-gray-700 font-medium">
+                    <div>01</div>
+                    <div>25</div>
+                    <div>40</div>
+                </div>
+            </div>
+
+            <!-- Job Card: Junior Computer Operator -->
+            <div class="bg-white border border-gray-200 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-4 gap-4 shadow-sm">
+                <div class="sm:col-span-1 flex flex-col items-center sm:items-start space-y-2">
+                    <div class="font-bold text-lg text-gray-900">Junior Computer Operator</div>
+                </div>
+                <div class="sm:col-span-2 space-y-2">
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">i.</span> Intermediate (second division) from a recognized Board.</p>
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">ii.</span> Three months diploma in MS Office.</p>
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">iii.</span> Speed of 40 words per minute of typing in English.</p>
+                </div>
+                <div class="sm:col-span-1 grid grid-cols-3 sm:text-center text-gray-700 font-medium">
+                    <div>09</div>
+                    <div>20</div>
+                    <div>40</div>
+                </div>
+            </div>
+
+            <!-- Job Card: Naib Qasid -->
+            <div class="bg-white border border-gray-200 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-4 gap-4 shadow-sm">
+                <div class="sm:col-span-1 flex flex-col items-center sm:items-start space-y-2">
+                    <div class="font-bold text-lg text-gray-900">Naib Qasid</div>
+                </div>
+                <div class="sm:col-span-2 space-y-2">
+                    <p class="text-gray-600"><span class="font-semibold text-gray-800">i.</span> Matriculation (second division) from a recognized Board.</p>
+                </div>
+                <div class="sm:col-span-1 grid grid-cols-3 sm:text-center text-gray-700 font-medium">
+                    <div>02</div>
+                    <div>20</div>
+                    <div>40</div>
+                </div>
+            </div>
 
         </div>
 
@@ -99,16 +227,9 @@
                 <p class="text-sm text-center font-bold text-red-500">Last Date for submission of applications is 17 Sept 2025</p>
                 <div class="bg-gray-100 rounded-lg p-6 space-y-4">
                     <p class="text-gray-700 font-semibold text-center">Send documents via courier to this address:</p>
-                    <p class="text-center font-bold text-gray-800" id="jobAddress">
-                        SECTION OFFICER (GENERAL),<br>
-                        GOVERNMENT OF THE PUNJAB<br>
-                        HOME DEPARTMENT<br>
-                        PUNJAB CIVIL SECRETARIAT, LOWER MALL, LAHORE
-                    </p>
-                    <button onclick="copyAddress()" 
-                        class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
-                        APPLY NOW<br>
-                        <span class="block text-sm font-normal">Copy Address</span>
+                    <p id="jobAddress" class="text-center font-bold text-gray-800">SECTION OFFICER (GENERAL),<br>GOVERNMENT OF THE PUNJAB<br>HOME DEPARTMENT<br>PUNJAB CIVIL SECRETARIAT, LOWER MALL, LAHORE</p>
+                    <button onclick="copyAddress()" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+                        Copy Address
                     </button>
                 </div>
             </div>
@@ -121,16 +242,34 @@
 
     </div>
 
+    <!-- Custom Message Box -->
+    <div id="messageBox" class="message-box"></div>
+
     <script>
         function copyAddress() {
             const address = document.getElementById("jobAddress").innerText;
             navigator.clipboard.writeText(address).then(() => {
-                alert("Address copied to clipboard:\n\n" + address);
+                showMessage("Address copied to clipboard!");
             }).catch(err => {
-                alert("Failed to copy address: " + err);
+                showMessage("Failed to copy address: " + err, true);
             });
         }
-    </script>
 
+        function showMessage(message, isError = false) {
+            const messageBox = document.getElementById("messageBox");
+            messageBox.innerText = message;
+            messageBox.classList.add("show");
+            
+            if (isError) {
+                messageBox.style.backgroundColor = "#dc2626"; // Red for errors
+            } else {
+                messageBox.style.backgroundColor = "#16a34a"; // Green for success
+            }
+
+            setTimeout(() => {
+                messageBox.classList.remove("show");
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
