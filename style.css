@@ -1,4 +1,6 @@
-/* ====================== General Reset ====================== */
+/* ===========================
+   General Reset & Body
+=========================== */
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +14,9 @@ body {
   padding-top: 10px;
 }
 
-/* ====================== Header ====================== */
+/* ===========================
+   Header & Navigation
+=========================== */
 header {
   text-align: center;
   background: linear-gradient(135deg, #007BFF, #0056b3);
@@ -30,8 +34,6 @@ header p {
   font-size: 1rem;
   opacity: 0.9;
 }
-
-/* ====================== Navigation ====================== */
 nav {
   margin-bottom: 15px;
 }
@@ -47,7 +49,9 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* ====================== Jobs Section ====================== */
+/* ===========================
+   Jobs Section
+=========================== */
 .jobs {
   max-width: 1000px;
   margin: 25px auto;
@@ -64,7 +68,9 @@ nav a:hover {
   padding-left: 10px;
 }
 
-/* ====================== Post Job Button ====================== */
+/* ===========================
+   Post Job Button
+=========================== */
 .post-job {
   text-align: center;
   margin: 25px 0;
@@ -84,7 +90,9 @@ nav a:hover {
   transform: translateY(-2px);
 }
 
-/* ====================== Controls (Search + Sort) ====================== */
+/* ===========================
+   Search & Sort Controls
+=========================== */
 .controls {
   display: flex;
   justify-content: space-between;
@@ -126,7 +134,9 @@ nav a:hover {
   border: 1px solid #ccc;
 }
 
-/* ====================== Job Cards ====================== */
+/* ===========================
+   Job Cards
+=========================== */
 .job-card {
   border-bottom: 1px solid #eee;
   padding: 18px 0;
@@ -152,8 +162,10 @@ nav a:hover {
   color: #555;
 }
 
-/* ====================== Buttons ====================== */
-.btn, button.btn, a.btn {
+/* ===========================
+   Buttons inside Job Cards
+=========================== */
+.job-card .btn {
   display: inline-block;
   margin: 10px 6px 0 0;
   padding: 8px 14px;
@@ -167,32 +179,22 @@ nav a:hover {
   color: white;
 }
 
-/* Primary, Secondary, and Success buttons */
+/* Button types */
 .btn-primary { background: #007BFF; }
 .btn-secondary { background: #6c757d; }
 .btn-success { background: #28a745; }
 
-/* Hover styles for buttons */
+/* Hover effects */
 .btn-primary:hover { background: #0056b3; }
 .btn-secondary:hover { background: #5a6268; }
 .btn-success:hover { background: #218838; }
 
-/* Optional shadow for all buttons */
-.btn-primary, .btn-secondary, .btn-success {
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
-
-/* ====================== Share Menu ====================== */
+/* ===========================
+   Share Menu
+=========================== */
 .share-menu {
-  max-height: 0;
-  overflow: hidden;
+  display: none;
   margin-top: 10px;
-  opacity: 0;
-  transition: max-height 0.35s ease, opacity 0.35s ease;
-}
-.share-menu.show {
-  max-height: 120px; /* adjust for number of links */
-  opacity: 1;
 }
 .share-menu a {
   margin: 0 5px;
@@ -206,7 +208,9 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* ====================== Pagination ====================== */
+/* ===========================
+   Pagination
+=========================== */
 .pagination {
   text-align: center;
   margin-top: 25px;
@@ -226,7 +230,9 @@ nav a:hover {
   transform: translateY(-2px);
 }
 
-/* ====================== Social Links ====================== */
+/* ===========================
+   Social Links
+=========================== */
 .social-links {
   text-align: center;
   margin: 25px 0;
@@ -248,7 +254,9 @@ nav a:hover {
   margin-right: 6px;
 }
 
-/* ====================== Footer ====================== */
+/* ===========================
+   Footer
+=========================== */
 footer {
   text-align: center;
   padding: 18px;
