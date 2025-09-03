@@ -164,18 +164,22 @@ nav a:hover {
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
-}
-.btn-primary {
-  background: #007BFF;
   color: white;
 }
-.btn-success {
-  background: #28a745;
-  color: white;
-}
-.btn:hover {
-  transform: translateY(-1px);
-  opacity: 0.95;
+
+/* Primary, Secondary, and Success buttons */
+.btn-primary { background: #007BFF; }
+.btn-secondary { background: #6c757d; }
+.btn-success { background: #28a745; }
+
+/* Hover styles for buttons */
+.btn-primary:hover { background: #0056b3; }
+.btn-secondary:hover { background: #5a6268; }
+.btn-success:hover { background: #218838; }
+
+/* Optional shadow for all buttons */
+.btn-primary, .btn-secondary, .btn-success {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
 /* ====================== Share Menu ====================== */
