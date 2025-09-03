@@ -84,15 +84,11 @@ function renderJobs() {
       <p><strong>Location:</strong> ${job.location}</p>
       <p><strong>Deadline:</strong> ${formatDeadline(job.deadline)}</p>
       <p>${highlight(job.description, searchQuery)}</p>
-
       <a href="${job.link}" target="_blank" rel="noopener" class="btn btn-primary">View Details</a>
-      
-      ${job.originalAd && !job.originalAd.includes('dealcheck') ? 
-        `<a href="${job.originalAd}" target="_blank" rel="noopener" class="btn btn-primary">View Original Ad</a>` 
+      ${job.originalAd && !job.originalAd.includes('dealcheck') ?
+        `<a href="${job.originalAd}" target="_blank" rel="noopener" class="btn btn-primary">View Original Ad</a>`
         : ''}
-
       <button class="btn btn-success" onclick="toggleShareMenu(this)">Share</button>
-
       <div class="share-menu">
         <a href="#" onclick="shareOnFacebook(event, this)">Facebook</a> |
         <a href="#" onclick="shareOnTwitter(event, this)">Twitter</a> |
@@ -150,8 +146,6 @@ function shareOnWhatsApp(e, el) {
 
 document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
 
-document.getElementById('search-input').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    renderJobs();
-  }
+document.getElementById('search-input').addEventListener('input', function(e) {
+  renderJobs();
 });
