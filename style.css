@@ -1,4 +1,4 @@
-/* General Reset */
+/* ====================== General Reset ====================== */
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +12,7 @@ body {
   padding-top: 10px;
 }
 
-/* Header */
+/* ====================== Header ====================== */
 header {
   text-align: center;
   background: linear-gradient(135deg, #007BFF, #0056b3);
@@ -31,7 +31,7 @@ header p {
   opacity: 0.9;
 }
 
-/* Navigation */
+/* ====================== Navigation ====================== */
 nav {
   margin-bottom: 15px;
 }
@@ -47,7 +47,7 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* Jobs Section */
+/* ====================== Jobs Section ====================== */
 .jobs {
   max-width: 1000px;
   margin: 25px auto;
@@ -64,7 +64,7 @@ nav a:hover {
   padding-left: 10px;
 }
 
-/* Post Job Button */
+/* ====================== Post Job Button ====================== */
 .post-job {
   text-align: center;
   margin: 25px 0;
@@ -84,7 +84,7 @@ nav a:hover {
   transform: translateY(-2px);
 }
 
-/* Controls (Search + Sort) */
+/* ====================== Controls (Search + Sort) ====================== */
 .controls {
   display: flex;
   justify-content: space-between;
@@ -126,32 +126,34 @@ nav a:hover {
   border: 1px solid #ccc;
 }
 
-/* Job Cards */
-.job {
+/* ====================== Job Cards ====================== */
+.job-card {
   border-bottom: 1px solid #eee;
   padding: 18px 0;
   transition: background 0.2s;
 }
-.job:hover {
+.job-card:hover {
   background: #f8faff;
 }
-.job:last-child {
+.job-card:last-child {
   border-bottom: none;
 }
-.job h3 a {
+.job-card h3 a {
   color: #007BFF;
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: 600;
 }
-.job h3 a:hover {
+.job-card h3 a:hover {
   text-decoration: underline;
 }
-.job p {
+.job-card p {
   margin: 6px 0;
   color: #555;
 }
-.job .btn {
+
+/* ====================== Buttons ====================== */
+.btn, button.btn, a.btn {
   display: inline-block;
   margin: 10px 6px 0 0;
   padding: 8px 14px;
@@ -160,6 +162,8 @@ nav a:hover {
   font-size: 0.9rem;
   font-weight: 600;
   transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
 }
 .btn-primary {
   background: #007BFF;
@@ -174,10 +178,17 @@ nav a:hover {
   opacity: 0.95;
 }
 
-/* Share Menu */
+/* ====================== Share Menu ====================== */
 .share-menu {
-  display: none;
+  max-height: 0;
+  overflow: hidden;
   margin-top: 10px;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.35s ease;
+}
+.share-menu.show {
+  max-height: 120px; /* adjust for number of links */
+  opacity: 1;
 }
 .share-menu a {
   margin: 0 5px;
@@ -191,7 +202,7 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* Pagination */
+/* ====================== Pagination ====================== */
 .pagination {
   text-align: center;
   margin-top: 25px;
@@ -211,7 +222,7 @@ nav a:hover {
   transform: translateY(-2px);
 }
 
-/* Social Links */
+/* ====================== Social Links ====================== */
 .social-links {
   text-align: center;
   margin: 25px 0;
@@ -233,7 +244,7 @@ nav a:hover {
   margin-right: 6px;
 }
 
-/* Footer */
+/* ====================== Footer ====================== */
 footer {
   text-align: center;
   padding: 18px;
