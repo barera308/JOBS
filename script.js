@@ -51,7 +51,8 @@ function renderJobs() {
   const jobList = document.getElementById('job-list');
 
   let filteredJobs = jobsData
-    .filter(job => job.title.toLowerCase().includes(searchQuery))
+    .filter(job => job.title.toLowerCase().includes(searchQuery)) ||
+  job.description.toLowerCase().includes(searchQuery)
     .sort((a, b) => {
       const dateA = parseDate(a.deadline) || new Date(8640000000000000);
       const dateB = parseDate(b.deadline) || new Date(8640000000000000);
