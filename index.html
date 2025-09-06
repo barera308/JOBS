@@ -9,9 +9,43 @@
     <meta name="google-adsense-account" content="ca-pub-9084951287340288">
     <meta name="google-site-verification" content="PRRrt7X2_Bozeoj4s2PxyAnvzWzzv97LjlX_u1QBjQ" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css"/>
     <link rel="canonical" href="https://www.jobadvertisments.com.pk/" />
 
+    <style>
+        /* Action Buttons (Post Job + Create CV) */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons a {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s;
+            color: #fff;
+        }
+
+        .btn-job {
+            background: #007bff;
+        }
+        .btn-job:hover {
+            background: #0056b3;
+        }
+
+        .btn-cv {
+            background: #28a745;
+        }
+        .btn-cv:hover {
+            background: #218838;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -33,9 +67,10 @@
         <section class="jobs">
             <h2>Recent Job Ads</h2>
 
-            <!-- Highlighted Post Job Button -->
-            <div class="post-job">
-                <a href="https://forms.gle/ivBbcnFWXPNTNwyg9" target="_blank">➕ Post a Job</a>
+            <!-- Highlighted Action Buttons -->
+            <div class="action-buttons">
+                <a href="https://forms.gle/ivBbcnFWXPNTNwyg9" target="_blank" class="btn-job">➕ Post a Job</a>
+                <a href="create_cv.html" class="btn-cv">📄 Create Your CV</a>
             </div>
 
             <!-- Search + Sort -->
@@ -198,7 +233,7 @@ function renderJobs() {
 // Search and sort handlers
 document.getElementById('search-input').addEventListener('input', (e) => {
     currentSearch = e.target.value;
-    currentPage = 1; // reset page only when search changes
+    currentPage = 1;
     renderJobs();
 });
 
@@ -218,7 +253,7 @@ function prevPage() {
     renderJobs();
 }
 
-// Share menu & social functions (unchanged)
+// Share menu & social functions
 function toggleShareMenu(button) {
     const menu = button.nextElementSibling;
     menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
