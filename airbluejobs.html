@@ -14,9 +14,21 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
-        /* Custom styles for the navigation links */
         header nav a {
             @apply text-white text-lg font-medium px-4 py-2 rounded-lg transition-colors duration-300 hover:bg-blue-700;
+        }
+        .collapsible-heading {
+            cursor: pointer;
+            user-select: none;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .collapsible-content.expanded {
+            max-height: 1000px; /* A large value to allow for expansion */
+            transition: max-height 0.5s ease-in;
         }
     </style>
 </head>
@@ -44,9 +56,7 @@
             <div class="relative flex flex-col md:flex-row">
                 <div class="bg-gray-800 p-6 md:p-10 flex-1 relative">
                     <div class="absolute inset-0 z-0">
-                        <!-- Using a slightly darker overlay for better text readability -->
                         <div class="absolute inset-0 bg-gray-900 opacity-60"></div>
-                        <!-- Using an SVG pattern for visual interest -->
                         <svg class="absolute inset-0 h-full w-full opacity-20" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <pattern id="pattern" width="100" height="100" patternUnits="userSpaceOnUse">
@@ -56,7 +66,6 @@
                             <rect width="100%" height="100%" fill="url(#pattern)"/>
                         </svg>
                     </div>
-                    <!-- Main text content -->
                     <div class="relative z-10 text-center text-white">
                         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-2">
                             WE ARE COMING TO FAISALABAD
@@ -68,16 +77,22 @@
                 </div>
             </div>
             
-            <!-- Information section -->
-            <div class="bg-white p-6 md:p-10">
+            <!-- New prominent Apply button section -->
+            <div class="bg-white p-6 md:p-10 text-center">
+                <p class="text-lg text-gray-700 mb-4 font-semibold">Ready to apply? Use the link below for any of our available positions!</p>
+                <a href="https://www.airblue.com/jobs/" target="_blank" class="inline-block w-full sm:w-auto bg-green-500 text-white font-bold text-lg py-4 px-8 rounded-full shadow-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
+                    Apply Online Here
+                </a>
+            </div>
+
+            <!-- Main Job Details Section -->
+            <div class="bg-white p-6 md:p-10 border-t border-gray-200">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Right column with job details -->
+                    <!-- Column 1 -->
                     <div class="flex flex-col space-y-6">
                         <div class="text-lg">
                             <p class="mb-2">We're looking for friendly, enthusiastic, & safety-conscious individuals to join our crew.</p>
                         </div>
-                        
-                        <!-- Job details list -->
                         <div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">POSITION & BASE</h3>
                             <ul class="text-gray-600 space-y-1">
@@ -85,7 +100,6 @@
                                 <li><strong>BASE STATION:</strong> Lahore</li>
                             </ul>
                         </div>
-                        
                         <div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">QUALIFICATIONS</h3>
                             <ul class="text-gray-600 space-y-1">
@@ -96,7 +110,6 @@
                                 <li><strong>QUALIFICATION:</strong> Intermediate or Equivalent; Passed with min. 60% (Certificates & Degrees should be verified from board)</li>
                             </ul>
                         </div>
-                        
                         <div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">SKILLS & DRESS CODE</h3>
                             <ul class="text-gray-600 space-y-1">
@@ -106,7 +119,7 @@
                         </div>
                     </div>
                     
-                    <!-- Left column with interview details -->
+                    <!-- Column 2 -->
                     <div class="flex flex-col space-y-6">
                         <div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">WALK-IN INTERVIEW DETAILS</h3>
@@ -116,7 +129,6 @@
                                 <li><strong>VENUE:</strong> West Inn Hotel, Coral Hall, 4th Floor, Faisalabad</li>
                             </ul>
                         </div>
-                        
                         <div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">REQUIRED DOCUMENTS</h3>
                             <ul class="text-gray-600 space-y-1">
@@ -125,8 +137,6 @@
                                 <li>Matric certificate & Intermediate or Equivalent certificate</li>
                             </ul>
                         </div>
-                        
-                        <!-- Apply section -->
                         <div class="mt-8">
                             <p class="text-lg text-gray-700 mb-4">
                                 Airblue offers attractive salary packages & travel facilities
@@ -134,6 +144,212 @@
                             <a href="https://www.airblue.com/jobs/" target="_blank" class="block w-full text-center bg-sky-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-sky-700 transition duration-300">
                                 TO APPLY VISIT: www.airblue.com/jobs/
                             </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section for all other job postings -->
+                <div class="mt-12">
+                    <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Other Open Positions</h2>
+                    <p class="text-center text-gray-600 mb-6">Airblue is an equal opportunity employer.</p>
+
+                    <div class="flex flex-col space-y-4">
+                        <!-- Administration Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Administration
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Deputy Managing Director Business Development: ISB - Corporate HQ (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Aeromedical Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Aeromedical
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Coordinator Aeromedical: ISB - Airport [B] (2)</li>
+                                    <li>Medical Officer: ISB - Airport (1)</li>
+                                    <li>Coordinator Aeromedical: LHE - Airport [B] (2)</li>
+                                    <li>Flight Surgeon: LHE - Airport (1)</li>
+                                    <li>Medical Officer: LHE - Airport (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Airside Operations Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Airside Operations
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Assistant Manager Airside: ISB - Airport (1)</li>
+                                    <li>Supervisor Airside: KDU - Airport (1)</li>
+                                    <li>Senior Executive Airside: KHI - Airport (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Call Center Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Call Center
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Call Center Counselor: ISB - Call Center (2)</li>
+                                    <li>Supervisor Call Center - Quality Assurance: ISB - Call Center (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Commercial Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Commercial
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Client Relations Executive: MUX - City Office (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Engineering Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Engineering
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Engineer - Structure Repair Shop: ISB - Airport (1)</li>
+                                    <li>Engineer - Wheel Shop: ISB - Airport (1)</li>
+                                    <li>Engineer MCC: ISB - Airport (1)</li>
+                                    <li>Manager EBD: ISB - Airport (1)</li>
+                                    <li>Manager Shops: ISB - Airport (1)</li>
+                                    <li>Store Keeper: ISB - Airport (1)</li>
+                                    <li>Aircraft Engineer - Aerospace: KDU - Airport (1)</li>
+                                    <li>Technician - Aerospace: KDU - Airport (2)</li>
+                                    <li>Technician - Avionics: KDU - Airport (2)</li>
+                                    <li>Engineer - Structure Repair Shop: LHE - Airport (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Flight Operations Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Flight Operations
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Chief Pilot Scheduling: ISB - Airport (1)</li>
+                                    <li>Senior Manager Flight Operations: ISB - Corporate HQ (1)</li>
+                                    <li>Captain: LHE - Airport (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Flight Services Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Flight Services
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Cabin Crew - Trainee: ISB - Airport (20)</li>
+                                    <li>Manager Flight Services: ISB - Corporate HQ (1)</li>
+                                    <li>Cabin Crew - Trainee: LHE - Airport (20)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- MIS Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                MIS
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Network Operations Engineer: KHI - Airport (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Procurement & Administration Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Procurement & Administration
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Executive Procurement: ISB - Corporate HQ (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Quality Assurance Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Quality Assurance
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Aircraft Engineer Avionics - Quality Assurance: ISB - Airport (1)</li>
+                                    <li>Aircraft Engineer Avionics - Quality Assurance: LHE - Airport (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Terminal Operations Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Terminal Operations
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Counselor Terminal Customer Services: ISB - Airport (7)</li>
+                                    <li>General Manager Terminal Operations: ISB - Airport (1)</li>
+                                    <li>Assistant Manager Terminal Customer Services: LBA - Airport (1)</li>
+                                    <li>Assistant Manager Terminal Customer Services: MAN - Airport (1)</li>
+                                    <li>Associate Terminal: MUX - Airport (1)</li>
+                                    <li>Counselor Terminal Customer Services: MUX - Airport (1)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Transport Section -->
+                        <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
+                            <h4 class="collapsible-heading text-lg font-semibold text-gray-800 flex justify-between items-center">
+                                Transport
+                                <span class="transform transition-transform duration-300">&#9660;</span>
+                            </h4>
+                            <div class="collapsible-content mt-2 text-gray-600">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Coordinator Transport: ISB - Corporate HQ (1)</li>
+                                    <li>Driver: ISB - Corporate HQ (2)</li>
+                                    <li>Senior Executive Performance: ISB - Corporate HQ (1)</li>
+                                    <li>Driver: LHE - Airport (1)</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -157,12 +373,28 @@
                     <a href="#" class="text-gray-500 hover:text-gray-800 transition-colors duration-300">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8v-1c0-1.334 1.309-2.019 2.648-2.019h2.352v-3.793h-3.926c-3.159 0-5.124 1.948-5.124 5.341v2.471h-3.124v3.987h3.124v11.644h4.125v-11.644h3.155l.484-3.987h-3.639v-2.471z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
                     </a>
-                    <a href="#" class="text-gray-500 hover:text-gray-800 transition-colors duration-300">
-                        <!-- Missing SVG for the last social icon -->
-                    </a>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const collapsibleHeaders = document.querySelectorAll('.collapsible-heading');
+            collapsibleHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const arrow = header.querySelector('span');
+                    if (content.classList.contains('expanded')) {
+                        content.classList.remove('expanded');
+                        arrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        content.classList.add('expanded');
+                        arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
