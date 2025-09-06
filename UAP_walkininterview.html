@@ -41,9 +41,12 @@
             background-color: #2d3748;
         }
         .ad-content {
-            white-space: pre-wrap;
+            white-space: normal; /* allow wrapping */
             line-height: 1.6;
             margin-bottom: 2rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: justify; /* makes it neat */
         }
         .form-section {
             padding-top: 1rem;
@@ -120,7 +123,6 @@
 
     <div class="container">
         <!-- Google AdSense Placeholder -->
-        <!-- Replace this with your actual Google AdSense ad unit code goes here -->
         
         <div class="header">
             <a href="http://www.aup.edu.pk" class="home-button rounded-lg">Home</a>
@@ -130,15 +132,18 @@
         </div>
 
         <div class="ad-content">
-            <pre>
-Applications are invited for the post of lecturer (03) purely on a visiting basis for Fall Semester (2025) in the Department of Human Nutrition, The University of Agriculture, Peshawar.
-
-Interested candidates, with 1st class MSc (H) / MS (Human Nutrition / relevant field) and having no 3rd Division in the academic career, shall submit their applications along with CVs, relevant attested documents and two pictures (4x4) on or before 8th September, 2025 in the Office of Department of Human Nutrition.
-
-The Interview will be held on 10th September, 2025 (10 AM) in the Chairperson Office, Department of Human Nutrition, The University of Agriculture, Peshawar. All the candidates must bring their original documents on the interview day.
-
-NO TA/DA will be admissible for this purpose.
-            </pre>
+            <p>
+                Applications are invited for the post of lecturer (03) purely on a visiting basis for Fall Semester (2025) in the Department of Human Nutrition, The University of Agriculture, Peshawar.
+            </p>
+            <p>
+                Interested candidates, with 1st class MSc (H) / MS (Human Nutrition / relevant field) and having no 3rd Division in the academic career, shall submit their applications along with CVs, relevant attested documents and two pictures (4x4) on or before 8th September, 2025 in the Office of Department of Human Nutrition.
+            </p>
+            <p>
+                The Interview will be held on 10th September, 2025 (10 AM) in the Chairperson Office, Department of Human Nutrition, The University of Agriculture, Peshawar. All the candidates must bring their original documents on the interview day.
+            </p>
+            <p>
+                NO TA/DA will be admissible for this purpose.
+            </p>
         </div>
 
         <div class="form-section">
@@ -188,11 +193,10 @@ NO TA/DA will be admissible for this purpose.
                 return;
             }
             
-            // In a real application, you would handle the form submission here.
-            // For this example, we'll just show a success message.
+            // Show success message
             showMessage("Application submitted successfully! Please check your email for confirmation.");
             
-            // Reset the form after submission
+            // Reset form
             this.reset();
         });
 
@@ -209,7 +213,6 @@ NO TA/DA will be admissible for this purpose.
             document.getElementById('messageBox').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         });
-
     </script>
 </body>
 </html>
