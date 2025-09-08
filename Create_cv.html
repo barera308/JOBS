@@ -130,8 +130,14 @@
         </section>
 
         <!-- Research -->
-        <section class="bg-green-50 p-6 rounded-xl border border-green-200">
-          <h2 class="text-xl font-semibold text-green-700 mb-2">Research</h2>
+        <section id="research-section" class="bg-green-50 p-6 rounded-xl border border-green-200">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xl font-semibold text-green-700">Research</h2>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="toggleResearch" checked class="rounded text-green-600 focus:ring-green-500">
+                <label for="toggleResearch" class="text-sm font-medium text-gray-700">Show Section</label>
+            </div>
+          </div>
           <div class="space-y-4 mb-4">
             <div>
               <h3 class="font-semibold text-green-600">Research Areas (one per line)</h3>
@@ -149,20 +155,38 @@
         </section>
 
         <!-- University Services -->
-        <section class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
-          <h2 class="text-xl font-semibold text-yellow-700 mb-2">University Services</h2>
+        <section id="services-section" class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xl font-semibold text-yellow-700">University Services</h2>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="toggleServices" checked class="rounded text-yellow-600 focus:ring-yellow-500">
+                <label for="toggleServices" class="text-sm font-medium text-gray-700">Show Section</label>
+            </div>
+          </div>
           <textarea id="servicesInput" rows="4" placeholder="e.g., Leadership and Student Management..." class="w-full rounded-md border-gray-300 p-2 focus:ring-yellow-500 focus:border-yellow-500"></textarea>
         </section>
 
         <!-- Extra Curricular -->
-        <section class="bg-red-50 p-6 rounded-xl border border-red-200">
-          <h2 class="text-xl font-semibold text-red-700 mb-2">Awards & Achievements</h2>
+        <section id="achievements-section" class="bg-red-50 p-6 rounded-xl border border-red-200">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xl font-semibold text-red-700">Awards & Achievements</h2>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="toggleAchievements" checked class="rounded text-red-600 focus:ring-red-500">
+                <label for="toggleAchievements" class="text-sm font-medium text-gray-700">Show Section</label>
+            </div>
+          </div>
           <textarea id="achievementsInput" rows="4" placeholder="e.g., Successfully Organized the Job Fair..." class="w-full rounded-md border-gray-300 p-2 focus:ring-red-500 focus:border-red-500"></textarea>
         </section>
         
         <!-- References -->
-        <section class="bg-gray-200 p-6 rounded-xl border border-gray-300">
-          <h2 class="text-xl font-semibold text-gray-800 mb-2">References</h2>
+        <section id="references-section" class="bg-gray-200 p-6 rounded-xl border border-gray-300">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xl font-semibold text-gray-800">References</h2>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" id="toggleReferences" checked class="rounded text-gray-600 focus:ring-gray-500">
+                <label for="toggleReferences" class="text-sm font-medium text-gray-700">Show Section</label>
+            </div>
+          </div>
           <div id="references-container" class="space-y-4"></div>
           <button id="addReference" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400">+ Add Reference</button>
         </section>
@@ -236,7 +260,7 @@
               </div>
             </section>
 
-            <section class="cv-section">
+            <section id="research-preview" class="cv-section">
               <h2 class="text-2xl font-bold text-green-600 mb-3 border-green-200">Research</h2>
               <div class="space-y-4">
                 <div>
@@ -255,17 +279,17 @@
               </div>
             </section>
 
-            <section class="cv-section">
+            <section id="services-preview" class="cv-section">
               <h2 class="text-2xl font-bold text-yellow-600 mb-3 border-yellow-200">University Services</h2>
               <p id="servicesPreview" class="text-gray-700 leading-relaxed whitespace-pre-wrap">Services will appear here...</p>
             </section>
 
-            <section class="cv-section">
+            <section id="achievements-preview" class="cv-section">
               <h2 class="text-2xl font-bold text-red-600 mb-3 border-red-200">Awards & Achievements</h2>
               <p id="achievementsPreview" class="text-gray-700 leading-relaxed whitespace-pre-wrap">Achievements will appear here...</p>
             </section>
             
-            <section class="cv-section">
+            <section id="references-preview" class="cv-section">
               <h2 class="text-2xl font-bold text-gray-800 mb-3 border-gray-400">References</h2>
               <div id="references-preview-container" class="space-y-4"></div>
             </section>
@@ -318,6 +342,23 @@
     const achievementsPreview = document.getElementById("achievementsPreview");
     const referencesContainer = document.getElementById("references-container");
     const referencesPreviewContainer = document.getElementById("references-preview-container");
+    
+    // Optional sections toggles
+    const toggleResearch = document.getElementById('toggleResearch');
+    const researchSection = document.getElementById('research-section');
+    const researchPreview = document.getElementById('research-preview');
+    
+    const toggleServices = document.getElementById('toggleServices');
+    const servicesSection = document.getElementById('services-section');
+    const servicesPreview = document.getElementById('services-preview');
+    
+    const toggleAchievements = document.getElementById('toggleAchievements');
+    const achievementsSection = document.getElementById('achievements-section');
+    const achievementsPreview = document.getElementById('achievements-preview');
+    
+    const toggleReferences = document.getElementById('toggleReferences');
+    const referencesSection = document.getElementById('references-section');
+    const referencesPreview = document.getElementById('references-preview');
 
     function updateContactInfo() {
       contactPreview.innerHTML = `
@@ -613,12 +654,32 @@
         URL.revokeObjectURL(url);
     });
 
+    // Toggle logic for optional sections
+    function setupToggle(toggleId, sectionId, previewId) {
+        const checkbox = document.getElementById(toggleId);
+        const section = document.getElementById(sectionId);
+        const preview = document.getElementById(previewId);
+
+        if (checkbox && section && preview) {
+            checkbox.addEventListener('change', () => {
+                const isVisible = checkbox.checked;
+                section.classList.toggle('hidden', !isVisible);
+                preview.classList.toggle('hidden', !isVisible);
+            });
+        }
+    }
+    
     window.onload = () => {
       addQualificationItem();
       addExperienceItem();
       addCourseItem();
       addPublicationItem();
       addReferenceItem();
+      
+      setupToggle('toggleResearch', 'research-section', 'research-preview');
+      setupToggle('toggleServices', 'services-section', 'services-preview');
+      setupToggle('toggleAchievements', 'achievements-section', 'achievements-preview');
+      setupToggle('toggleReferences', 'references-section', 'references-preview');
     };
   </script>
 </body>
