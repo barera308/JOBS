@@ -22,6 +22,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
         <a href="#" class="text-xl font-bold text-blue-600">CV Creator</a>
+        <div class="hidden md:flex space-x-6">
+          <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Services</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -32,143 +38,588 @@
 
       <!-- Input Section -->
       <div class="space-y-8">
+        <header>
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">Create Your CV</h1>
+          <p class="text-gray-600">Fill in your details to generate a live CV preview.</p>
+        </header>
 
         <!-- Personal Info -->
         <section class="bg-blue-50 p-6 rounded-xl border border-blue-200 space-y-4">
-          <h2 class="text-xl font-semibold text-blue-700">Personal Details (Optional)</h2>
+          <h2 class="text-xl font-semibold text-blue-700">Personal Details</h2>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Full Name</label>
-            <input id="nameInput" type="text" placeholder="John Doe" class="mt-1 w-full rounded-md border-gray-300 p-2">
+            <label for="nameInput" class="block text-sm font-medium text-gray-700">Full Name</label>
+            <input id="nameInput" type="text" placeholder="e.g., John Doe" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Profile Picture</label>
-            <input id="pictureInput" type="file" accept="image/*" class="mt-1 block w-full text-sm">
+            <label for="pictureInput" class="block text-sm font-medium text-gray-700">Profile Picture</label>
+            <input id="pictureInput" type="file" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Address</label>
-            <input id="addressInput" type="text" placeholder="123 Main Street" class="mt-1 w-full rounded-md border-gray-300 p-2">
+            <label for="addressInput" class="block text-sm font-medium text-gray-700">Residential Address</label>
+            <input id="addressInput" type="text" placeholder="e.g., 123 Main Street, Anytown, USA" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Email</label>
-            <input id="emailInput" type="email" placeholder="name@example.com" class="mt-1 w-full rounded-md border-gray-300 p-2">
+            <label for="emailInput" class="block text-sm font-medium text-gray-700">Email</label>
+            <input id="emailInput" type="email" placeholder="e.g., name@example.com" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Phone Number</label>
-            <input id="phoneInput" type="tel" placeholder="+1-555-123-4567" class="mt-1 w-full rounded-md border-gray-300 p-2">
+            <label for="phoneInput" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <input id="phoneInput" type="tel" placeholder="e.g., +1-555-123-4567" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
-            <input id="dobInput" type="text" placeholder="YYYY-MMM-DD" class="mt-1 w-full rounded-md border-gray-300 p-2">
+            <label for="dobInput" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+            <input id="dobInput" type="text" placeholder="e.g., 1989-Aug-25" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Nationality</label>
-            <input id="nationalityInput" type="text" placeholder="e.g., Pakistani" class="mt-1 w-full rounded-md border-gray-300 p-2">
+            <label for="nationalityInput" class="block text-sm font-medium text-gray-700">Nationality</label>
+            <input id="nationalityInput" type="text" placeholder="e.g., Pakistani" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Professional Links (one per line)</label>
-            <textarea id="linksInput" rows="2" placeholder="https://linkedin.com/in/yourprofile" class="w-full rounded-md border-gray-300 p-2"></textarea>
+            <label for="linksInput" class="block text-sm font-medium text-gray-700">Professional Links (one per line)</label>
+            <textarea id="linksInput" rows="2" placeholder="e.g., https://www.linkedin.com/in/yourprofile" class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
           </div>
         </section>
 
         <!-- Short Bio -->
         <section class="bg-indigo-50 p-6 rounded-xl border border-indigo-200">
-          <h2 class="text-xl font-semibold text-indigo-700 mb-2">Short Bio (Optional)</h2>
-          <textarea id="bioInput" rows="4" placeholder="A dedicated professional..." class="w-full rounded-md border-gray-300 p-2"></textarea>
+          <h2 class="text-xl font-semibold text-indigo-700 mb-2">Short Bio</h2>
+          <textarea id="bioInput" rows="4" placeholder="e.g., A dedicated professional with over a decade of experience in..." class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
         </section>
 
         <!-- Summary -->
         <section class="bg-purple-50 p-6 rounded-xl border border-purple-200">
-          <h2 class="text-xl font-semibold text-purple-700 mb-2">Summary (Optional)</h2>
-          <textarea id="summaryInput" rows="3" placeholder="Results-driven professional..." class="w-full rounded-md border-gray-300 p-2"></textarea>
+          <h2 class="text-xl font-semibold text-purple-700 mb-2">Summary</h2>
+          <textarea id="summaryInput" rows="3" placeholder="e.g., A results-driven academic with strong leadership skills..." class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-purple-500 focus:border-purple-500"></textarea>
         </section>
 
-        <!-- Dynamic Sections Templates -->
+        <!-- Academic Qualifications -->
         <section class="bg-teal-50 p-6 rounded-xl border border-teal-200">
-          <h2 class="text-xl font-semibold text-teal-700 mb-2">Academic Qualifications (Optional)</h2>
+          <h2 class="text-xl font-semibold text-teal-700 mb-2">Academic Qualifications</h2>
           <div id="qualifications-container" class="space-y-4"></div>
-          <button id="addQualification" class="mt-4 px-4 py-2 bg-teal-200 text-teal-800 rounded-lg hover:bg-teal-300">+ Add Qualification</button>
+          <button id="addQualification" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg bg-teal-200 text-teal-800 hover:bg-teal-300">+ Add Qualification</button>
         </section>
 
+        <!-- Experience -->
         <section class="bg-orange-50 p-6 rounded-xl border border-orange-200">
-          <h2 class="text-xl font-semibold text-orange-700 mb-2">Professional Experience (Optional)</h2>
-          <div id="experience-container" class="space-y-4"></div>
-          <button id="addExperience" class="mt-4 px-4 py-2 bg-orange-200 text-orange-800 rounded-lg hover:bg-orange-300">+ Add Position</button>
+          <h2 class="text-xl font-semibold text-orange-700 mb-2">Professional Experience</h2>
+          <div id="experience-container" class="space-y-6"></div>
+          <button id="addExperience" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg bg-orange-200 text-orange-800 hover:bg-orange-300">+ Add Position</button>
         </section>
 
+        <!-- Teaching -->
         <section class="bg-blue-50 p-6 rounded-xl border border-blue-200">
-          <h2 class="text-xl font-semibold text-blue-700 mb-2">Courses Taught (Optional)</h2>
-          <div id="courses-container" class="space-y-4"></div>
-          <button id="addCourse" class="px-4 py-2 bg-blue-200 text-blue-800 rounded-lg hover:bg-blue-300">+ Add Course</button>
+          <h2 class="text-xl font-semibold text-blue-700 mb-2">Teaching</h2>
+          <div id="courses-container" class="space-y-4 mb-4">
+            <h3 class="font-semibold text-blue-600 mb-2">Courses Taught</h3>
+          </div>
+          <button id="addCourse" class="px-4 py-2 text-sm font-semibold rounded-lg bg-blue-200 text-blue-800 hover:bg-blue-300 mb-4">+ Add Course</button>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-semibold text-blue-600">Research Students Supervised</h3>
+              <textarea id="supervisedInput" rows="2" placeholder="e.g., Master Students (MS/M.Phil. Co Supervision) - 5" class="w-full rounded-md border-gray-300 p-2"></textarea>
+            </div>
+            <div>
+              <h3 class="font-semibold text-blue-600">Oral Examination Participation</h3>
+              <textarea id="oralExamInput" rows="2" placeholder="e.g., Master Students (MS/M.Phil.) - 5" class="w-full rounded-md border-gray-300 p-2"></textarea>
+            </div>
+            <div>
+              <h3 class="font-semibold text-blue-600">Training</h3>
+              <textarea id="trainingInput" rows="4" placeholder="e.g., Attending a workshop on a relevant topic..." class="w-full rounded-md border-gray-300 p-2"></textarea>
+            </div>
+          </div>
         </section>
 
+        <!-- Research -->
         <section class="bg-green-50 p-6 rounded-xl border border-green-200">
-          <h2 class="text-xl font-semibold text-green-700 mb-2">Publications (Optional)</h2>
-          <div id="publications-container" class="space-y-4"></div>
-          <button id="addPublication" class="px-4 py-2 bg-green-200 text-green-800 rounded-lg hover:bg-green-300">+ Add Publication</button>
+          <h2 class="text-xl font-semibold text-green-700 mb-2">Research</h2>
+          <div class="space-y-4 mb-4">
+            <div>
+              <h3 class="font-semibold text-green-600">Research Areas (one per line)</h3>
+              <textarea id="researchAreasInput" rows="3" placeholder="e.g., Machine Learning, Artificial Intelligence" class="w-full rounded-md border-gray-300 p-2"></textarea>
+            </div>
+          </div>
+          <div id="publications-container" class="space-y-4 mb-4">
+            <h3 class="font-semibold text-green-600 mb-2">Publications</h3>
+          </div>
+          <button id="addPublication" class="px-4 py-2 text-sm font-semibold rounded-lg bg-green-200 text-green-800 hover:bg-green-300 mb-4">+ Add Publication</button>
+          <div>
+            <h3 class="font-semibold text-green-600">Publications Under Process</h3>
+            <textarea id="publicationsUnderProcessInput" rows="2" placeholder="e.g., An analysis of machine learning models for climate prediction" class="w-full rounded-md border-gray-300 p-2"></textarea>
+          </div>
         </section>
 
+        <!-- University Services -->
+        <section class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+          <h2 class="text-xl font-semibold text-yellow-700 mb-2">University Services</h2>
+          <textarea id="servicesInput" rows="4" placeholder="e.g., Leadership and Student Management..." class="w-full rounded-md border-gray-300 p-2 focus:ring-yellow-500 focus:border-yellow-500"></textarea>
+        </section>
+
+        <!-- Extra Curricular -->
+        <section class="bg-red-50 p-6 rounded-xl border border-red-200">
+          <h2 class="text-xl font-semibold text-red-700 mb-2">Awards & Achievements</h2>
+          <textarea id="achievementsInput" rows="4" placeholder="e.g., Successfully Organized the Job Fair..." class="w-full rounded-md border-gray-300 p-2 focus:ring-red-500 focus:border-red-500"></textarea>
+        </section>
+        
+        <!-- References -->
         <section class="bg-gray-200 p-6 rounded-xl border border-gray-300">
-          <h2 class="text-xl font-semibold text-gray-800 mb-2">References (Optional)</h2>
+          <h2 class="text-xl font-semibold text-gray-800 mb-2">References</h2>
           <div id="references-container" class="space-y-4"></div>
-          <button id="addReference" class="mt-4 px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">+ Add Reference</button>
+          <button id="addReference" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400">+ Add Reference</button>
         </section>
 
-        <!-- Download -->
-        <div class="flex space-x-4 mt-4">
-          <button id="downloadButton" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700">Download PDF</button>
-          <button id="downloadWordButton" class="flex-1 bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700">Download Word</button>
+        <!-- Download Buttons -->
+        <div class="flex space-x-4">
+          <button id="downloadButton" class="flex-1 bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow hover:bg-blue-700 hover:scale-105 transition">Download as PDF</button>
+          <button id="downloadWordButton" class="flex-1 bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow hover:bg-green-700 hover:scale-105 transition">Download as Word</button>
         </div>
-
       </div>
 
       <!-- Preview Section -->
       <aside class="bg-gray-50 rounded-xl p-6 overflow-y-auto max-h-[80vh] sticky top-20">
         <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Live Preview</h2>
-        <div id="cv-preview" class="bg-white p-8 rounded-lg shadow min-h-[500px] border border-gray-200"></div>
-      </aside>
+        <div id="cv-preview" class="bg-white p-8 rounded-lg shadow min-h-[500px] border border-gray-200">
 
+          <!-- Header Section -->
+          <div class="flex items-center space-x-6 mb-8">
+            <div id="picturePreview" class="flex-shrink-0 w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-xs overflow-hidden">No Image</div>
+            <div>
+              <h1 id="namePreview" class="text-3xl font-bold text-gray-900">Your Name</h1>
+              <div id="contactPreview" class="text-sm text-gray-600 space-y-1 mt-2"></div>
+              <div id="linksPreview" class="text-sm text-blue-600 mt-2 space-y-1"></div>
+            </div>
+          </div>
+          <hr class="border-gray-300 my-6">
+          
+          <!-- Sections -->
+          <div class="space-y-8">
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-indigo-600 mb-3 border-indigo-200">Short Bio</h2>
+              <p id="bioPreview" class="text-gray-700 leading-relaxed">Your short bio will appear here.</p>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-purple-600 mb-3 border-purple-200">Summary</h2>
+              <p id="summaryPreview" class="text-gray-700 leading-relaxed">Your summary will appear here.</p>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-teal-600 mb-3 border-teal-200">Academic Qualifications</h2>
+              <div id="qualifications-preview-container" class="space-y-4"></div>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-orange-600 mb-3 border-orange-200">Professional Experience</h2>
+              <div id="experience-preview-container" class="space-y-6"></div>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-blue-600 mb-3 border-blue-200">Teaching</h2>
+              <div id="teaching-preview-container" class="space-y-4">
+                <div id="courses-preview-container" class="space-y-2">
+                  <h3 class="font-semibold text-blue-600 text-lg">Courses Taught</h3>
+                  <ul class="list-disc list-inside text-gray-700" id="coursesListPreview">
+                    <li>Courses will appear here...</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-blue-600 text-lg">Research Students Supervised</h3>
+                  <p id="supervisedPreview" class="text-gray-700">Information will appear here...</p>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-blue-600 text-lg">Oral Examination Participation</h3>
+                  <p id="oralExamPreview" class="text-gray-700">Information will appear here...</p>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-blue-600 text-lg">Training</h3>
+                  <p id="trainingPreview" class="text-gray-700 whitespace-pre-wrap">Information will appear here...</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-green-600 mb-3 border-green-200">Research</h2>
+              <div class="space-y-4">
+                <div>
+                  <h3 class="font-semibold text-green-600 text-lg">Research Areas</h3>
+                  <div id="researchAreasPreview" class="flex flex-wrap gap-2 text-sm md:text-base">
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Areas will appear here...</span>
+                  </div>
+                </div>
+                <div id="publications-preview-container" class="space-y-4">
+                  <h3 class="font-semibold text-green-600 text-lg">Publications</h3>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-green-600 text-lg">Publications Under Process</h3>
+                  <p id="publicationsUnderProcessPreview" class="text-gray-700 whitespace-pre-wrap">Publications will appear here...</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-yellow-600 mb-3 border-yellow-200">University Services</h2>
+              <p id="servicesPreview" class="text-gray-700 leading-relaxed whitespace-pre-wrap">Services will appear here...</p>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-red-600 mb-3 border-red-200">Awards & Achievements</h2>
+              <p id="achievementsPreview" class="text-gray-700 leading-relaxed whitespace-pre-wrap">Achievements will appear here...</p>
+            </section>
+            
+            <section class="cv-section">
+              <h2 class="text-2xl font-bold text-gray-800 mb-3 border-gray-400">References</h2>
+              <div id="references-preview-container" class="space-y-4"></div>
+            </section>
+          </div>
+
+        </div>
+      </aside>
     </div>
   </div>
 
+  <!-- JavaScript -->
   <script>
-    // -- CORE ELEMENTS
-    const cvPreview = document.getElementById("cv-preview");
-    const inputs = {
-      name: document.getElementById("nameInput"),
-      picture: document.getElementById("pictureInput"),
-      address: document.getElementById("addressInput"),
-      email: document.getElementById("emailInput"),
-      phone: document.getElementById("phoneInput"),
-      dob: document.getElementById("dobInput"),
-      nationality: document.getElementById("nationalityInput"),
-      links: document.getElementById("linksInput"),
-      bio: document.getElementById("bioInput"),
-      summary: document.getElementById("summaryInput"),
-      qualifications: document.getElementById("qualifications-container"),
-      experience: document.getElementById("experience-container"),
-      courses: document.getElementById("courses-container"),
-      publications: document.getElementById("publications-container"),
-      references: document.getElementById("references-container")
-    };
+    const nameInput = document.getElementById("nameInput");
+    const namePreview = document.getElementById("namePreview");
+    const pictureInput = document.getElementById("pictureInput");
+    const picturePreview = document.getElementById("picturePreview");
+    const addressInput = document.getElementById("addressInput");
+    const emailInput = document.getElementById("emailInput");
+    const phoneInput = document.getElementById("phoneInput");
+    const dobInput = document.getElementById("dobInput");
+    const nationalityInput = document.getElementById("nationalityInput");
+    const linksInput = document.getElementById("linksInput");
+    const contactPreview = document.getElementById("contactPreview");
+    const linksPreview = document.getElementById("linksPreview");
+    const bioInput = document.getElementById("bioInput");
+    const bioPreview = document.getElementById("bioPreview");
+    const summaryInput = document.getElementById("summaryInput");
+    const summaryPreview = document.getElementById("summaryPreview");
+    const qualificationsContainer = document.getElementById("qualifications-container");
+    const qualificationsPreviewContainer = document.getElementById("qualifications-preview-container");
+    const experienceContainer = document.getElementById("experience-container");
+    const experiencePreviewContainer = document.getElementById("experience-preview-container");
+    const coursesContainer = document.getElementById("courses-container");
+    const coursesListPreview = document.getElementById("coursesListPreview");
+    const supervisedInput = document.getElementById("supervisedInput");
+    const supervisedPreview = document.getElementById("supervisedPreview");
+    const oralExamInput = document.getElementById("oralExamInput");
+    const oralExamPreview = document.getElementById("oralExamPreview");
+    const trainingInput = document.getElementById("trainingInput");
+    const trainingPreview = document.getElementById("trainingPreview");
+    const researchAreasInput = document.getElementById("researchAreasInput");
+    const researchAreasPreview = document.getElementById("researchAreasPreview");
+    const publicationsContainer = document.getElementById("publications-container");
+    const publicationsPreviewContainer = document.getElementById("publications-preview-container");
+    const publicationsUnderProcessInput = document.getElementById("publicationsUnderProcessInput");
+    const publicationsUnderProcessPreview = document.getElementById("publicationsUnderProcessPreview");
+    const servicesInput = document.getElementById("servicesInput");
+    const servicesPreview = document.getElementById("servicesPreview");
+    const achievementsInput = document.getElementById("achievementsInput");
+    const achievementsPreview = document.getElementById("achievementsPreview");
+    const referencesContainer = document.getElementById("references-container");
+    const referencesPreviewContainer = document.getElementById("references-preview-container");
 
-    // -- DYNAMIC PREVIEW FUNCTIONS
-    function renderCV() {
-      const htmlParts = [];
+    function updateContactInfo() {
+      contactPreview.innerHTML = `
+        <p>${addressInput.value || 'Your Address'}</p>
+        <p>${emailInput.value || 'your.email@example.com'}</p>
+        <p>${phoneInput.value || 'Your Phone Number'}</p>
+        <p><strong>DoB:</strong> ${dobInput.value || 'N/A'}</p>
+        <p><strong>Nationality:</strong> ${nationalityInput.value || 'N/A'}</p>
+      `;
+      linksPreview.innerHTML = linksInput.value.split('\n').filter(l => l.trim() !== '').map(l => `<a href="${l}" class="hover:underline">${l}</a>`).join('');
+    }
 
-      // Header
-      const name = inputs.name.value.trim();
-      const picture = inputs.picture.files[0] ? URL.createObjectURL(inputs.picture.files[0]) : null;
-      if(name || picture || inputs.address.value || inputs.email.value || inputs.phone.value) {
-        htmlParts.push(`<div class="flex items-center space-x-6 mb-6">`);
-        if(picture) htmlParts.push(`<div class="w-28 h-28 rounded-full overflow-hidden"><img src="${picture}" class="w-full h-full object-cover"/></div>`);
-        htmlParts.push(`<div><h1 class="text-3xl font-bold">${name || ""}</h1>`);
-        const contactLines = [];
-        if(inputs.address.value) contactLines.push(inputs.address.value);
-        if(inputs.email.value) contactLines.push(inputs.email.value);
-        if(inputs.phone.value) contactLines.push(inputs.phone.value);
-        if(inputs.dob.value) contactLines.push("DoB: "+inputs.dob.value);
-        if(inputs.nationality.value) contactLines.push("Nationality: "+inputs.nationality.value);
-        htmlParts.push(`<div class="text-sm text-gray-700 mt-1">${contactLines.join("<br>")}</div>`);
-        if(inputs.links.value.trim()) htmlParts.push(`<div class="text-blue-600 mt-1">${inputs.links.value.split("\n").filter(l=>l).map(l=>`<a href="${l}" target="_blank">${l}</a>`).join("<br>")}</div>`);
-        htmlParts.push(`</div></div><hr class="my-4 border-gray-300"/>`);
+    function addQualificationItem() {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "dynamic-item bg-teal-100 p-4 rounded-lg space-y-2";
+      itemDiv.innerHTML = `
+        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
+        <div>
+          <label class="block text-sm font-medium text-teal-700">Degree</label>
+          <input type="text" class="degree-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Master of Science">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-teal-700">Institution</label>
+          <input type="text" class="institution-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., University of Science & Technology">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-teal-700">Year</label>
+          <input type="text" class="year-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., 2017">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-teal-700">CGPA/Grade</label>
+          <input type="text" class="cgpa-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., 3.44/4.00">
+        </div>
+      `;
+      qualificationsContainer.appendChild(itemDiv);
+
+      const previewDiv = document.createElement("div");
+      previewDiv.className = "dynamic-item-preview space-y-1";
+      qualificationsPreviewContainer.appendChild(previewDiv);
+      
+      itemDiv.querySelector('.remove-btn').addEventListener('click', () => { itemDiv.remove(); previewDiv.remove(); });
+      itemDiv.querySelectorAll('input, textarea').forEach(input => { input.addEventListener('input', () => updateQualificationPreview(itemDiv, previewDiv)); });
+      updateQualificationPreview(itemDiv, previewDiv);
+    }
+    
+    function updateQualificationPreview(inputDiv, previewDiv) {
+      const degree = inputDiv.querySelector('.degree-input').value;
+      const institution = inputDiv.querySelector('.institution-input').value;
+      const year = inputDiv.querySelector('.year-input').value;
+      const cgpa = inputDiv.querySelector('.cgpa-input').value;
+      previewDiv.innerHTML = `
+        <p class="font-semibold text-gray-900">${degree || 'Degree'}</p>
+        <p class="text-gray-700">${institution || 'Institution'}</p>
+        <p class="text-gray-700 text-sm italic">${year || 'Year'} | ${cgpa || 'CGPA/Grade'}</p>
+      `;
+    }
+
+    function addExperienceItem() {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "dynamic-item bg-orange-100 p-4 rounded-lg space-y-2";
+      itemDiv.innerHTML = `
+        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
+        <div>
+          <label class="block text-sm font-medium text-orange-700">Position Title</label>
+          <input type="text" class="title-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Assistant Professor">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-orange-700">Company/Institution</label>
+          <input type="text" class="company-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., ABC College">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-orange-700">Dates</label>
+          <input type="text" class="dates-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Sep. 2024 - Date">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-orange-700">Responsibilities (one per line)</label>
+          <textarea rows="3" class="responsibilities-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Managed a class of 25 students..."></textarea>
+        </div>
+      `;
+      experienceContainer.appendChild(itemDiv);
+
+      const previewDiv = document.createElement("div");
+      previewDiv.className = "dynamic-item-preview space-y-1";
+      experiencePreviewContainer.appendChild(previewDiv);
+
+      itemDiv.querySelector('.remove-btn').addEventListener('click', () => { itemDiv.remove(); previewDiv.remove(); });
+      itemDiv.querySelectorAll('input, textarea').forEach(input => { input.addEventListener('input', () => updateExperiencePreview(itemDiv, previewDiv)); });
+      updateExperiencePreview(itemDiv, previewDiv);
+    }
+    
+    function updateExperiencePreview(inputDiv, previewDiv) {
+      const title = inputDiv.querySelector('.title-input').value;
+      const company = inputDiv.querySelector('.company-input').value;
+      const dates = inputDiv.querySelector('.dates-input').value;
+      const responsibilities = inputDiv.querySelector('.responsibilities-input').value;
+      previewDiv.innerHTML = `
+        <h3 class="font-semibold text-gray-900">${title || 'Position Title'}</h3>
+        <p class="text-gray-700 text-sm italic">${company || 'Company/Institution'} <span class="text-xs text-gray-500 font-normal">(${dates || 'Dates'})</span></p>
+        <ul class="list-disc list-inside text-gray-700 space-y-1 mt-2">
+          ${responsibilities.split('\n').filter(r => r.trim() !== '').map(r => `<li>${r.trim()}</li>`).join('') || `<li>Responsibilities will appear here...</li>`}
+        </ul>
+      `;
+    }
+
+    function addCourseItem() {
+      const courseItem = document.createElement("div");
+      courseItem.className = "dynamic-item bg-blue-100 p-4 rounded-lg space-y-2";
+      courseItem.innerHTML = `
+        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
+        <div>
+          <label class="block text-sm font-medium text-blue-700">Course Title</label>
+          <input type="text" class="course-title-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Computer Networks">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-blue-700">Place Taught</label>
+          <input type="text" class="place-taught-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., University ABC">
+        </div>
+      `;
+      coursesContainer.appendChild(courseItem);
+      
+      courseItem.querySelector('.remove-btn').addEventListener('click', () => { 
+        courseItem.remove(); 
+        updateCoursesPreview();
+      });
+      courseItem.querySelectorAll('input').forEach(input => { input.addEventListener('input', updateCoursesPreview); });
+      updateCoursesPreview();
+    }
+    
+    function updateCoursesPreview() {
+      const courses = Array.from(coursesContainer.querySelectorAll('.course-title-input')).map(input => ({
+        title: input.value,
+        place: input.closest('.dynamic-item').querySelector('.place-taught-input').value
+      })).filter(c => c.title.trim() !== '' || c.place.trim() !== '');
+
+      if (courses.length > 0) {
+        coursesListPreview.innerHTML = courses.map(c => `<li><strong>${c.title}</strong> - ${c.place}</li>`).join('');
+      } else {
+        coursesListPreview.innerHTML = '<li>Courses will appear here...</li>';
       }
+    }
+
+    function addPublicationItem() {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "dynamic-item bg-green-100 p-4 rounded-lg space-y-2";
+      itemDiv.innerHTML = `
+        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
+        <div>
+          <label class="block text-sm font-medium text-green-700">Publication Title</label>
+          <textarea rows="3" class="publication-title-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., An analysis of machine learning models for climate prediction"></textarea>
+        </div>
+      `;
+      publicationsContainer.appendChild(itemDiv);
+      
+      const previewDiv = document.createElement("div");
+      previewDiv.className = "dynamic-item-preview";
+      publicationsPreviewContainer.appendChild(previewDiv);
+
+      itemDiv.querySelector('.remove-btn').addEventListener('click', () => { itemDiv.remove(); previewDiv.remove(); });
+      itemDiv.querySelector('textarea').addEventListener('input', () => updatePublicationPreview(itemDiv, previewDiv));
+      updatePublicationPreview(itemDiv, previewDiv);
+    }
+    
+    function updatePublicationPreview(inputDiv, previewDiv) {
+      const title = inputDiv.querySelector('.publication-title-input').value;
+      previewDiv.innerHTML = title ? `<p class="text-gray-700 mb-2">${title}</p>` : 'Publications will appear here...';
+    }
+    
+    function addReferenceItem() {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "dynamic-item bg-gray-300 p-4 rounded-lg space-y-2";
+      itemDiv.innerHTML = `
+        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
+        <div>
+          <label class="block text-sm font-medium text-gray-800">Name</label>
+          <input type="text" class="ref-name-input mt-1 w-full rounded-md border-gray-400 p-2" placeholder="e.g., Dr. Jane Smith">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-800">Title & Institution</label>
+          <input type="text" class="ref-title-input mt-1 w-full rounded-md border-gray-400 p-2" placeholder="e.g., Professor of Engineering, XYZ University">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-800">Email</label>
+          <input type="email" class="ref-email-input mt-1 w-full rounded-md border-gray-400 p-2" placeholder="e.g., email@example.com">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-800">Phone</label>
+          <input type="tel" class="ref-phone-input mt-1 w-full rounded-md border-gray-400 p-2" placeholder="e.g., +1-555-987-6543">
+        </div>
+      `;
+      referencesContainer.appendChild(itemDiv);
+      
+      const previewDiv = document.createElement("div");
+      previewDiv.className = "dynamic-item-preview space-y-1";
+      referencesPreviewContainer.appendChild(previewDiv);
+
+      itemDiv.querySelector('.remove-btn').addEventListener('click', () => { itemDiv.remove(); previewDiv.remove(); });
+      itemDiv.querySelectorAll('input').forEach(input => { input.addEventListener('input', () => updateReferencePreview(itemDiv, previewDiv)); });
+      updateReferencePreview(itemDiv, previewDiv);
+    }
+    
+    function updateReferencePreview(inputDiv, previewDiv) {
+      const name = inputDiv.querySelector('.ref-name-input').value;
+      const title = inputDiv.querySelector('.ref-title-input').value;
+      const email = inputDiv.querySelector('.ref-email-input').value;
+      const phone = inputDiv.querySelector('.ref-phone-input').value;
+      previewDiv.innerHTML = `
+        <h3 class="font-semibold text-gray-900">${name || 'Reference Name'}</h3>
+        <p class="text-gray-700 text-sm italic">${title || 'Title, Institution'}</p>
+        <p class="text-gray-700 text-sm">Email: ${email || 'N/A'}</p>
+        <p class="text-gray-700 text-sm">Phone: ${phone || 'N/A'}</p>
+      `;
+    }
+
+    nameInput.addEventListener("input", () => { namePreview.textContent = nameInput.value || "Your Name"; });
+    pictureInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => { picturePreview.innerHTML = `<img src="${reader.result}" class="w-full h-full object-cover" />`; };
+        reader.readAsDataURL(file);
+      } else { picturePreview.innerHTML = "No Image"; }
+    });
+    addressInput.addEventListener("input", updateContactInfo);
+    emailInput.addEventListener("input", updateContactInfo);
+    phoneInput.addEventListener("input", updateContactInfo);
+    dobInput.addEventListener("input", updateContactInfo);
+    nationalityInput.addEventListener("input", updateContactInfo);
+    linksInput.addEventListener("input", updateContactInfo);
+    bioInput.addEventListener("input", () => { bioPreview.textContent = bioInput.value || "Your short bio will appear here."; });
+    summaryInput.addEventListener("input", () => { summaryPreview.textContent = summaryInput.value || "Your summary will appear here."; });
+    supervisedInput.addEventListener("input", () => { supervisedPreview.textContent = supervisedInput.value || "Information will appear here..."; });
+    oralExamInput.addEventListener("input", () => { oralExamPreview.textContent = oralExamInput.value || "Information will appear here..."; });
+    trainingInput.addEventListener("input", () => { trainingPreview.textContent = trainingInput.value || "Information will appear here..."; });
+    researchAreasInput.addEventListener("input", () => {
+      researchAreasPreview.innerHTML = researchAreasInput.value
+        .split("\n")
+        .filter(s => s.trim() !== "")
+        .map(s => `<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">${s}</span>`)
+        .join("") || '<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Areas will appear here...</span>';
+    });
+    publicationsUnderProcessInput.addEventListener("input", () => { publicationsUnderProcessPreview.textContent = publicationsUnderProcessInput.value || "Publications will appear here..."; });
+    servicesInput.addEventListener("input", () => { servicesPreview.textContent = servicesInput.value || "Services will appear here..."; });
+    achievementsInput.addEventListener("input", () => { achievementsPreview.textContent = achievementsInput.value || "Achievements will appear here..."; });
+
+    document.getElementById("addQualification").addEventListener("click", addQualificationItem);
+    document.getElementById("addExperience").addEventListener("click", addExperienceItem);
+    document.getElementById("addCourse").addEventListener("click", addCourseItem);
+    document.getElementById("addPublication").addEventListener("click", addPublicationItem);
+    document.getElementById("addReference").addEventListener("click", addReferenceItem);
+
+    document.getElementById("downloadButton").addEventListener("click", () => {
+      window.jsPDF = window.jspdf.jsPDF;
+      const cvPreview = document.getElementById("cv-preview");
+      html2canvas(cvPreview, { scale: 2 }).then(canvas => {
+        const imgData = canvas.toDataURL("image/jpeg", 1.0);
+        const pdf = new jspdf({
+          orientation: "portrait",
+          unit: "px",
+          format: [cvPreview.offsetWidth, cvPreview.offsetHeight]
+        });
+        pdf.addImage(imgData, "JPEG", 0, 0, cvPreview.offsetWidth, cvPreview.offsetHeight);
+        pdf.save("CV.pdf");
+      });
+    });
+
+    document.getElementById('downloadWordButton').addEventListener('click', () => {
+        const cvPreview = document.getElementById('cv-preview');
+        const content = cvPreview.innerHTML;
+        const html = `
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Curriculum Vitae</title>
+              <style>
+                body { font-family: 'Inter', sans-serif; padding: 20px; }
+                .cv-section h2 { font-size: 1.5em; font-weight: bold; margin-top: 1.5em; border-bottom: 2px solid #ccc; padding-bottom: 0.5em; }
+                p, li { line-height: 1.5; }
+              </style>
+            </head>
+            <body>
+              ${content}
+            </body>
+          </html>
+        `;
+        const blob = new Blob([html], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Curriculum_Vitae.doc';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    window.onload = () => {
+      addQualificationItem();
+      addExperienceItem();
+      addCourseItem();
+      addPublicationItem();
+      addReferenceItem();
+    };
+  </script>
+</body>
+</html>
