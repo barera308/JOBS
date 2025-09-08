@@ -10,180 +10,201 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body { font-family: 'Inter', sans-serif; }
+    .dynamic-item { position: relative; }
+    .remove-btn { position: absolute; top: 0; right: 0; transform: translate(50%, -50%); }
+    .cv-section h2 { border-bottom-width: 2px; }
+    #cv-preview { min-height: 500px; }
   </style>
 </head>
 <body class="bg-gray-100">
 
-  <!-- Header -->
-  <nav class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        <a href="#" class="text-xl font-bold text-blue-600">CV Creator</a>
-        <div class="hidden md:flex space-x-6">
-          <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-          <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
-          <a href="Create_cv.html" class="text-gray-700 hover:text-blue-600 font-medium">Services</a>
-          <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
-        </div>
-      </div>
-    </div>
+  <nav class="bg-white shadow sticky top-0 z-50 p-4 flex justify-between">
+    <a href="#" class="text-xl font-bold text-blue-600">CV Creator</a>
   </nav>
 
-  <!-- Main Content -->
-  <div class="p-4 sm:p-8">
-    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 md:p-10">
+  <div class="p-4 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-      <!-- Input Section -->
-      <div class="space-y-8">
-        <header>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">Create Your CV</h1>
-          <p class="text-gray-600">Fill in your details to generate a live CV preview.</p>
-        </header>
+    <!-- Input Section -->
+    <div class="space-y-6">
+      <section class="bg-blue-50 p-6 rounded-xl border border-blue-200 space-y-4">
+        <h2 class="text-xl font-semibold text-blue-700">Personal Details</h2>
+        <input id="nameInput" type="text" placeholder="Full Name" class="w-full rounded-md border p-2">
+        <input id="pictureInput" type="file" accept="image/*" class="w-full text-sm">
+        <input id="addressInput" type="text" placeholder="Address" class="w-full rounded-md border p-2">
+        <input id="emailInput" type="email" placeholder="Email" class="w-full rounded-md border p-2">
+        <input id="phoneInput" type="tel" placeholder="Phone" class="w-full rounded-md border p-2">
+        <input id="dobInput" type="text" placeholder="Date of Birth" class="w-full rounded-md border p-2">
+        <input id="nationalityInput" type="text" placeholder="Nationality" class="w-full rounded-md border p-2">
+        <textarea id="linksInput" placeholder="Professional Links (one per line)" class="w-full rounded-md border p-2"></textarea>
+      </section>
 
-        <!-- Personal Info -->
-        <section class="bg-blue-50 p-6 rounded-xl border border-blue-200 space-y-4">
-          <h2 class="text-xl font-semibold text-blue-700">Personal Details</h2>
+      <section class="bg-indigo-50 p-6 rounded-xl border border-indigo-200">
+        <h2 class="text-xl font-semibold text-indigo-700">Short Bio</h2>
+        <textarea id="bioInput" placeholder="Short Bio" class="w-full rounded-md border p-2"></textarea>
+      </section>
+
+      <section class="bg-purple-50 p-6 rounded-xl border border-purple-200">
+        <h2 class="text-xl font-semibold text-purple-700">Summary</h2>
+        <textarea id="summaryInput" placeholder="Summary" class="w-full rounded-md border p-2"></textarea>
+      </section>
+
+      <section class="bg-teal-50 p-6 rounded-xl border border-teal-200">
+        <h2 class="text-xl font-semibold text-teal-700">Academic Qualifications</h2>
+        <div id="qualifications-container" class="space-y-4"></div>
+        <button id="addQualification" class="px-4 py-2 bg-teal-200 text-teal-800 rounded">+ Add Qualification</button>
+      </section>
+
+      <section class="bg-orange-50 p-6 rounded-xl border border-orange-200">
+        <h2 class="text-xl font-semibold text-orange-700">Professional Experience</h2>
+        <div id="experience-container" class="space-y-4"></div>
+        <button id="addExperience" class="px-4 py-2 bg-orange-200 text-orange-800 rounded">+ Add Experience</button>
+      </section>
+
+      <button id="downloadButton" class="w-full bg-blue-600 text-white py-2 rounded">Download as PDF</button>
+      <button id="downloadWordButton" class="w-full bg-green-600 text-white py-2 rounded">Download as Word</button>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="bg-gray-50 rounded-xl p-6 overflow-y-auto max-h-[80vh] sticky top-20">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Live Preview</h2>
+      <div id="cv-preview" class="bg-white p-6 rounded-lg shadow border">
+        <div class="flex items-center space-x-4 mb-4">
+          <div id="picturePreview" class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-xs overflow-hidden">No Image</div>
           <div>
-            <label for="nameInput" class="block text-sm font-medium text-gray-700">Full Name</label>
-            <input id="nameInput" type="text" placeholder="e.g., Jane D. Austen" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+            <h1 id="namePreview" class="text-2xl font-bold">Your Name</h1>
+            <div id="contactPreview" class="text-sm text-gray-600"></div>
+            <div id="linksPreview" class="text-sm text-blue-600"></div>
           </div>
-          <div>
-            <label for="pictureInput" class="block text-sm font-medium text-gray-700">Profile Picture</label>
-            <input id="pictureInput" type="file" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200">
-          </div>
-        </section>
-
-        <!-- Teaching Philosophy -->
-        <section class="bg-indigo-50 p-6 rounded-xl border border-indigo-200">
-          <h2 class="text-xl font-semibold text-indigo-700 mb-2">Teaching Philosophy</h2>
-          <textarea id="philosophyInput" rows="4" placeholder="Summarize your teaching beliefs..." class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-        </section>
-
-        <!-- Core Competencies -->
-        <section class="bg-green-50 p-6 rounded-xl border border-green-200">
-          <h2 class="text-xl font-semibold text-green-700 mb-2">Core Competencies</h2>
-          <textarea id="skillsInput" rows="3" placeholder="One skill per line (e.g., Classroom Management, Curriculum Design)" class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-green-500 focus:border-green-500"></textarea>
-        </section>
-
-        <!-- Experience -->
-        <section class="bg-orange-50 p-6 rounded-xl border border-orange-200">
-          <h2 class="text-xl font-semibold text-orange-700 mb-2">Teaching Experience</h2>
-          <div id="experience-container" class="space-y-4"></div>
-          <button id="addExperience" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg bg-orange-200 text-orange-800 hover:bg-orange-300">+ Add Experience</button>
-        </section>
-
-        <!-- Download -->
-        <div>
-          <button id="downloadButton" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow hover:bg-blue-700 hover:scale-105 transition">Download as PDF</button>
+        </div>
+        <div class="space-y-4">
+          <section class="cv-section"><h2>Short Bio</h2><p id="bioPreview">Your bio here</p></section>
+          <section class="cv-section"><h2>Summary</h2><p id="summaryPreview">Your summary here</p></section>
+          <section class="cv-section"><h2>Qualifications</h2><div id="qualifications-preview-container"></div></section>
+          <section class="cv-section"><h2>Experience</h2><div id="experience-preview-container"></div></section>
         </div>
       </div>
-
-      <!-- Preview Section -->
-      <aside class="bg-gray-50 rounded-xl p-6 overflow-y-auto max-h-[80vh] sticky top-20">
-        <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Live Preview</h2>
-        <div id="cv-preview" class="bg-white p-8 rounded-lg shadow min-h-[500px] border border-gray-200">
-
-          <div id="picturePreview" class="w-28 h-28 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center text-gray-500 text-xs overflow-hidden">No Image</div>
-
-          <h1 id="namePreview" class="text-3xl font-bold text-gray-900 text-center mb-6">Your Name</h1>
-          <hr class="border-gray-300 my-6">
-
-          <section>
-            <h2 class="text-2xl font-bold text-blue-600 mb-3 border-b border-blue-200">Teaching Philosophy</h2>
-            <p id="philosophyPreview" class="text-gray-700 leading-relaxed">Your teaching philosophy will appear here.</p>
-          </section>
-
-          <section class="mt-6">
-            <h2 class="text-2xl font-bold text-green-600 mb-3 border-b border-green-200">Core Competencies</h2>
-            <div id="skillsPreview" class="flex flex-wrap gap-2 text-sm md:text-base">
-              <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Skills will appear here...</span>
-            </div>
-          </section>
-
-          <section class="mt-6">
-            <h2 class="text-2xl font-bold text-orange-600 mb-3 border-b border-orange-200">Teaching Experience</h2>
-            <div id="experience-preview-container" class="space-y-6"></div>
-          </section>
-        </div>
-      </aside>
     </div>
+
   </div>
 
-  <!-- JavaScript -->
   <script>
-    // --- Live Preview ---
     const nameInput = document.getElementById("nameInput");
     const namePreview = document.getElementById("namePreview");
     const pictureInput = document.getElementById("pictureInput");
     const picturePreview = document.getElementById("picturePreview");
-    const philosophyInput = document.getElementById("philosophyInput");
-    const philosophyPreview = document.getElementById("philosophyPreview");
-    const skillsInput = document.getElementById("skillsInput");
-    const skillsPreview = document.getElementById("skillsPreview");
+    const addressInput = document.getElementById("addressInput");
+    const emailInput = document.getElementById("emailInput");
+    const phoneInput = document.getElementById("phoneInput");
+    const dobInput = document.getElementById("dobInput");
+    const nationalityInput = document.getElementById("nationalityInput");
+    const linksInput = document.getElementById("linksInput");
+    const contactPreview = document.getElementById("contactPreview");
+    const linksPreview = document.getElementById("linksPreview");
+    const bioInput = document.getElementById("bioInput");
+    const bioPreview = document.getElementById("bioPreview");
+    const summaryInput = document.getElementById("summaryInput");
+    const summaryPreview = document.getElementById("summaryPreview");
+
+    const qualificationsContainer = document.getElementById("qualifications-container");
+    const qualificationsPreviewContainer = document.getElementById("qualifications-preview-container");
     const experienceContainer = document.getElementById("experience-container");
     const experiencePreviewContainer = document.getElementById("experience-preview-container");
 
-    // Name update
-    nameInput.addEventListener("input", () => {
-      namePreview.textContent = nameInput.value || "Your Name";
-    });
+    function updateContactInfo() {
+      contactPreview.innerHTML = `
+        <p>${addressInput.value || ''}</p>
+        <p>${emailInput.value || ''}</p>
+        <p>${phoneInput.value || ''}</p>
+        <p>DoB: ${dobInput.value || ''}</p>
+        <p>Nationality: ${nationalityInput.value || ''}</p>
+      `;
+      linksPreview.innerHTML = linksInput.value.split('\n').filter(l => l).map(l => `<a href="${l}" target="_blank">${l}</a>`).join('<br>');
+    }
 
-    // Profile picture
-    pictureInput.addEventListener("change", (e) => {
+    nameInput.addEventListener("input", () => namePreview.textContent = nameInput.value || "Your Name");
+    pictureInput.addEventListener("change", e => {
       const file = e.target.files[0];
-      if (file) {
+      if(file){
         const reader = new FileReader();
-        reader.onload = () => {
-          picturePreview.innerHTML = `<img src="${reader.result}" class="w-full h-full object-cover" />`;
-        };
+        reader.onload = () => picturePreview.innerHTML = `<img src="${reader.result}" class="w-full h-full object-cover"/>`;
         reader.readAsDataURL(file);
-      } else {
-        picturePreview.textContent = "No Image";
-      }
+      } else picturePreview.innerHTML = "No Image";
     });
+    [addressInput,emailInput,phoneInput,dobInput,nationalityInput,linksInput].forEach(i => i.addEventListener("input", updateContactInfo));
+    bioInput.addEventListener("input", () => bioPreview.textContent = bioInput.value || "Your bio here");
+    summaryInput.addEventListener("input", () => summaryPreview.textContent = summaryInput.value || "Your summary here");
 
-    // Teaching Philosophy
-    philosophyInput.addEventListener("input", () => {
-      philosophyPreview.textContent = philosophyInput.value || "Your teaching philosophy will appear here.";
-    });
+    function addQualificationItem(){
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "dynamic-item bg-teal-100 p-2 rounded";
+      itemDiv.innerHTML = `
+        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full">X</button>
+        <input type="text" placeholder="Degree" class="degree-input w-full border p-1 rounded">
+        <input type="text" placeholder="Institution" class="institution-input w-full border p-1 rounded">
+        <input type="text" placeholder="Year" class="year-input w-full border p-1 rounded">
+      `;
+      qualificationsContainer.appendChild(itemDiv);
+      const previewDiv = document.createElement("div");
+      qualificationsPreviewContainer.appendChild(previewDiv);
 
-    // Core Competencies
-    skillsInput.addEventListener("input", () => {
-      skillsPreview.innerHTML = skillsInput.value
-        .split("\n")
-        .filter(s => s.trim() !== "")
-        .map(s => `<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">${s}</span>`)
-        .join("") || '<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Skills will appear here...</span>';
-    });
+      const updatePreview = () => {
+        const degree = itemDiv.querySelector('.degree-input').value;
+        const inst = itemDiv.querySelector('.institution-input').value;
+        const year = itemDiv.querySelector('.year-input').value;
+        previewDiv.innerHTML = `<p>${degree || ''} - ${inst || ''} (${year || ''})</p>`;
+      };
+      itemDiv.querySelectorAll('input').forEach(i => i.addEventListener('input', updatePreview));
+      itemDiv.querySelector('.remove-btn').addEventListener('click', ()=>{itemDiv.remove(); previewDiv.remove();});
+    }
 
-    // Teaching Experience
-    document.getElementById("addExperience").addEventListener("click", () => {
-      const expDiv = document.createElement("div");
-      expDiv.innerHTML = `<input type="text" placeholder="Describe experience" class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-orange-500 focus:border-orange-500">`;
-      experienceContainer.appendChild(expDiv);
+    function addExperienceItem(){
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "dynamic-item bg-orange-100 p-2 rounded";
+      itemDiv.innerHTML = `
+        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full">X</button>
+        <input type="text" placeholder="Position" class="title-input w-full border p-1 rounded">
+        <input type="text" placeholder="Company" class="company-input w-full border p-1 rounded">
+        <input type="text" placeholder="Dates" class="dates-input w-full border p-1 rounded">
+      `;
+      experienceContainer.appendChild(itemDiv);
+      const previewDiv = document.createElement("div");
+      experiencePreviewContainer.appendChild(previewDiv);
 
-      const expPreview = document.createElement("p");
-      expPreview.className = "text-gray-700 leading-relaxed";
-      experiencePreviewContainer.appendChild(expPreview);
+      const updatePreview = () => {
+        const title = itemDiv.querySelector('.title-input').value;
+        const company = itemDiv.querySelector('.company-input').value;
+        const dates = itemDiv.querySelector('.dates-input').value;
+        previewDiv.innerHTML = `<p>${title || ''} - ${company || ''} (${dates || ''})</p>`;
+      };
+      itemDiv.querySelectorAll('input').forEach(i => i.addEventListener('input', updatePreview));
+      itemDiv.querySelector('.remove-btn').addEventListener('click', ()=>{itemDiv.remove(); previewDiv.remove();});
+    }
 
-      expDiv.querySelector("input").addEventListener("input", (e) => {
-        expPreview.textContent = e.target.value;
-      });
-    });
+    document.getElementById("addQualification").addEventListener("click", addQualificationItem);
+    document.getElementById("addExperience").addEventListener("click", addExperienceItem);
 
-    // PDF Download
     document.getElementById("downloadButton").addEventListener("click", () => {
-      html2canvas(document.getElementById("cv-preview")).then(canvas => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jspdf.jsPDF({
-          orientation: "portrait",
-          unit: "px",
-          format: [canvas.width, canvas.height]
-        });
-        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-        pdf.save("CV.pdf");
+      window.jsPDF = window.jspdf.jsPDF;
+      html2canvas(document.getElementById("cv-preview")).then(canvas=>{
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'pt', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`${nameInput.value || 'CV'}.pdf`);
       });
     });
+
+    document.getElementById("downloadWordButton").addEventListener("click", () => {
+      const blob = new Blob([document.getElementById("cv-preview").innerHTML], {type:'application/msword'});
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${nameInput.value || 'CV'}.doc`;
+      link.click();
+    });
+
   </script>
+
 </body>
 </html>
