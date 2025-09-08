@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
-     crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Professional CV Creator</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,14 +14,11 @@
 </head>
 <body class="bg-gray-100">
 
-  <!-- Header Navigation -->
+  <!-- Header -->
   <nav class="bg-white shadow sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        <!-- Logo -->
         <a href="#" class="text-xl font-bold text-blue-600">CV Creator</a>
-
-        <!-- Links -->
         <div class="hidden md:flex space-x-6">
           <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
           <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
@@ -114,8 +109,81 @@
     </div>
   </div>
 
+  <!-- JavaScript -->
   <script>
-    // same JS as before (unchanged) ...
+    // --- Live Preview ---
+    const nameInput = document.getElementById("nameInput");
+    const namePreview = document.getElementById("namePreview");
+    const pictureInput = document.getElementById("pictureInput");
+    const picturePreview = document.getElementById("picturePreview");
+    const philosophyInput = document.getElementById("philosophyInput");
+    const philosophyPreview = document.getElementById("philosophyPreview");
+    const skillsInput = document.getElementById("skillsInput");
+    const skillsPreview = document.getElementById("skillsPreview");
+    const experienceContainer = document.getElementById("experience-container");
+    const experiencePreviewContainer = document.getElementById("experience-preview-container");
+
+    // Name update
+    nameInput.addEventListener("input", () => {
+      namePreview.textContent = nameInput.value || "Your Name";
+    });
+
+    // Profile picture
+    pictureInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          picturePreview.innerHTML = `<img src="${reader.result}" class="w-full h-full object-cover" />`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        picturePreview.textContent = "No Image";
+      }
+    });
+
+    // Teaching Philosophy
+    philosophyInput.addEventListener("input", () => {
+      philosophyPreview.textContent = philosophyInput.value || "Your teaching philosophy will appear here.";
+    });
+
+    // Core Competencies
+    skillsInput.addEventListener("input", () => {
+      skillsPreview.innerHTML = skillsInput.value
+        .split("\n")
+        .filter(s => s.trim() !== "")
+        .map(s => `<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">${s}</span>`)
+        .join("") || '<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Skills will appear here...</span>';
+    });
+
+    // Teaching Experience
+    document.getElementById("addExperience").addEventListener("click", () => {
+      const expDiv = document.createElement("div");
+      expDiv.innerHTML = `<input type="text" placeholder="Describe experience" class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-orange-500 focus:border-orange-500">`;
+      experienceContainer.appendChild(expDiv);
+
+      const expPreview = document.createElement("p");
+      expPreview.className = "text-gray-700 leading-relaxed";
+      experiencePreviewContainer.appendChild(expPreview);
+
+      expDiv.querySelector("input").addEventListener("input", (e) => {
+        expPreview.textContent = e.target.value;
+      });
+    });
+
+    // PDF Download
+    document.getElementById("downloadButton").addEventListener("click", () => {
+      html2canvas(document.getElementById("cv-preview")).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jspdf.jsPDF({
+          orientation: "portrait",
+          unit: "px",
+          format: [canvas.width, canvas.height]
+        });
+        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+        pdf.save("CV.pdf");
+      });
+    });
   </script>
 </body>
 </html>
