@@ -1,686 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professional CV Creator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .dynamic-item { position: relative; }
-    .remove-btn { position: absolute; top: 0; right: 0; transform: translate(50%, -50%); }
-    .cv-section h2 { border-bottom-width: 2px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced CV Creator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .dynamic-item { position: relative; margin-bottom:0.5rem; }
+  .remove-btn { position: absolute; top:0; right:0; transform: translate(50%, -50%); background:red; color:white; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; }
+  .cv-container { background:white; padding:1rem; border-radius:0.5rem; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+  #cvPreview img { max-width:120px; border-radius:50%; margin-bottom:1rem; }
+</style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 p-4">
 
-  <!-- Header -->
-  <nav class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        <a href="#" class="text-xl font-bold text-blue-600">CV Creator</a>
-        <div class="hidden md:flex space-x-6">
-          <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Services</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+<h1 class="text-3xl font-bold mb-4 text-center">Advanced CV Creator</h1>
 
-  <!-- Main Content -->
-  <div class="p-4 sm:p-8">
-    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 md:p-10">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      <!-- Input Section -->
-      <div class="space-y-8">
-        <header>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">Create Your CV</h1>
-          <p class="text-gray-600">Fill in your details to generate a live CV preview.</p>
-        </header>
+<!-- Input Section -->
+<div class="space-y-4">
 
-        <!-- Personal Info -->
-        <section class="bg-blue-50 p-6 rounded-xl border border-blue-200 space-y-4">
-          <h2 class="text-xl font-semibold text-blue-700">Personal Details</h2>
-          <div>
-            <label for="nameInput" class="block text-sm font-medium text-gray-700">Full Name</label>
-            <input id="nameInput" type="text" placeholder="e.g., John Doe" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div>
-            <label for="pictureInput" class="block text-sm font-medium text-gray-700">Profile Picture</label>
-            <input id="pictureInput" type="file" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200">
-          </div>
-          <div>
-            <label for="addressInput" class="block text-sm font-medium text-gray-700">Residential Address</label>
-            <input id="addressInput" type="text" placeholder="e.g., 123 Main Street, Anytown, USA" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div>
-            <label for="emailInput" class="block text-sm font-medium text-gray-700">Email</label>
-            <input id="emailInput" type="email" placeholder="e.g., name@example.com" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div>
-            <label for="phoneInput" class="block text-sm font-medium text-gray-700">Phone Number</label>
-            <input id="phoneInput" type="tel" placeholder="e.g., +1-555-123-4567" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div>
-            <label for="dobInput" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-            <input id="dobInput" type="text" placeholder="e.g., 1989-Aug-25" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div>
-            <label for="nationalityInput" class="block text-sm font-medium text-gray-700">Nationality</label>
-            <input id="nationalityInput" type="text" placeholder="e.g., Pakistani" class="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
-          </div>
-          <div>
-            <label for="linksInput" class="block text-sm font-medium text-gray-700">Professional Links (one per line)</label>
-            <textarea id="linksInput" rows="2" placeholder="e.g., https://www.linkedin.com/in/yourprofile" class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-          </div>
-        </section>
+<h2 class="font-bold text-xl">Personal Information</h2>
+<input id="nameInput" placeholder="Full Name" class="border p-2 w-full"/>
+<input id="emailInput" placeholder="Email" class="border p-2 w-full"/>
+<input id="phoneInput" placeholder="Phone" class="border p-2 w-full"/>
+<input id="addressInput" placeholder="Address" class="border p-2 w-full"/>
+<textarea id="bioInput" placeholder="Short Bio" class="border p-2 w-full" rows="3"></textarea>
 
-        <!-- Short Bio -->
-        <section class="bg-indigo-50 p-6 rounded-xl border border-indigo-200">
-          <h2 class="text-xl font-semibold text-indigo-700 mb-2">Short Bio</h2>
-          <textarea id="bioInput" rows="4" placeholder="e.g., A dedicated professional with over a decade of experience in..." class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-        </section>
+<label class="block mt-2">Profile Picture:</label>
+<input type="file" id="photoInput" accept="image/*"/>
 
-        <!-- Summary -->
-        <section class="bg-purple-50 p-6 rounded-xl border border-purple-200">
-          <h2 class="text-xl font-semibold text-purple-700 mb-2">Summary</h2>
-          <textarea id="summaryInput" rows="3" placeholder="e.g., A results-driven academic with strong leadership skills..." class="w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-purple-500 focus:border-purple-500"></textarea>
-        </section>
+<!-- Dynamic Sections -->
+<div>
+<h3 class="font-bold mt-2">Qualifications / Education</h3>
+<ul id="qualificationsContainer" class="space-y-2 list-disc list-inside"></ul>
+<button onclick="addItem('qualifications')" class="bg-teal-500 text-white px-2 py-1 rounded">+ Add Qualification</button>
+</div>
 
-        <!-- Academic Qualifications -->
-        <section class="bg-teal-50 p-6 rounded-xl border border-teal-200">
-          <h2 class="text-xl font-semibold text-teal-700 mb-2">Academic Qualifications</h2>
-          <div id="qualifications-container" class="space-y-4"></div>
-          <button id="addQualification" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg bg-teal-200 text-teal-800 hover:bg-teal-300">+ Add Qualification</button>
-        </section>
+<div>
+<h3 class="font-bold mt-2">Work Experience</h3>
+<ul id="experienceContainer" class="space-y-2 list-disc list-inside"></ul>
+<button onclick="addItem('experience')" class="bg-orange-500 text-white px-2 py-1 rounded">+ Add Experience</button>
+</div>
 
-        <!-- Experience -->
-        <section class="bg-orange-50 p-6 rounded-xl border border-orange-200">
-          <h2 class="text-xl font-semibold text-orange-700 mb-2">Professional Experience</h2>
-          <div id="experience-container" class="space-y-6"></div>
-          <button id="addExperience" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg bg-orange-200 text-orange-800 hover:bg-orange-300">+ Add Position</button>
-        </section>
+<div>
+<h3 class="font-bold mt-2">Courses / Training</h3>
+<ul id="coursesContainer" class="space-y-2 list-disc list-inside"></ul>
+<button onclick="addItem('courses')" class="bg-purple-500 text-white px-2 py-1 rounded">+ Add Course</button>
+</div>
 
-        <!-- Teaching -->
-        <section class="bg-blue-50 p-6 rounded-xl border border-blue-200">
-          <h2 class="text-xl font-semibold text-blue-700 mb-2">Teaching</h2>
-          <div id="courses-container" class="space-y-4 mb-4">
-            <h3 class="font-semibold text-blue-600 mb-2">Courses Taught</h3>
-          </div>
-          <button id="addCourse" class="px-4 py-2 text-sm font-semibold rounded-lg bg-blue-200 text-blue-800 hover:bg-blue-300 mb-4">+ Add Course</button>
-          <div class="space-y-4">
-            <div>
-              <h3 class="font-semibold text-blue-600">Research Students Supervised</h3>
-              <textarea id="supervisedInput" rows="2" placeholder="e.g., Master Students (MS/M.Phil. Co Supervision) - 5" class="w-full rounded-md border-gray-300 p-2"></textarea>
-            </div>
-            <div>
-              <h3 class="font-semibold text-blue-600">Oral Examination Participation</h3>
-              <textarea id="oralExamInput" rows="2" placeholder="e.g., Master Students (MS/M.Phil.) - 5" class="w-full rounded-md border-gray-300 p-2"></textarea>
-            </div>
-            <div>
-              <h3 class="font-semibold text-blue-600">Training</h3>
-              <textarea id="trainingInput" rows="4" placeholder="e.g., Attending a workshop on a relevant topic..." class="w-full rounded-md border-gray-300 p-2"></textarea>
-            </div>
-          </div>
-        </section>
+<div>
+<h3 class="font-bold mt-2">Publications</h3>
+<ul id="publicationsContainer" class="space-y-2 list-disc list-inside"></ul>
+<button onclick="addItem('publications')" class="bg-blue-500 text-white px-2 py-1 rounded">+ Add Publication</button>
+</div>
 
-        <!-- Research -->
-        <section id="research-section" class="bg-green-50 p-6 rounded-xl border border-green-200">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-xl font-semibold text-green-700">Research</h2>
-            <div class="flex items-center space-x-2">
-                <input type="checkbox" id="toggleResearch" checked class="rounded text-green-600 focus:ring-green-500">
-                <label for="toggleResearch" class="text-sm font-medium text-gray-700">Show Section</label>
-            </div>
-          </div>
-          <div class="space-y-4 mb-4">
-            <div>
-              <h3 class="font-semibold text-green-600">Research Areas (one per line)</h3>
-              <textarea id="researchAreasInput" rows="3" placeholder="e.g., Machine Learning, Artificial Intelligence" class="w-full rounded-md border-gray-300 p-2"></textarea>
-            </div>
-          </div>
-          <div id="publications-container" class="space-y-4 mb-4">
-            <h3 class="font-semibold text-green-600 mb-2">Publications</h3>
-          </div>
-          <button id="addPublication" class="px-4 py-2 text-sm font-semibold rounded-lg bg-green-200 text-green-800 hover:bg-green-300 mb-4">+ Add Publication</button>
-          <div>
-            <h3 class="font-semibold text-green-600">Publications Under Process</h3>
-            <textarea id="publicationsUnderProcessInput" rows="2" placeholder="e.g., An analysis of machine learning models for climate prediction" class="w-full rounded-md border-gray-300 p-2"></textarea>
-          </div>
-        </section>
+<div>
+<h3 class="font-bold mt-2">References</h3>
+<ul id="referencesContainer" class="space-y-2 list-disc list-inside"></ul>
+<button onclick="addItem('references')" class="bg-gray-700 text-white px-2 py-1 rounded">+ Add Reference</button>
+</div>
 
-        <!-- University Services -->
-        <section id="services-section" class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-xl font-semibold text-yellow-700">University Services</h2>
-            <div class="flex items-center space-x-2">
-                <input type="checkbox" id="toggleServices" checked class="rounded text-yellow-600 focus:ring-yellow-500">
-                <label for="toggleServices" class="text-sm font-medium text-gray-700">Show Section</label>
-            </div>
-          </div>
-          <textarea id="servicesInput" rows="4" placeholder="e.g., Leadership and Student Management..." class="w-full rounded-md border-gray-300 p-2 focus:ring-yellow-500 focus:border-yellow-500"></textarea>
-        </section>
+<div class="mt-4 space-x-2">
+<button onclick="downloadPDF()" class="bg-blue-600 text-white px-4 py-2 rounded">Download PDF</button>
+<button onclick="downloadWord()" class="bg-green-600 text-white px-4 py-2 rounded">Download Word</button>
+</div>
 
-        <!-- Extra Curricular -->
-        <section id="achievements-section" class="bg-red-50 p-6 rounded-xl border border-red-200">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-xl font-semibold text-red-700">Awards & Achievements</h2>
-            <div class="flex items-center space-x-2">
-                <input type="checkbox" id="toggleAchievements" checked class="rounded text-red-600 focus:ring-red-500">
-                <label for="toggleAchievements" class="text-sm font-medium text-gray-700">Show Section</label>
-            </div>
-          </div>
-          <textarea id="achievementsInput" rows="4" placeholder="e.g., Successfully Organized the Job Fair..." class="w-full rounded-md border-gray-300 p-2 focus:ring-red-500 focus:border-red-500"></textarea>
-        </section>
-        
-        <!-- References -->
-        <section id="references-section" class="bg-gray-200 p-6 rounded-xl border border-gray-300">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-xl font-semibold text-gray-800">References</h2>
-            <div class="flex items-center space-x-2">
-                <input type="checkbox" id="toggleReferences" checked class="rounded text-gray-600 focus:ring-gray-500">
-                <label for="toggleReferences" class="text-sm font-medium text-gray-700">Show Section</label>
-            </div>
-          </div>
-          <div id="references-container" class="space-y-4"></div>
-          <button id="addReference" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400">+ Add Reference</button>
-        </section>
+</div>
 
-        <!-- Download Buttons -->
-        <div class="flex space-x-4">
-          <button id="downloadButton" class="flex-1 bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow hover:bg-blue-700 hover:scale-105 transition">Download as PDF</button>
-          <button id="downloadWordButton" class="flex-1 bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow hover:bg-green-700 hover:scale-105 transition">Download as Word</button>
-        </div>
-      </div>
+<!-- Preview Section -->
+<div class="cv-container" id="cvPreview">
+<img id="photoPreview" src="" alt="Profile Photo" style="display:none"/>
+<h2 id="namePreview" class="text-2xl font-bold">Your Name</h2>
+<p id="emailPreview">Email</p>
+<p id="phonePreview">Phone</p>
+<p id="addressPreview">Address</p>
+<p id="bioPreview">Bio</p>
 
-      <!-- Preview Section -->
-      <aside class="bg-gray-50 rounded-xl p-6 overflow-y-auto max-h-[80vh] sticky top-20">
-        <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Live Preview</h2>
-        <div id="cv-preview" class="bg-white p-8 rounded-lg shadow min-h-[500px] border border-gray-200">
+<h3 class="font-bold mt-4">Qualifications</h3>
+<ul id="qualificationsPreview"></ul>
 
-          <!-- Header Section -->
-          <div class="flex items-center space-x-6 mb-8">
-            <div id="picturePreview" class="flex-shrink-0 w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-xs overflow-hidden">No Image</div>
-            <div>
-              <h1 id="namePreview" class="text-3xl font-bold text-gray-900">Your Name</h1>
-              <div id="contactPreview" class="text-sm text-gray-600 space-y-1 mt-2"></div>
-              <div id="linksPreview" class="text-sm text-blue-600 mt-2 space-y-1"></div>
-            </div>
-          </div>
-          <hr class="border-gray-300 my-6">
-          
-          <!-- Sections -->
-          <div class="space-y-8">
-            <section class="cv-section">
-              <h2 class="text-2xl font-bold text-indigo-600 mb-3 border-indigo-200">Short Bio</h2>
-              <p id="bioPreview" class="text-gray-700 leading-relaxed">Your short bio will appear here.</p>
-            </section>
+<h3 class="font-bold mt-4">Experience</h3>
+<ul id="experiencePreview"></ul>
 
-            <section class="cv-section">
-              <h2 class="text-2xl font-bold text-purple-600 mb-3 border-purple-200">Summary</h2>
-              <p id="summaryPreview" class="text-gray-700 leading-relaxed">Your summary will appear here.</p>
-            </section>
+<h3 class="font-bold mt-4">Courses / Training</h3>
+<ul id="coursesPreview"></ul>
 
-            <section class="cv-section">
-              <h2 class="text-2xl font-bold text-teal-600 mb-3 border-teal-200">Academic Qualifications</h2>
-              <div id="qualifications-preview-container" class="space-y-4"></div>
-            </section>
+<h3 class="font-bold mt-4">Publications</h3>
+<ul id="publicationsPreview"></ul>
 
-            <section class="cv-section">
-              <h2 class="text-2xl font-bold text-orange-600 mb-3 border-orange-200">Professional Experience</h2>
-              <div id="experience-preview-container" class="space-y-6"></div>
-            </section>
+<h3 class="font-bold mt-4">References</h3>
+<ul id="referencesPreview"></ul>
+</div>
 
-            <section class="cv-section">
-              <h2 class="text-2xl font-bold text-blue-600 mb-3 border-blue-200">Teaching</h2>
-              <div id="teaching-preview-container" class="space-y-4">
-                <div id="courses-preview-container" class="space-y-2">
-                  <h3 class="font-semibold text-blue-600 text-lg">Courses Taught</h3>
-                  <ul class="list-disc list-inside text-gray-700" id="coursesListPreview">
-                    <li>Courses will appear here...</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 class="font-semibold text-blue-600 text-lg">Research Students Supervised</h3>
-                  <p id="supervisedPreview" class="text-gray-700">Information will appear here...</p>
-                </div>
-                <div>
-                  <h3 class="font-semibold text-blue-600 text-lg">Oral Examination Participation</h3>
-                  <p id="oralExamPreview" class="text-gray-700">Information will appear here...</p>
-                </div>
-                <div>
-                  <h3 class="font-semibold text-blue-600 text-lg">Training</h3>
-                  <p id="trainingPreview" class="text-gray-700 whitespace-pre-wrap">Information will appear here...</p>
-                </div>
-              </div>
-            </section>
+</div>
 
-            <section id="research-preview" class="cv-section">
-              <h2 class="text-2xl font-bold text-green-600 mb-3 border-green-200">Research</h2>
-              <div class="space-y-4">
-                <div>
-                  <h3 class="font-semibold text-green-600 text-lg">Research Areas</h3>
-                  <div id="researchAreasPreview" class="flex flex-wrap gap-2 text-sm md:text-base">
-                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Areas will appear here...</span>
-                  </div>
-                </div>
-                <div id="publications-preview-container" class="space-y-4">
-                  <h3 class="font-semibold text-green-600 text-lg">Publications</h3>
-                </div>
-                <div>
-                  <h3 class="font-semibold text-green-600 text-lg">Publications Under Process</h3>
-                  <p id="publicationsUnderProcessPreview" class="text-gray-700 whitespace-pre-wrap">Publications will appear here...</p>
-                </div>
-              </div>
-            </section>
+<script>
+// Personal info bindings
+const personalFields = ['name','email','phone','address','bio'];
+personalFields.forEach(f=>{
+  const input = document.getElementById(f+'Input');
+  const preview = document.getElementById(f+'Preview');
+  input.addEventListener('input', ()=> preview.textContent = input.value || preview.dataset.placeholder);
+  preview.dataset.placeholder = preview.textContent;
+});
 
-            <section id="services-preview" class="cv-section">
-              <h2 class="text-2xl font-bold text-yellow-600 mb-3 border-yellow-200">University Services</h2>
-              <p id="servicesPreview" class="text-gray-700 leading-relaxed whitespace-pre-wrap">Services will appear here...</p>
-            </section>
-
-            <section id="achievements-preview" class="cv-section">
-              <h2 class="text-2xl font-bold text-red-600 mb-3 border-red-200">Awards & Achievements</h2>
-              <p id="achievementsPreview" class="text-gray-700 leading-relaxed whitespace-pre-wrap">Achievements will appear here...</p>
-            </section>
-            
-            <section id="references-preview" class="cv-section">
-              <h2 class="text-2xl font-bold text-gray-800 mb-3 border-gray-400">References</h2>
-              <div id="references-preview-container" class="space-y-4"></div>
-            </section>
-          </div>
-
-        </div>
-      </aside>
-    </div>
-  </div>
-
-  <!-- JavaScript -->
-  <script>
-    const nameInput = document.getElementById("nameInput");
-    const namePreview = document.getElementById("namePreview");
-    const pictureInput = document.getElementById("pictureInput");
-    const picturePreview = document.getElementById("picturePreview");
-    const addressInput = document.getElementById("addressInput");
-    const emailInput = document.getElementById("emailInput");
-    const phoneInput = document.getElementById("phoneInput");
-    const dobInput = document.getElementById("dobInput");
-    const nationalityInput = document.getElementById("nationalityInput");
-    const linksInput = document.getElementById("linksInput");
-    const contactPreview = document.getElementById("contactPreview");
-    const linksPreview = document.getElementById("linksPreview");
-    const bioInput = document.getElementById("bioInput");
-    const bioPreview = document.getElementById("bioPreview");
-    const summaryInput = document.getElementById("summaryInput");
-    const summaryPreview = document.getElementById("summaryPreview");
-    const qualificationsContainer = document.getElementById("qualifications-container");
-    const qualificationsPreviewContainer = document.getElementById("qualifications-preview-container");
-    const experienceContainer = document.getElementById("experience-container");
-    const experiencePreviewContainer = document.getElementById("experience-preview-container");
-    const coursesContainer = document.getElementById("courses-container");
-    const coursesListPreview = document.getElementById("coursesListPreview");
-    const supervisedInput = document.getElementById("supervisedInput");
-    const supervisedPreview = document.getElementById("supervisedPreview");
-    const oralExamInput = document.getElementById("oralExamInput");
-    const oralExamPreview = document.getElementById("oralExamPreview");
-    const trainingInput = document.getElementById("trainingInput");
-    const trainingPreview = document.getElementById("trainingPreview");
-    const researchAreasInput = document.getElementById("researchAreasInput");
-    const researchAreasPreview = document.getElementById("researchAreasPreview");
-    const publicationsContainer = document.getElementById("publications-container");
-    const publicationsPreviewContainer = document.getElementById("publications-preview-container");
-    const publicationsUnderProcessInput = document.getElementById("publicationsUnderProcessInput");
-    const publicationsUnderProcessPreview = document.getElementById("publicationsUnderProcessPreview");
-    const servicesInput = document.getElementById("servicesInput");
-    const servicesPreview = document.getElementById("servicesPreview");
-    const achievementsInput = document.getElementById("achievementsInput");
-    const achievementsPreview = document.getElementById("achievementsPreview");
-    const referencesContainer = document.getElementById("references-container");
-    const referencesPreviewContainer = document.getElementById("references-preview-container");
-    
-    // Optional sections toggles
-    const toggleResearch = document.getElementById('toggleResearch');
-    const researchSection = document.getElementById('research-section');
-    const researchPreview = document.getElementById('research-preview');
-    
-    const toggleServices = document.getElementById('toggleServices');
-    const servicesSection = document.getElementById('services-section');
-    const servicesPreview = document.getElementById('services-preview');
-    
-    const toggleAchievements = document.getElementById('toggleAchievements');
-    const achievementsSection = document.getElementById('achievements-section');
-    const achievementsPreview = document.getElementById('achievements-preview');
-    
-    const toggleReferences = document.getElementById('toggleReferences');
-    const referencesSection = document.getElementById('references-section');
-    const referencesPreview = document.getElementById('references-preview');
-
-    function updateContactInfo() {
-      contactPreview.innerHTML = `
-        <p>${addressInput.value || 'Your Address'}</p>
-        <p>${emailInput.value || 'your.email@example.com'}</p>
-        <p>${phoneInput.value || 'Your Phone Number'}</p>
-        <p><strong>DoB:</strong> ${dobInput.value || 'N/A'}</p>
-        <p><strong>Nationality:</strong> ${nationalityInput.value || 'N/A'}</p>
-      `;
-      linksPreview.innerHTML = linksInput.value.split('\n').filter(l => l.trim() !== '').map(l => `<a href="${l}" class="hover:underline">${l}</a>`).join('');
+// Profile photo
+const photoInput = document.getElementById('photoInput');
+const photoPreview = document.getElementById('photoPreview');
+photoInput.addEventListener('change', ()=>{
+  const file = photoInput.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = e => {
+      photoPreview.src = e.target.result;
+      photoPreview.style.display='block';
     }
+    reader.readAsDataURL(file);
+  }
+});
 
-    function addQualificationItem() {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "dynamic-item bg-teal-100 p-4 rounded-lg space-y-2";
-      itemDiv.innerHTML = `
-        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
-        <div>
-          <label class="block text-sm font-medium text-teal-700">Degree</label>
-          <input type="text" class="degree-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Master of Science">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-teal-700">Institution</label>
-          <input type="text" class="institution-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., University of Science & Technology">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-teal-700">Year</label>
-          <input type="text" class="year-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., 2017">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-teal-700">CGPA/Grade</label>
-          <input type="text" class="cgpa-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., 3.44/4.00">
-        </div>
-      `;
-      qualificationsContainer.appendChild(itemDiv);
+// Dynamic sections
+const sections = ['qualifications','experience','courses','publications','references'];
+sections.forEach(section=>{
+  window[section+'Container'] = document.getElementById(section+'Container');
+  window[section+'Preview'] = document.getElementById(section+'Preview');
+  Sortable.create(window[section+'Container'], { animation: 150, onSort: ()=>updatePreview(section) });
+});
 
-      const previewDiv = document.createElement("div");
-      previewDiv.className = "dynamic-item-preview space-y-1";
-      qualificationsPreviewContainer.appendChild(previewDiv);
-      
-      itemDiv.querySelector('.remove-btn').addEventListener('click', () => { itemDiv.remove(); previewDiv.remove(); });
-      itemDiv.querySelectorAll('input, textarea').forEach(input => { input.addEventListener('input', () => updateQualificationPreview(itemDiv, previewDiv)); });
-      updateQualificationPreview(itemDiv, previewDiv);
+function addItem(section){
+  const li = document.createElement('li');
+  li.className='dynamic-item';
+  li.innerHTML=`<input placeholder="Enter item" class="border p-1 w-3/4"/> <button class="remove-btn">X</button>`;
+  window[section+'Container'].appendChild(li);
+
+  const input = li.querySelector('input');
+  input.addEventListener('input', ()=>updatePreview(section));
+
+  li.querySelector('.remove-btn').addEventListener('click', ()=>{
+    li.remove();
+    updatePreview(section);
+  });
+
+  updatePreview(section);
+}
+
+function updatePreview(section){
+  const preview = window[section+'Preview'];
+  preview.innerHTML='';
+  window[section+'Container'].querySelectorAll('input').forEach(inp=>{
+    if(inp.value.trim()!==''){
+      const li = document.createElement('li');
+      li.textContent = inp.value;
+      preview.appendChild(li);
     }
-    
-    function updateQualificationPreview(inputDiv, previewDiv) {
-      const degree = inputDiv.querySelector('.degree-input').value;
-      const institution = inputDiv.querySelector('.institution-input').value;
-      const year = inputDiv.querySelector('.year-input').value;
-      const cgpa = inputDiv.querySelector('.cgpa-input').value;
-      previewDiv.innerHTML = `
-        <p class="font-semibold text-gray-900">${degree || 'Degree'}</p>
-        <p class="text-gray-700">${institution || 'Institution'}</p>
-        <p class="text-gray-700 text-sm italic">${year || 'Year'} | ${cgpa || 'CGPA/Grade'}</p>
-      `;
-    }
+  });
+}
 
-    function addExperienceItem() {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "dynamic-item bg-orange-100 p-4 rounded-lg space-y-2";
-      itemDiv.innerHTML = `
-        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
-        <div>
-          <label class="block text-sm font-medium text-orange-700">Position Title</label>
-          <input type="text" class="title-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Assistant Professor">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-orange-700">Company/Institution</label>
-          <input type="text" class="company-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., ABC College">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-orange-700">Dates</label>
-          <input type="text" class="dates-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Sep. 2024 - Date">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-orange-700">Responsibilities (one per line)</label>
-          <textarea rows="3" class="responsibilities-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Managed a class of 25 students..."></textarea>
-        </div>
-      `;
-      experienceContainer.appendChild(itemDiv);
+// Download functions
+function downloadPDF(){
+  html2canvas(document.getElementById('cvPreview'),{scale:2}).then(canvas=>{
+    const img = canvas.toDataURL('image/jpeg');
+    const pdf = new jspdf.jsPDF();
+    pdf.addImage(img,'JPEG',0,0,210,canvas.height*210/canvas.width);
+    pdf.save('CV.pdf');
+  });
+}
 
-      const previewDiv = document.createElement("div");
-      previewDiv.className = "dynamic-item-preview space-y-1";
-      experiencePreviewContainer.appendChild(previewDiv);
+function downloadWord(){
+  const content = document.getElementById('cvPreview').innerHTML;
+  const blob = new Blob([content], {type:'application/msword'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'CV.doc';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
 
-      itemDiv.querySelector('.remove-btn').addEventListener('click', () => { itemDiv.remove(); previewDiv.remove(); });
-      itemDiv.querySelectorAll('input, textarea').forEach(input => { input.addEventListener('input', () => updateExperiencePreview(itemDiv, previewDiv)); });
-      updateExperiencePreview(itemDiv, previewDiv);
-    }
-    
-    function updateExperiencePreview(inputDiv, previewDiv) {
-      const title = inputDiv.querySelector('.title-input').value;
-      const company = inputDiv.querySelector('.company-input').value;
-      const dates = inputDiv.querySelector('.dates-input').value;
-      const responsibilities = inputDiv.querySelector('.responsibilities-input').value;
-      previewDiv.innerHTML = `
-        <h3 class="font-semibold text-gray-900">${title || 'Position Title'}</h3>
-        <p class="text-gray-700 text-sm italic">${company || 'Company/Institution'} <span class="text-xs text-gray-500 font-normal">(${dates || 'Dates'})</span></p>
-        <ul class="list-disc list-inside text-gray-700 space-y-1 mt-2">
-          ${responsibilities.split('\n').filter(r => r.trim() !== '').map(r => `<li>${r.trim()}</li>`).join('') || `<li>Responsibilities will appear here...</li>`}
-        </ul>
-      `;
-    }
-
-    function addCourseItem() {
-      const courseItem = document.createElement("div");
-      courseItem.className = "dynamic-item bg-blue-100 p-4 rounded-lg space-y-2";
-      courseItem.innerHTML = `
-        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
-        <div>
-          <label class="block text-sm font-medium text-blue-700">Course Title</label>
-          <input type="text" class="course-title-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., Computer Networks">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-blue-700">Place Taught</label>
-          <input type="text" class="place-taught-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., University ABC">
-        </div>
-      `;
-      coursesContainer.appendChild(courseItem);
-      
-      courseItem.querySelector('.remove-btn').addEventListener('click', () => { 
-        courseItem.remove(); 
-        updateCoursesPreview();
-      });
-      courseItem.querySelectorAll('input').forEach(input => { input.addEventListener('input', updateCoursesPreview); });
-      updateCoursesPreview();
-    }
-    
-    function updateCoursesPreview() {
-      const courses = Array.from(coursesContainer.querySelectorAll('.course-title-input')).map(input => ({
-        title: input.value,
-        place: input.closest('.dynamic-item').querySelector('.place-taught-input').value
-      })).filter(c => c.title.trim() !== '' || c.place.trim() !== '');
-
-      if (courses.length > 0) {
-        coursesListPreview.innerHTML = courses.map(c => `<li><strong>${c.title}</strong> - ${c.place}</li>`).join('');
-      } else {
-        coursesListPreview.innerHTML = '<li>Courses will appear here...</li>';
-      }
-    }
-
-    function addPublicationItem() {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "dynamic-item bg-green-100 p-4 rounded-lg space-y-2";
-      itemDiv.innerHTML = `
-        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
-        <div>
-          <label class="block text-sm font-medium text-green-700">Publication Title</label>
-          <textarea rows="3" class="publication-title-input mt-1 w-full rounded-md border-gray-300 p-2" placeholder="e.g., An analysis of machine learning models for climate prediction"></textarea>
-        </div>
-      `;
-      publicationsContainer.appendChild(itemDiv);
-      
-      const previewDiv = document.createElement("div");
-      previewDiv.className = "dynamic-item-preview";
-      publicationsPreviewContainer.appendChild(previewDiv);
-
-      itemDiv.querySelector('.remove-btn').addEventListener('click', () => { itemDiv.remove(); previewDiv.remove(); });
-      itemDiv.querySelector('textarea').addEventListener('input', () => updatePublicationPreview(itemDiv, previewDiv));
-      updatePublicationPreview(itemDiv, previewDiv);
-    }
-    
-    function updatePublicationPreview(inputDiv, previewDiv) {
-      const title = inputDiv.querySelector('.publication-title-input').value;
-      previewDiv.innerHTML = title ? `<p class="text-gray-700 mb-2">${title}</p>` : 'Publications will appear here...';
-    }
-    
-    function addReferenceItem() {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "dynamic-item bg-gray-300 p-4 rounded-lg space-y-2";
-      itemDiv.innerHTML = `
-        <button class="remove-btn bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold">X</button>
-        <div>
-          <label class="block text-sm font-medium text-gray-800">Name</label>
-          <input type="text" class="ref-name-input mt-1 w-full rounded-md border-gray-400 p-2" placeholder="e.g., Dr. Jane Smith">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-800">Title & Institution</label>
-          <input type="text" class="ref-title-input mt-1 w-full rounded-md border-gray-400 p-2" placeholder="e.g., Professor of Engineering, XYZ University">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-800">Email</label>
-          <input type="email" class="ref-email-input mt-1 w-full rounded-md border-gray-400 p-2" placeholder="e.g., email@example.com">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-800">Phone</label>
-          <input type="tel" class="ref-phone-input mt-1 w-full rounded-md border-gray-400 p-2" placeholder="e.g., +1-555-987-6543">
-        </div>
-      `;
-      referencesContainer.appendChild(itemDiv);
-      
-      const previewDiv = document.createElement("div");
-      previewDiv.className = "dynamic-item-preview space-y-1";
-      referencesPreviewContainer.appendChild(previewDiv);
-
-      itemDiv.querySelector('.remove-btn').addEventListener('click', () => { itemDiv.remove(); previewDiv.remove(); });
-      itemDiv.querySelectorAll('input').forEach(input => { input.addEventListener('input', () => updateReferencePreview(itemDiv, previewDiv)); });
-      updateReferencePreview(itemDiv, previewDiv);
-    }
-    
-    function updateReferencePreview(inputDiv, previewDiv) {
-      const name = inputDiv.querySelector('.ref-name-input').value;
-      const title = inputDiv.querySelector('.ref-title-input').value;
-      const email = inputDiv.querySelector('.ref-email-input').value;
-      const phone = inputDiv.querySelector('.ref-phone-input').value;
-      previewDiv.innerHTML = `
-        <h3 class="font-semibold text-gray-900">${name || 'Reference Name'}</h3>
-        <p class="text-gray-700 text-sm italic">${title || 'Title, Institution'}</p>
-        <p class="text-gray-700 text-sm">Email: ${email || 'N/A'}</p>
-        <p class="text-gray-700 text-sm">Phone: ${phone || 'N/A'}</p>
-      `;
-    }
-
-    nameInput.addEventListener("input", () => { namePreview.textContent = nameInput.value || "Your Name"; });
-    pictureInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => { picturePreview.innerHTML = `<img src="${reader.result}" class="w-full h-full object-cover" />`; };
-        reader.readAsDataURL(file);
-      } else { picturePreview.innerHTML = "No Image"; }
-    });
-    addressInput.addEventListener("input", updateContactInfo);
-    emailInput.addEventListener("input", updateContactInfo);
-    phoneInput.addEventListener("input", updateContactInfo);
-    dobInput.addEventListener("input", updateContactInfo);
-    nationalityInput.addEventListener("input", updateContactInfo);
-    linksInput.addEventListener("input", updateContactInfo);
-    bioInput.addEventListener("input", () => { bioPreview.textContent = bioInput.value || "Your short bio will appear here."; });
-    summaryInput.addEventListener("input", () => { summaryPreview.textContent = summaryInput.value || "Your summary will appear here."; });
-    supervisedInput.addEventListener("input", () => { supervisedPreview.textContent = supervisedInput.value || "Information will appear here..."; });
-    oralExamInput.addEventListener("input", () => { oralExamPreview.textContent = oralExamInput.value || "Information will appear here..."; });
-    trainingInput.addEventListener("input", () => { trainingPreview.textContent = trainingInput.value || "Information will appear here..."; });
-    researchAreasInput.addEventListener("input", () => {
-      researchAreasPreview.innerHTML = researchAreasInput.value
-        .split("\n")
-        .filter(s => s.trim() !== "")
-        .map(s => `<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">${s}</span>`)
-        .join("") || '<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Areas will appear here...</span>';
-    });
-    publicationsUnderProcessInput.addEventListener("input", () => { publicationsUnderProcessPreview.textContent = publicationsUnderProcessInput.value || "Publications will appear here..."; });
-    servicesInput.addEventListener("input", () => { servicesPreview.textContent = servicesInput.value || "Services will appear here..."; });
-    achievementsInput.addEventListener("input", () => { achievementsPreview.textContent = achievementsInput.value || "Achievements will appear here..."; });
-
-    document.getElementById("addQualification").addEventListener("click", addQualificationItem);
-    document.getElementById("addExperience").addEventListener("click", addExperienceItem);
-    document.getElementById("addCourse").addEventListener("click", addCourseItem);
-    document.getElementById("addPublication").addEventListener("click", addPublicationItem);
-    document.getElementById("addReference").addEventListener("click", addReferenceItem);
-
-    document.getElementById("downloadButton").addEventListener("click", () => {
-      window.jsPDF = window.jspdf.jsPDF;
-      const cvPreview = document.getElementById("cv-preview");
-      html2canvas(cvPreview, { scale: 2 }).then(canvas => {
-        const imgData = canvas.toDataURL("image/jpeg", 1.0);
-        const pdf = new jspdf({
-          orientation: "portrait",
-          unit: "px",
-          format: [cvPreview.offsetWidth, cvPreview.offsetHeight]
-        });
-        pdf.addImage(imgData, "JPEG", 0, 0, cvPreview.offsetWidth, cvPreview.offsetHeight);
-        pdf.save("CV.pdf");
-      });
-    });
-
-    document.getElementById('downloadWordButton').addEventListener('click', () => {
-        const cvPreview = document.getElementById('cv-preview');
-        const content = cvPreview.innerHTML;
-        const html = `
-          <html>
-            <head>
-              <meta charset="utf-8">
-              <title>Curriculum Vitae</title>
-              <style>
-                body { font-family: 'Inter', sans-serif; padding: 20px; }
-                .cv-section h2 { font-size: 1.5em; font-weight: bold; margin-top: 1.5em; border-bottom: 2px solid #ccc; padding-bottom: 0.5em; }
-                p, li { line-height: 1.5; }
-              </style>
-            </head>
-            <body>
-              ${content}
-            </body>
-          </html>
-        `;
-        const blob = new Blob([html], { type: 'application/msword' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Curriculum_Vitae.doc';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    });
-
-    // Toggle logic for optional sections
-    function setupToggle(toggleId, sectionId, previewId) {
-        const checkbox = document.getElementById(toggleId);
-        const section = document.getElementById(sectionId);
-        const preview = document.getElementById(previewId);
-
-        if (checkbox && section && preview) {
-            checkbox.addEventListener('change', () => {
-                const isVisible = checkbox.checked;
-                section.classList.toggle('hidden', !isVisible);
-                preview.classList.toggle('hidden', !isVisible);
-            });
-        }
-    }
-    
-    window.onload = () => {
-      addQualificationItem();
-      addExperienceItem();
-      addCourseItem();
-      addPublicationItem();
-      addReferenceItem();
-      
-      setupToggle('toggleResearch', 'research-section', 'research-preview');
-      setupToggle('toggleServices', 'services-section', 'services-preview');
-      setupToggle('toggleAchievements', 'achievements-section', 'achievements-preview');
-      setupToggle('toggleReferences', 'references-section', 'references-preview');
-    };
-  </script>
 </body>
 </html>
