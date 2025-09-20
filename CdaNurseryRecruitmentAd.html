@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
      crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <title>CDA Nursery — Situation Vacant</title>
   <style>
     :root{--accent:#0b5ed7;--muted:#666}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.45;margin:0;color:#222;background:#f7f9fc}
     .container{max-width:900px;margin:28px auto;padding:28px;background:#fff;border-radius:10px;box-shadow:0 8px 30px rgba(16,24,40,0.08)}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    header nav a{margin-right:12px;color:var(--accent);text-decoration:none;font-weight:500}
     h1{margin:0;font-size:20px}
     .sub{color:var(--muted);font-size:13px}
     .apply{background:var(--accent);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
@@ -20,7 +21,7 @@
     table{width:100%;border-collapse:collapse;margin-top:12px}
     th,td{padding:10px;border-bottom:1px solid #eee;text-align:left;font-size:14px}
     th{background:#fbfbfd;font-weight:700}
-    .two-col{display:grid;grid-template-columns:1fr 220px;gap:18px}
+    .two-col{display:grid;grid-template-columns:1fr 220px;gap:18px;margin-top:24px}
     .info p{margin:8px 0}
     footer{margin-top:18px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
     @media (max-width:720px){.two-col{grid-template-columns:1fr}.container{margin:12px;padding:16px}}
@@ -30,27 +31,28 @@
 <body>
   <div class="container">
     <header>
-  <nav>
-            <a href="index.html">Home</a>
-            <a href="jobposting.html">User Jobs</a>
-            <a href="about.html">About Us</a>
-            <a href="chat.html">Discussion</a>
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="disclaimer.html">Disclaimer</a>
-            <a href="terms.html">Terms &amp; Conditions</a>
-            <a href="contact.html">Contact Us</a>
-        </nav>
-        <h1>Pakistan Job Alerts</h1>
-        <p>Stay updated with the newest job opportunities across the country</p>
-      <div>
-        <h1>CAPITAL DEVELOPMENT AUTHORITY — CDA Nursery (Commercial)</h1>
-        <div class="sub">URAAN — PAKISTAN &middot; Situation Vacant (Contract posts — Project Pay Scales)</div>
-      </div>
-      <div style="text-align:right">
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="jobposting.html">User Jobs</a>
+        <a href="about.html">About Us</a>
+        <a href="chat.html">Discussion</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="terms.html">Terms &amp; Conditions</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+      <h1>Pakistan Job Alerts</h1>
+      <p class="sub">Stay updated with the newest job opportunities across the country</p>
+    </header>
+
+    <section>
+      <h1>CAPITAL DEVELOPMENT AUTHORITY — CDA Nursery (Commercial)</h1>
+      <div class="sub">URAAN — PAKISTAN &middot; Situation Vacant (Contract posts — Project Pay Scales)</div>
+      <div style="margin:16px 0">
         <a class="apply" href="https://cda.gov.pk/jobs/jobs" target="_blank" rel="noopener">Apply Now</a>
         <div style="margin-top:6px;font-size:12px;color:var(--muted)">Last date: <strong>09-10-2025</strong></div>
       </div>
-    </header>
+    </section>
 
     <div class="note" role="note">
       <strong>NOTE:</strong> This advertisement is <strong>in continuation</strong> of the earlier advertisement published in the national press on <strong>18-05-2025</strong>. Candidates who already applied pursuant to the previous advertisement are <strong>not required to reapply</strong>. Their applications shall be considered for shortlisting in accordance with the prescribed appointment criteria.
@@ -58,7 +60,7 @@
 
     <section class="two-col">
       <div class="info">
-        <h3 style="margin-top:0">How to apply</h3>
+        <h3>How to apply</h3>
         <p>Online application along with scanned attested copies of educational documents, experience certificates, recent photograph, CNIC and domicile should be submitted only at:</p>
         <p><a href="https://cda.gov.pk/jobs/jobs" target="_blank" rel="noopener">https://cda.gov.pk/jobs/jobs</a></p>
         <p><strong>All applications must be submitted online only.</strong> Incomplete applications will not be entertained.</p>
@@ -71,7 +73,7 @@
           <li>Original documents (educational &amp; experience certificates) and attested copies must be brought at interview.</li>
           <li>Candidates serving in Government must upload NOC from their department.</li>
           <li>If applying for multiple posts, submit separate application forms and fees for each post.</li>
-          <li>For queries call: <strong>051-9252042</strong> (office hours) or email: <a href="mailto:cda.jobs@cda.gov.pk">cda.jobs@cda.gov.pk</a></li>
+          <li>For queries call: <strong>051-9252042</strong> or email: <a href="mailto:cda.jobs@cda.gov.pk">cda.jobs@cda.gov.pk</a></li>
         </ul>
 
         <h4>Application Fee</h4>
@@ -95,8 +97,8 @@
           <tr><th>Sr</th><th>Post</th><th>No. of Posts</th><th>PPS</th><th>Qualification / Experience / Age</th></tr>
         </thead>
         <tbody>
-          <tr><td>1</td><td>Senior Manager (Nursery)</td><td>9</td><td>PPS-9</td><td>Master's in Horticulture/Agriculture/Forestry/Botany/Environmental Sciences (preference for plant sciences, molecular biology, biotech, floriculture). 12 yrs relevant experience at BPS-17 or above. Age: 45</td></tr>
-          <tr><td>2</td><td>Manager (Nursery)</td><td>1</td><td>PPS-8</td><td>Master's (as above). 7 yrs relevant experience at BPS-17 or above. Age: 40</td></tr>
+          <tr><td>1</td><td>Senior Manager (Nursery)</td><td>9</td><td>PPS-9</td><td>Master's in Horticulture/Agriculture/Forestry/Botany/Environmental Sciences. 12 yrs experience at BPS-17 or above. Age: 45</td></tr>
+          <tr><td>2</td><td>Manager (Nursery)</td><td>1</td><td>PPS-8</td><td>Master's as above. 7 yrs experience at BPS-17 or above. Age: 40</td></tr>
           <tr><td>3</td><td>Assistant Manager (Green House)</td><td>1</td><td>PPS-6</td><td>Bachelor's in related field. 3 yrs experience. Age: 33</td></tr>
           <tr><td>4</td><td>Assistant Manager (Floriculture)</td><td>1</td><td>PPS-6</td><td>Bachelor's in related field. 3 yrs experience. Age: 33</td></tr>
           <tr><td>5</td><td>Assistant Manager (Tree Nursery)</td><td>1</td><td>PPS-6</td><td>Bachelor's in related field. 3 yrs experience. Age: 33</td></tr>
