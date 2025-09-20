@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کالج ٹیچنگ انٹرنز (CTI) - نوکریوں کا اعلان</title>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
+        crossorigin="anonymous"></script>
+    
+    <!-- Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            background-color: #f0f4f8;
+        }
+        .info-card {
+            border-right: 4px solid #10b981;
+        }
+        /* Action Buttons (Post Job + Create CV) */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons a {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s;
+            color: #fff;
+        }
+
+        .btn-job { background: #007bff; }
+        .btn-job:hover { background: #0056b3; }
+
+        .btn-cv { background: #28a745; }
+        .btn-cv:hover { background: #218838; }
+
+        /* Basic job card styling */
+        .job-card { border: 1px solid #eee; padding: 12px; margin: 12px 0; border-radius: 6px; }
+        .job-card h3 { margin: 0 0 6px 0; }
+        .job-buttons { margin-top: 10px; }
+        .btn { padding: 6px 10px; text-decoration: none; border-radius: 4px; display:inline-block; }
+        .btn-primary { background:#007bff; color:#fff }
+        .btn-secondary { background:#6c757d; color:#fff }
+        .btn-success { background:#28a745; color:#fff }
+        .share-menu { display:none; margin-top:8px; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="bg-teal-700 text-white p-4 text-center">
+            <a href="index.html" class="mx-2 hover:underline">Home</a>
+            <a href="jobposting.html" class="mx-2 hover:underline">User Jobs</a>
+            <a href="about.html" class="mx-2 hover:underline">About Us</a>
+            <a href="chat.html" class="mx-2 hover:underline">Discussion</a>
+            <a href="privacy.html" class="mx-2 hover:underline">Privacy Policy</a>
+            <a href="disclaimer.html" class="mx-2 hover:underline">Disclaimer</a>
+            <a href="terms.html" class="mx-2 hover:underline">Terms &amp; Conditions</a>
+            <a href="contact.html" class="mx-2 hover:underline">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        
+        <header class="bg-white rounded-xl shadow-lg p-6 md:p-8 text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-teal-700">کالجوں میں ٹیچنگ انٹرنز کی بھرتی (CTI)</h1>
+            <p class="text-lg sm:text-xl text-gray-600 mt-4">حکومت پنجاب، ہائیر ایجوکیشن ڈیپارٹمنٹ کے تحت کالجوں میں ٹیچنگ انٹرنز کی 8,084 اسامیوں کا اعلان۔ یہ ایک شاندار موقع ہے کہ آپ اپنے تدریسی کیریئر کا آغاز کریں۔</p>
+        </header>
+
+        <main>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Eligibility Card -->
+                    <div class="info-card bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800">اہلیت کے معیار</h2>
+                        <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                            <li>**بی ایس کالجز کے لیے:** متعلقہ مضمون میں ایم ایس، ایم فل یا پی ایچ ڈی ڈگری۔</li>
+                            <li>**دیگر کالجز کے لیے:** متعلقہ مضمون میں ماسٹرز ڈگری (ایم اے/ایم ایس سی) یا اس کے مساوی (کم از کم سیکنڈ ڈویژن)۔</li>
+                            <li>کوئی عمر کی حد نہیں ہے۔</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Application Process Card -->
+                    <div class="info-card bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800">درخواست جمع کروانے کا طریقہ</h2>
+                        <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                            <li>درخواستیں متعلقہ کالج میں دستی طور پر جمع کروانی ہوں گی۔</li>
+                            <li>امیدواروں کو میرٹ لسٹ کے لیے اپنی اسناد، ڈومیسائل اور CNIC کی تصدیق شدہ کاپی جمع کروانی ہوگی۔</li>
+                            <li>آن لائن درخواست کا پورٹل بھی دستیاب ہو سکتا ہے، جس کے لیے باقاعدہ نوٹس جاری کیا جائے گا۔</li>
+                        </ul>
+                    </div>
+
+                    <!-- Merit Calculation Card -->
+                    <div class="info-card bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800">میرٹ کا حساب</h2>
+                        <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                            <li>تعلیمی قابلیت (85 نمبر)</li>
+                            <li>ایم فل/پی ایچ ڈی ڈگری (5 نمبر)</li>
+                            <li>انٹرویو (5 نمبر)</li>
+                            <li>پوزیشن ہولڈرز (5 نمبر)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Key Details Card -->
+                    <div class="info-card bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800">اہم تفصیلات</h2>
+                        <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                            <li>**ملازمت کا دورانیہ:**
+                                <ul>
+                                    <li>انٹرمیڈیٹ سطح کے لیے: 7 ماہ (1 اکتوبر 2025 تا 30 اپریل 2026)</li>
+                                    <li>بی ایس سطح کے لیے: 10 ماہ (1 اکتوبر 2025 تا 31 جولائی 2026)</li>
+                                </ul>
+                            </li>
+                            <li>یہ ایک عارضی اور سٹاپ گیپ پوزیشن ہے۔</li>
+                            <li>**تنخواہ:** 50,000 روپے ماہانہ۔</li>
+                            <li>**کوٹہ:** کل آسامیوں میں 5% اقلیتوں کے لیے، 3% معذوروں کے لیے اور 0.5% خواجہ سرا کمیونٹی کے لیے مخصوص ہیں۔</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <footer class="bg-white rounded-xl shadow-lg p-6 md:p-8 text-center mt-8">
+                <p class="text-lg text-gray-700 mb-4">تفصیلی معلومات اور نوٹیفکیشن کے لیے، براہ کرم پنجاب ہائیر ایجوکیشن ڈیپارٹمنٹ کی آفیشل ویب سائٹ ملاحظہ کریں۔</p>
+                <a href="https://cti-hep.punjab.gov.pk/cti/overview_news/c81e728d9d4c2f636f067f89cc14862c" target="_blank" class="inline-block bg-emerald-500 text-white font-bold text-xl py-4 px-8 rounded-lg shadow-lg hover:bg-emerald-600 transition-transform transform hover:scale-105">
+                    مزید جانیں اور درخواست دیں
+                </a>
+            </footer>
+        </main>
+    </div>
+
+</body>
+</html>
