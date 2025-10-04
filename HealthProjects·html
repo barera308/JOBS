@@ -70,13 +70,13 @@
 <body>
 <header>
   <nav>
-    <a href="index.html">ہوم</a> |
-    <a href="about.html">ہمارے بارے میں</a> |
-    <a href="chat.html">بحث</a> |
-    <a href="privacy.html">پرائیویسی پالیسی</a> |
-    <a href="disclaimer.html">ڈسکلیمر</a> |
-    <a href="terms.html">شرائط و ضوابط</a> |
-    <a href="contact.html">رابطہ کریں</a>
+<a href="index.html">Home</a> |
+<a href="about.html">About Us</a> |
+<a href="chat.html">Discussion</a> |
+<a href="privacy.html">Privacy Policy</a> |
+<a href="disclaimer.html">Disclaimer</a> |
+<a href="terms.html">Terms & Conditions</a> |
+<a href="contact.html">Contact Us</a>
   </nav>
   <h1>آسامیوں کا اعلان</h1>
 </header>
