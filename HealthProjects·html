@@ -193,11 +193,12 @@
     </tbody>
   </table>
 
-  <div class="section-title">درخواست کا طریقہ</div>
-  <p>دلچسپی رکھنے والے امیدوار اپنی سی وی اور تعلیمی اسناد (ڈگری/ڈپلومہ، ٹرانسکرپٹ، PMDC/PNC رجسٹریشن، CNIC) ارسال کریں اور ای میل کے سبجیکٹ میں واضح طور پر عہدے کا نام اور صوبہ ضرور درج کریں۔</p>
-  <p class="contact"><a href="mailto:healthjobs20@gmail.com">healthjobs20@gmail.com</a></p>
-  <p class="note"><strong>آخری تاریخ:</strong> 30 اکتوبر 2025۔ ہنگامی ضرورت کے باعث آسامیاں آخری تاریخ سے پہلے بھی پر کی جا سکتی ہیں۔ صرف شارٹ لسٹ امیدواروں کو انٹرویو کے لیے بلایا جائے گا۔</p>
+<div style="text-align:center; margin-top:30px;">
+  <a href="mailto:healthjobs20@gmail.com?subject=Job Application - [Position Title]" 
+     style="background:#007bff; color:#fff; padding:12px 20px; text-decoration:none; 
+     border-radius:5px; font-weight:bold;">
+    Apply Now
+  </a>
 </div>
-
 </body>
 </html>
