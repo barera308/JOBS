@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شاہ عبداللطیف یونیورسٹی خیرپور (SALU) نوکریاں 2025</title>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9084951287340288"
+      crossorigin="anonymous"></script>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+        body {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            background-color: #f0f2f5;
+            direction: rtl;
+            text-align: right;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .text-justify {
+            text-align: justify;
+        }
+        
+        /* Responsive table styling */
+        .job-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+        .job-table th, .job-table td {
+            padding: 12px 10px;
+            border: 1px solid #cbd5e1;
+            text-align: right;
+            vertical-align: top;
+        }
+        .job-table th {
+            background-color: #e2e8f0;
+            font-weight: 700;
+            color: #1a202c;
+        }
+        
+        /* Mobile specific styling for tables to stack content */
+        @media (max-width: 768px) {
+            .job-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .job-table thead, .job-table tbody, .job-table th, .job-table td, .job-table tr {
+                display: block;
+            }
+            .job-table thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            .job-table tr {
+                margin-bottom: 1rem;
+                border: 1px solid #cbd5e1;
+                border-radius: 8px;
+            }
+            .job-table td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+            .job-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                right: 10px;
+                width: 45%;
+                padding-left: 10px;
+                font-weight: bold;
+                color: #4a5568;
+                white-space: normal;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <!-- Main Website Header and Navigation -->
+    <header class="text-center mb-6">
+        <nav class="flex flex-wrap justify-center gap-4 mb-4 text-blue-700 font-bold">
+            <a href="index.html" class="hover:text-blue-900">Home</a>
+            <a href="jobposting.html" class="hover:text-blue-900">User Jobs</a>
+            <a href="about.html" class="hover:text-blue-900">About Us</a>
+            <a href="chat.html" class="hover:text-blue-900">Discussion</a>
+            <a href="privacy.html" class="hover:text-blue-900">Privacy Policy</a>
+            <a href="disclaimer.html" class="hover:text-blue-900">Disclaimer</a>
+            <a href="terms.html" class="hover:text-blue-900">Terms & Conditions</a>
+            <a href="contact.html" class="hover:text-blue-900">Contact Us</a>
+        </nav>
+        <h1 class="text-4xl font-extrabold text-blue-800">Pakistan Job Alerts</h1>
+        <p class="text-lg text-gray-600">Latest Job Opportunities Across Pakistan</p>
+    </header>
+
+    <!-- AdSense Banner Placeholder -->
+    <div class="container mx-auto text-center mb-8 p-4 bg-white rounded-lg shadow-md border-b-2 border-gray-200">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-9084951287340288"
+             data-ad-slot="YOUR_AD_SLOT_ID" 
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        <p class="text-sm text-gray-500 mt-2">اشتہار کی جگہ (AdSense)</p>
+    </div>
+
+    <!-- Job Content Starts Here -->
+    <div class="container mx-auto bg-white shadow-2xl rounded-xl p-6 md:p-10 border-t-8 border-red-600">
+        
+        <header class="text-center mb-8">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-red-700 mb-2">⭐ شاہ عبداللطیف یونیورسٹی، خیرپور میں کیریئر کے مواقع ⭐</h2>
+            <p class="text-xl text-gray-700 font-bold">اشتہار نمبر: NO.ADMN/SALU/KHP/-2501 | تاریخ: 01 اکتوبر 2025</p>
+            <p class="text-lg text-red-500 mt-2">یہاں درخواستیں مطلوب ہیں! براہ کرم آخری تاریخ سے پہلے تمام شرائط و ضوابط غور سے پڑھیں۔</p>
+        </header>
+
+        <!-- Job Summary Table -->
+        <section class="mb-10 p-6 bg-red-50 rounded-lg shadow-inner">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2 text-right">آسامیوں کا مختصر جائزہ</h3>
+            <div class="overflow-x-auto">
+                <table class="job-table min-w-full">
+                    <thead>
+                        <tr class="bg-red-200 text-red-800">
+                            <th>نمبر</th>
+                            <th>آسامی کا نام</th>
+                            <th>BPS</th>
+                            <th>زیادہ سے زیادہ عمر</th>
+                            <th>قابلیت کی ضرورت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="نمبر">01</td>
+                            <td data-label="آسامی کا نام">Registrar (تین سالہ معاہدے پر)</td>
+                            <td data-label="BPS">20</td>
+                            <td data-label="زیادہ سے زیادہ عمر">55 سال</td>
+                            <td data-label="قابلیت کی ضرورت">پوسٹ گریجویٹ / فرسٹ کلاس 17 سالہ تجربے کے ساتھ۔</td>
+                        </tr>
+                        <tr>
+                            <td data-label="نمبر">02</td>
+                            <td data-label="آسامی کا نام">Controller of Examination (تین سالہ معاہدے پر)</td>
+                            <td data-label="BPS">20</td>
+                            <td data-label="زیادہ سے زیادہ عمر">55 سال</td>
+                            <td data-label="قابلیت کی ضرورت">پوسٹ گریجویٹ / فرسٹ کلاس 17 سالہ تجربے کے ساتھ۔</td>
+                        </tr>
+                        <tr>
+                            <td data-label="نمبر">03</td>
+                            <td data-label="آسامی کا نام">Director QEC</td>
+                            <td data-label="BPS">20</td>
+                            <td data-label="زیادہ سے زیادہ عمر">55 سال</td>
+                            <td data-label="قابلیت کی ضرورت">پوسٹ گریجویٹ / 12 سالہ تجربہ (یا M.Phil / PhD اور 7 سالہ تجربہ)۔</td>
+                        </tr>
+                        <tr>
+                            <td data-label="نمبر">04</td>
+                            <td data-label="آسامی کا نام">Director ORIC</td>
+                            <td data-label="BPS">20</td>
+                            <td data-label="زیادہ سے زیادہ عمر">55 سال</td>
+                            <td data-label="قابلیت کی ضرورت">پوسٹ گریجویٹ / 12 سالہ تجربہ (یا M.Phil / PhD اور 7 سالہ تجربہ)۔</td>
+                        </tr>
+                        <tr>
+                            <td data-label="نمبر">05</td>
+                            <td data-label="آسامی کا نام">Librarian</td>
+                            <td data-label="BPS">19</td>
+                            <td data-label="زیادہ سے زیادہ عمر">50 سال</td>
+                            <td data-label="قابلیت کی ضرورت">پوسٹ گریجویٹ ان لائبریری سائنس (فرسٹ کلاس) / 10 سالہ تجربہ۔</td>
+                        </tr>
+                        <tr>
+                            <td data-label="نمبر">06</td>
+                            <td data-label="آسامی کا نام">Software Developer</td>
+                            <td data-label="BPS">17</td>
+                            <td data-label="زیادہ سے زیادہ عمر">50 سال</td>
+                            <td data-label="قابلیت کی ضرورت">MS/M.Phil یا BS (4 سالہ) CS/IT میں + 03 سالہ تجربہ۔</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Detailed Application Instructions -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">📜 درخواست جمع کرانے کی تفصیلی ہدایات</h3>
+            <ul class="list-disc pr-6 space-y-3 text-gray-700">
+                <li>تمام آسامیاں **معاہدے کی بنیاد** پر ہیں اور امیدواروں کو انٹرویو کے لیے بلایا جائے گا۔</li>
+                <li>درخواست فارم یونیورسٹی کی ویب سائٹ **www.salu.edu.pk** سے ڈاؤن لوڈ کریں یا **رجسٹرار کے دفتر** سے حاصل کریں۔</li>
+                <li>ہر پوزیشن کے لیے **علیحدہ درخواست** جمع کرانی ہوگی۔</li>
+                <li>درخواست فارم کے ساتھ مندرجہ ذیل چیزیں شامل ہوں:
+                    <ul class="list-circle pr-8 mt-2 space-y-1 text-gray-600">
+                        <li>ڈیمانڈ ڈرافٹ/پے آرڈر (نا قابل واپسی) **4000/- روپے** (BPS-20) یا **2500/- روپے** (BPS-17 تا 19) رجسٹرار، شاہ عبداللطیف یونیورسٹی، خیرپور کے نام۔</li>
+                        <li>ڈیمانڈ ڈرافٹ کے علاوہ، **4000/- روپے** کا ڈیمانڈ ڈرافٹ/پے آرڈر/ڈرافٹ (غیر-قابلِ واپسی) فنانس ونگ، شاہ عبداللطیف یونیورسٹی، خیرپور، کے حق میں جمع کرائیں۔</li>
+                        <li>سی وی (CV)، حالیہ تصاویر (2 عدد)، مصدقہ تعلیمی اسناد، ڈومیسائل، CNIC کی فوٹو کاپیاں۔</li>
+                    </ul>
+                </li>
+                <li>**سرکاری/نیم سرکاری ملازمین** کو درخواستیں اپنے متعلقہ محکمے کے توسط سے (Through Proper Channel) اور **NOC** کے ساتھ بھیجنی ہوں گی۔</li>
+                <li>انٹرویو کے وقت **اصل دستاویزات** پیش کرنا لازمی ہے۔</li>
+                <li>آخری تاریخ سے پہلے موصول ہونے والی یا نامکمل درخواستیں قابل قبول نہیں ہوں گی۔</li>
+                <li>یونیورسٹی کو بغیر کسی وجہ کے بھرتی کے عمل کو منسوخ کرنے یا آسامیوں کی تعداد میں کمی بیشی کرنے کا حق محفوظ ہے۔</li>
+            </ul>
+        </section>
+
+        <!-- Ad Image for Reference -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">مکمل اشتہار برائے حوالہ</h3>
+            <div class="rounded-lg shadow-xl overflow-hidden border-2 border-gray-300">
+                <!-- Assuming uni.jpg is the full ad image -->
+                <img src="uploaded:uni.jpg-ed5a4c96-a1d8-492e-b3d6-a021e7efce01" alt="شاہ عبداللطیف یونیورسٹی نوکریوں کا اشتہار" class="w-full h-auto object-cover">
+                <p class="text-xs text-center p-2 bg-gray-100 text-gray-600">اصل اشتہار: شاہ عبداللطیف یونیورسٹی، خیرپور</p>
+            </div>
+        </section>
+        
+        <!-- Call to Action and Contact -->
+        <div class="text-center mt-8 p-6 bg-green-100 rounded-lg border-2 border-green-400">
+            <h4 class="text-xl font-bold text-green-800 mb-2">درخواست بھیجنے کا پتا</h4>
+            <p class="text-gray-700 font-semibold text-lg">رجسٹرار</p>
+            <p class="text-gray-700 font-semibold text-lg">شاہ عبداللطیف یونیورسٹی، خیرپور (سندھ)</p>
+            <p class="text-sm font-semibold mt-4 text-green-700">مزید معلومات کے لیے یونیورسٹی کی ویب سائٹ ملاحظہ کریں:</p>
+            <a href="http://www.salu.edu.pk" target="_blank" 
+               class="inline-block mt-2 px-8 py-3 bg-green-600 text-white font-extrabold rounded-full shadow-lg hover:bg-green-700 transition duration-300 transform hover:scale-105">
+                ویب سائٹ پر جائیں (Download Form)
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>
