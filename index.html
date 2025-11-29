@@ -8,6 +8,10 @@
 
     <!-- KEEP your site verification if present -->
     <meta name="google-site-verification" content="PRRrt7X2_Bozeoj4s2PxyAnvzWzzv97LjlX_u1QBjQ" />
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#007bff">
+<link rel="apple-touch-icon" href="icon-152.png">
 
     <!-- ====== GOOGLE ADSENSE: Put this ONCE in <head> on every page ======
          Replace the client value with your publisher ID (ca-pub-9084951287340288)
@@ -294,6 +298,13 @@ document.addEventListener('DOMContentLoaded', loadJobsFromSheet);
      3) Test in an incognito window with ad-blockers disabled. Check DevTools Console + Network for requests to pagead2.googlesyndication.com.
      4) Allow up to 48 hours for Auto ads to start appearing after initial setup.
 -->
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("Service Worker Registered"))
+    .catch(err => console.log("SW Error:", err));
+}
+</script>
 
 </body>
 </html>
